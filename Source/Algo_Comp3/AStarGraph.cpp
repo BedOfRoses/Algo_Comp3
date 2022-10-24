@@ -60,7 +60,6 @@ void AAStarGraph::SpawnStarNodes()
 		if (starnodeBP == nullptr)
 			return;
 
-		
 
 		//UWorld::SpawnActor(starnodeBP, FVector(i * 0.f, i * 0.f, i * 0.f), FRotator(0.f));
 
