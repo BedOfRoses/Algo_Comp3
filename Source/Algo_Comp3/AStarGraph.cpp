@@ -22,6 +22,12 @@ void AAStarGraph::BeginPlay()
 {
 	Super::BeginPlay();
 
+	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AAStarGraph::OnOverlap);
+
+	//BoxComponent->OnComponentBeginOverlap.__Internal_AddDynamic(this, &AAStarGraph::OnOverlap);
+
+	BoxScan();
+
 	//NodesArray.Init(AStarNode, 8);
 	
 }
@@ -31,7 +37,7 @@ void AAStarGraph::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	BoxScan();
+	//BoxScan();
 
 }
 
@@ -53,6 +59,36 @@ void AAStarGraph::BoxScan()
 		isBoxBigEnough = true;
 	}
 	
+
+
+}
+
+
+
+
+
+void AAStarGraph::OnOverlap(
+	UPrimitiveComponent* OverlappedComponent,
+	AActor* OtherActor, 
+	UPrimitiveComponent* OtherComponent,
+	int32 OtherbodyIndex, 
+	bool bFromSweep, 
+	const FHitResult& SweepResult
+)
+{
+
+	//if(OtherActor->IsA(AAStarNode::StaticClass()))
+	//{
+	//	UE_LOG(LogTemp, Warning, TEXT("Hit AStarNode"))
+
+	//	/*if (GEngine) {
+	//		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("DebugTest"));
+	//	}*/
+	//
+	//}
+
+	UE_LOG(LogTemp, Warning, TEXT("Hit AStarNode"))
+
 
 
 }

@@ -23,7 +23,12 @@ public:
 
 	//TSubclassOf<AActor> starnodeClass;
 
-	class AAStarNode* AStarNode;
+	//class AAStarNode* AStarNode;
+
+
+	//std::list<AAStarNode*> starnodes;
+
+	TArray<class AAStarNode*> StarNodeArray;
 
 
 protected:
@@ -36,5 +41,9 @@ public:
 
 	void BoxScan();
 
+	// Used to find the other nodes when scanning
+	UFUNCTION()
+	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent,
+			int32 OtherbodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 };

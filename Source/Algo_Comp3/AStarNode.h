@@ -26,7 +26,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NodeSphere")
 	class USphereComponent* NodeSphere;
 
-
+	int32 nodeNumber;
 
 protected:
 	// Called when the game starts or when spawned

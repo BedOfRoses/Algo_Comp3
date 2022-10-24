@@ -55,6 +55,8 @@ void AAStarNode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//GoCrazy();
+
 	//LineTraceMyOwn();
 
 }
