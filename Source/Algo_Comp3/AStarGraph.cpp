@@ -4,6 +4,7 @@
 #include "AStarGraph.h"
 #include "AStarNode.h"
 #include "Components/BoxComponent.h"
+#include "Engine/World.h"
 
 // Sets default values
 AAStarGraph::AAStarGraph()
@@ -22,11 +23,13 @@ void AAStarGraph::BeginPlay()
 {
 	Super::BeginPlay();
 
-	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AAStarGraph::OnOverlap);
+	SpawnStarNodes();
+
+	//BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AAStarGraph::OnOverlap);
 
 	//BoxComponent->OnComponentBeginOverlap.__Internal_AddDynamic(this, &AAStarGraph::OnOverlap);
 
-	BoxScan();
+	//BoxScan();
 
 	//NodesArray.Init(AStarNode, 8);
 	
@@ -40,6 +43,54 @@ void AAStarGraph::Tick(float DeltaTime)
 	//BoxScan();
 
 }
+
+
+
+
+
+void AAStarGraph::SpawnStarNodes()
+{
+	for (int i = 0; i < 10; i++)
+	{
+
+		//GetWorld()->SpawnActor(FVector(1.f,1.f,1.f),FRotator(1.f,1.f,1.f),FactoryTransactionAnnotation);
+
+		//GetWorld()->SpawnActor(AAStarNode* StarNode, FName::ToString("Starnode"), )
+
+		if (starnodeBP == nullptr)
+			return;
+
+		
+
+		//UWorld::SpawnActor(starnodeBP, FVector(i * 0.f, i * 0.f, i * 0.f), FRotator(0.f));
+
+		/*UWorld* world;
+		if (world) {
+
+			FActorSpawnParameters spawnParams;
+			spawnParams.Owner = this;
+
+			FRotator rotator;
+			FVector SpawnLocation = FVector(i * 0.f, i * 0.f, i * 0.f);
+
+			world->SpawnActor<AAStarNode>(starnodeBP, SpawnLocation, rotator, spawnParams);
+
+
+		}*/
+
+
+		/*AAStarNode* StarNode = GetWorld()->SpawnActor<AAStarNode>(AAStarNode::StaticClass(),
+			FVector(i * 0.f, i * 0.f, i * 0.f),
+			FRotator(0.f, 0.f, 0.f));*/
+
+
+
+	}
+
+
+}
+
+
 
 
 void AAStarGraph::BoxScan()
@@ -64,31 +115,28 @@ void AAStarGraph::BoxScan()
 }
 
 
-
-
-
-void AAStarGraph::OnOverlap(
-	UPrimitiveComponent* OverlappedComponent,
-	AActor* OtherActor, 
-	UPrimitiveComponent* OtherComponent,
-	int32 OtherbodyIndex, 
-	bool bFromSweep, 
-	const FHitResult& SweepResult
-)
-{
-
-	//if(OtherActor->IsA(AAStarNode::StaticClass()))
-	//{
-	//	UE_LOG(LogTemp, Warning, TEXT("Hit AStarNode"))
-
-	//	/*if (GEngine) {
-	//		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("DebugTest"));
-	//	}*/
-	//
-	//}
-
-	UE_LOG(LogTemp, Warning, TEXT("Hit AStarNode"))
-
-
-
-}
+//void AAStarGraph::OnOverlap(
+//	UPrimitiveComponent* OverlappedComponent,
+//	AActor* OtherActor, 
+//	UPrimitiveComponent* OtherComponent,
+//	int32 OtherbodyIndex, 
+//	bool bFromSweep, 
+//	const FHitResult& SweepResult
+//)
+//{
+//
+//	if(OtherActor->IsA(AAStarNode::StaticClass()))
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("Hit AStarNode"))
+//
+//		/*if (GEngine) {
+//			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("DebugTest"));
+//		}*/
+//	
+//	}
+//
+//	//UE_LOG(LogTemp, Warning, TEXT("Hit AStarNode"))
+//
+//
+//
+//}

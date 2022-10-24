@@ -30,6 +30,10 @@ public:
 
 	TArray<class AAStarNode*> StarNodeArray;
 
+	// Used to call the blueprint class!
+	UPROPERTY(EditAnywhere, Category = "Spawning")
+	TSubclassOf<AAStarNode> starnodeBP;
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -39,11 +43,19 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+
+
+	// Was supposed to scale up and overlap with the other starnodes. However, not in use for the moment!
 	void BoxScan();
 
 	// Used to find the other nodes when scanning
-	UFUNCTION()
+	/*UFUNCTION()
 	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent,
-			int32 OtherbodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+			int32 OtherbodyIndex, bool bFromSweep, const FHitResult& SweepResult);*/
+
+	
+
+	void SpawnStarNodes();
+
 
 };
