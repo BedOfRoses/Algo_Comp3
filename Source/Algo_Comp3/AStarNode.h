@@ -15,10 +15,15 @@ public:
 	// Sets default values for this actor's properties
 	AAStarNode();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NodeMesh")
 	class UStaticMeshComponent* NodeMesh;
+	
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
+	class UStaticMeshComponent* NodeTwoMesh;*/
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NodeSphere")
 	class USphereComponent* NodeSphere;
 
 
@@ -31,6 +36,11 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+
+	void GoCrazy();
+	void LineTraceTest();
+
+	void LineTraceMyOwn();
 
 	//virtual void DrawDebugLine
 	//(

@@ -15,10 +15,13 @@ public:
 	// Sets default values for this actor's properties
 	AAStarGraph();
 
+	/*Sole purpose to increase a certain size and then stop*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BoxComp")
+	class UBoxComponent* BoxComponent;
 
-	TArray<class AStarNode> NodesArray;
+	//TArray<class AStarNode> NodesArray;
 
-	TSubclassOf<AActor> starnodeClass;
+	//TSubclassOf<AActor> starnodeClass;
 
 	class AAStarNode* AStarNode;
 
@@ -30,5 +33,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void BoxScan();
+
 
 };

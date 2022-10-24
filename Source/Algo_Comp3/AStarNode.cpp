@@ -12,10 +12,20 @@ AAStarNode::AAStarNode()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	NodeMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("NodeMesh"));
+	
+
+
+	/*NodeTwoMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("NodeTwoMesh"));
+	NodeTwoMesh->SetupAttachment(RootComponent);*/
 
 	NodeSphere = CreateDefaultSubobject<USphereComponent>(TEXT("NodeSphere"));
-	//NodeSphere->SetHiddenInGame(false);
+	RootComponent = NodeSphere;
+
+
+
+	NodeMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("NodeMesh"));
+	NodeMesh->SetupAttachment(RootComponent);
+	//NodeMesh->SetHiddenInGame(false);
 
 }
 
@@ -45,6 +55,13 @@ void AAStarNode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//LineTraceMyOwn();
+
+}
+
+
+void AAStarNode::GoCrazy()
+{
 	for (int i = 0; i < 1000; i++)
 	{
 
@@ -78,8 +95,75 @@ void AAStarNode::Tick(float DeltaTime)
 	}
 
 
+}
+
+
+
+void AAStarNode::LineTraceMyOwn()
+{
+
+	//DrawDebugLine(GetWorld(), NodeTwoMesh->GetRelativeLocation(), NodeMesh->GetRelativeLocation(), 
+	//	FColor::Purple, true, -1, 0, 10);
+
+
+	//FHitResult OutHit;
+
+	////FVector Start = NodeMesh->GetRelativeLocation();
+	//FVector Start = GetActorLocation();
+
+	//FVector ForwardVector = GetActorForwardVector();
+
+	////FVector End = NodeTwoMesh->GetRelativeLocation();
+	//FVector End = NodeTwoMesh->GetRelativeLocation() - Start;
+
+	//FCollisionQueryParams CollisionParams;
+
+	//FVector StartToEnd = End - Start;
+
+	//double DotProd = FVector::DotProduct(Start, End);
+
+	//DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1, 0, 10.f);
+
+	//if(ActorLineTraceSingle(OutHit,Start,End,ECC_WorldStatic,CollisionParams))
+	//{
+	//	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, FString::Printf(TEXT("The component being hit is: %s"),
+	//		*OutHit.GetComponent()->GetName()));
+	//}
+
 
 }
+
+
+
+
+void AAStarNode::LineTraceTest()
+{
+	FHitResult OutHit;
+
+		FVector Start = GetActorLocation();
+
+		Start.Z += 50.f;
+		Start.X += 200.f;
+
+		FVector ForwardVector = GetActorForwardVector();
+		FVector End = ((ForwardVector * 500.f) + Start);
+
+		FCollisionQueryParams CollisionParams;
+
+		DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1, 0, 5);
+
+		bool isHit = ActorLineTraceSingle(OutHit, Start, End, ECC_WorldStatic, CollisionParams);
+
+		if (isHit) {
+			if (GEngine) {
+				GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("The Comp being hit is: %s"),
+					*OutHit.GetComponent()->GetName()));
+			}
+		}
+
+}
+
+
 
 //void AAStarNode::DrawDebugLine
 //(
