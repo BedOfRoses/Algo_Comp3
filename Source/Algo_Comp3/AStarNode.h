@@ -17,16 +17,25 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NodeMesh")
 	class UStaticMeshComponent* NodeMesh;
+
+	/*
+	We need 3 materials, one for start, one for end and one for the others :)
+		- Green = start
+		- red = end
+		- white = lmao
+
+
+	Position (x,y,z) for this specific node.
+
+	*/
 	
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
-	class UStaticMeshComponent* NodeTwoMesh;*/
+	/* to indentify which node is which.*/
+	int32 nodeID; 
 
+	/* Store which other nodes point to THIS node */
+	TArray<AAStarNode*> connections;
 
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NodeSphere")
-	class USphereComponent* NodeSphere;
-
-	int32 nodeNumber;
+	FVector NodeLocation;
 
 protected:
 	// Called when the game starts or when spawned
@@ -42,7 +51,24 @@ public:
 
 	void LineTraceMyOwn();
 
-	//virtual void DrawDebugLine
+	
+
+
+};
+
+
+
+
+////// garbage
+
+/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
+	class UStaticMeshComponent* NodeTwoMesh;*/
+
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NodeSphere")
+	//class USphereComponent* NodeSphere;
+
+
+//virtual void DrawDebugLine
 	//(
 	//	const UWorld* InWorld,
 	//	FVector const& LineStart,
@@ -55,4 +81,4 @@ public:
 	//);
 
 
-};
+	//AAStarNode* connections[];

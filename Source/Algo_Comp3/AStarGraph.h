@@ -19,20 +19,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BoxComp")
 	class UBoxComponent* BoxComponent;
 
-	//TArray<class AStarNode> NodesArray;
-
-	//TSubclassOf<AActor> starnodeClass;
-
-	//class AAStarNode* AStarNode;
-
-
-	//std::list<AAStarNode*> starnodes;
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Nodes")
 	TArray<class AAStarNode*> StarNodeArray;
 
 	// Used to call the blueprint class!
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 	TSubclassOf<AAStarNode> starnodeBP;
+
+	int AmountOfNodesToCreate;
 
 
 protected:
@@ -43,19 +37,39 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-
-
 	// Was supposed to scale up and overlap with the other starnodes. However, not in use for the moment!
 	void BoxScan();
+	void SpawnStarNodes();
 
-	// Used to find the other nodes when scanning
+
+	/* Algorithms */
+public:
+
+	void AStarSearch();
+	void Dijkstra(class AAStarGraph* graph, class AAStarNode* source);
+
+	int SetAmountOfNodesToCreate(int AON) { return AmountOfNodesToCreate = AON; }
+	float minDistance(float dist[], bool sptSet[]);
+
+};
+
+
+
+
+
+////////////////////////////////// Garbage
+
+
+// Used to find the other nodes when scanning
 	/*UFUNCTION()
 	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent,
 			int32 OtherbodyIndex, bool bFromSweep, const FHitResult& SweepResult);*/
 
-	
+			//TArray<class AStarNode> NodesArray;
 
-	void SpawnStarNodes();
+				//TSubclassOf<AActor> starnodeClass;
+
+				//class AAStarNode* AStarNode;
 
 
-};
+				//std::list<AAStarNode*> starnodes;

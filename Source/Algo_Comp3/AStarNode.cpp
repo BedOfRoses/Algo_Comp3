@@ -12,19 +12,20 @@ AAStarNode::AAStarNode()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	
 
 
 	/*NodeTwoMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("NodeTwoMesh"));
 	NodeTwoMesh->SetupAttachment(RootComponent);*/
 
-	NodeSphere = CreateDefaultSubobject<USphereComponent>(TEXT("NodeSphere"));
-	RootComponent = NodeSphere;
+	/*NodeSphere = CreateDefaultSubobject<USphereComponent>(TEXT("NodeSphere"));
+	RootComponent = NodeSphere;*/
 
 
 
 	NodeMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("NodeMesh"));
-	NodeMesh->SetupAttachment(RootComponent);
+	RootComponent = NodeMesh;
+	
+	/*NodeMesh->SetupAttachment(RootComponent);*/
 	//NodeMesh->SetHiddenInGame(false);
 
 }
@@ -33,6 +34,9 @@ AAStarNode::AAStarNode()
 void AAStarNode::BeginPlay()
 {
 	Super::BeginPlay();
+
+	NodeLocation = GetActorLocation();
+	
 	
 	//FVector SpawnPoint = FVector(0.0f,0.0f,0.0f);
 	//SetActorLocation(SpawnPoint);

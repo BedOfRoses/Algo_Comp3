@@ -1,10 +1,11 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "AStarGraph.h"
 #include "AStarNode.h"
 #include "Components/BoxComponent.h"
 #include "Engine/World.h"
+#include "Math/Vector.h"
 
 // Sets default values
 AAStarGraph::AAStarGraph()
@@ -89,8 +90,55 @@ void AAStarGraph::SpawnStarNodes()
 
 }
 
+void AAStarGraph::Dijkstra(class AAStarGraph* graph, class AAStarNode* source)
+{
+	/*PSEUDO CODE FROM WIKI : // https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm 
+	
+			function Dijkstra(Graph, source):
+			dist[source] ← 0                           // Initialization
+
+			create vertex priority queue Q
+
+			for each vertex v in Graph.Vertices:
+				if v ≠ source
+					dist[v] ← INFINITY                 // Unknown distance from source to v
+					prev[v] ← UNDEFINED                // Predecessor of v
+
+				Q.add_with_priority(v, dist[v])
 
 
+			while Q is not empty:                      // The main loop
+				u ← Q.extract_min()                    // Remove and return best vertex
+				for each neighbor v of u:              // Go through all v neighbors of u
+					alt ← dist[u] + Graph.Edges(u, v)
+					if alt < dist[v]:
+						dist[v] ← alt
+						prev[v] ← u
+						Q.decrease_priority(v, alt)
+
+			return dist, prev
+	*/
+
+
+}
+
+
+
+
+float AAStarGraph::minDistance(float dist[], bool sptSet[]) 
+{
+	int min = INT_MAX, min_index;
+
+	for (int v = 0; v < AmountOfNodesToCreate; v++)
+	{
+
+		if (sptSet[v] == false && dist[v] <= min)
+			min = dist[v], min_index = v;
+
+	}
+		return min_index;
+
+}
 
 void AAStarGraph::BoxScan()
 {
