@@ -24,7 +24,7 @@ void AAStarGraph::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SpawnStarNodes();
+	//SpawnStarNodes();
 
 	//BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AAStarGraph::OnOverlap);
 
