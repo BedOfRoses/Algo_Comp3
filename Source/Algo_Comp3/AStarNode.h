@@ -1,10 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-#include <queue>
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "AStarNode.generated.h"
+
+
+
+
 
 UCLASS()
 class ALGO_COMP3_API AAStarNode : public AActor
@@ -37,7 +40,7 @@ public:
 
 	FVector NodeLocation;
 
-	//std::priority_queue<int
+	
 	
 
 protected:
