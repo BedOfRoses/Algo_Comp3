@@ -2,9 +2,26 @@
 
 #pragma once
 
+#include <vector>
+#include <queue>
+
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "AStarGraph.generated.h"
+
+
+USTRUCT()
+struct Sti
+{
+	GENERATED_BODY()
+		
+	std::vector<AAStarNode> kanter;
+	double totalkostnad;
+
+};
+
+
+
 
 UCLASS()
 class ALGO_COMP3_API AAStarGraph : public AActor
@@ -22,11 +39,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Nodes")
 	TArray<class AAStarNode*> StarNodeArray;
 
+	//std::priority_queue<int
+	UPROPERTY()
+	class AAStarNode* nodeBoy;
+
 	// Used to call the blueprint class!
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 	TSubclassOf<AAStarNode> starnodeBP;
 
 	int AmountOfNodesToCreate;
+
+	Sti vei;
 
 
 protected:
@@ -50,6 +73,8 @@ public:
 
 	int SetAmountOfNodesToCreate(int AON) { return AmountOfNodesToCreate = AON; }
 	float minDistance(float dist[], bool sptSet[]);
+
+	void DijkstraBoys(class AAStarNode* start, class AAStarNode* end);
 
 };
 

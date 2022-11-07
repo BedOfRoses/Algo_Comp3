@@ -54,38 +54,19 @@ void AAStarGraph::SpawnStarNodes()
 	for (int i = 0; i < 10; i++)
 	{
 
-		//GetWorld()->SpawnActor(FVector(1.f,1.f,1.f),FRotator(1.f,1.f,1.f),FactoryTransactionAnnotation);
+		float newX = FMath::RandRange(0.f, 100.f);
+		float newY = FMath::RandRange(0.f, 100.f);
 
-		//GetWorld()->SpawnActor(AAStarNode* StarNode, FName::ToString("Starnode"), )
-
+		FVector nodeLocation = FVector(newX, newY, 1.f);
+			
 		if (starnodeBP == nullptr)
 			return;
 
-
-		//UWorld::SpawnActor(starnodeBP, FVector(i * 0.f, i * 0.f, i * 0.f), FRotator(0.f));
-
-		/*UWorld* world;
-		if (world) {
-
-			FActorSpawnParameters spawnParams;
-			spawnParams.Owner = this;
-
-			FRotator rotator;
-			FVector SpawnLocation = FVector(i * 0.f, i * 0.f, i * 0.f);
-
-			world->SpawnActor<AAStarNode>(starnodeBP, SpawnLocation, rotator, spawnParams);
-
-
-		}*/
-
-
-		/*AAStarNode* StarNode = GetWorld()->SpawnActor<AAStarNode>(AAStarNode::StaticClass(),
-			FVector(i * 0.f, i * 0.f, i * 0.f),
-			FRotator(0.f, 0.f, 0.f));*/
-
+		nodeBoy = GetWorld()->SpawnActor<
 
 
 	}
+		
 
 
 }
@@ -123,7 +104,11 @@ void AAStarGraph::Dijkstra(class AAStarGraph* graph, class AAStarNode* source)
 }
 
 
+void AAStarGraph::DijkstraBoys(class AAStarNode* start, class AAStarNode* end)
+{
+	
 
+}
 
 float AAStarGraph::minDistance(float dist[], bool sptSet[]) 
 {
@@ -187,3 +172,38 @@ void AAStarGraph::BoxScan()
 //
 //
 //}
+
+
+
+////GetWorld()->SpawnActor(FVector(1.f,1.f,1.f),FRotator(1.f,1.f,1.f),FactoryTransactionAnnotation);
+//
+//		//GetWorld()->SpawnActor(AAStarNode* StarNode, FName::ToString("Starnode"), )
+//
+//if (starnodeBP == nullptr)
+//return;
+//
+//
+////UWorld::SpawnActor(starnodeBP, FVector(i * 0.f, i * 0.f, i * 0.f), FRotator(0.f));
+//
+///*UWorld* world;
+//if (world) {
+//
+//	FActorSpawnParameters spawnParams;
+//	spawnParams.Owner = this;
+//
+//	FRotator rotator;
+//	FVector SpawnLocation = FVector(i * 0.f, i * 0.f, i * 0.f);
+//
+//	world->SpawnActor<AAStarNode>(starnodeBP, SpawnLocation, rotator, spawnParams);
+//
+//
+//}*/
+//
+//
+///*AAStarNode* StarNode = GetWorld()->SpawnActor<AAStarNode>(AAStarNode::StaticClass(),
+//	FVector(i * 0.f, i * 0.f, i * 0.f),
+//	FRotator(0.f, 0.f, 0.f));*/
+//
+//
+//
+//	}
