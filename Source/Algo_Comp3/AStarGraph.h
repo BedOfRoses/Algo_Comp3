@@ -6,19 +6,20 @@
 #include <queue>
 
 #include "CoreMinimal.h"
+#include "AStarNode.h"
 #include "GameFramework/Actor.h"
 #include "AStarGraph.generated.h"
 
 
-USTRUCT()
-struct Sti
-{
-	GENERATED_BODY()
-		
-	std::vector<AAStarNode> kanter;
-	double totalkostnad;
-
-};
+// USTRUCT()
+// struct Sti
+// {
+// 	GENERATED_BODY()
+// 		
+// 	std::vector<AAStarNode> kanter;
+// 	double totalkostnad;
+//
+// };
 
 
 
@@ -40,8 +41,16 @@ public:
 	TArray<class AAStarNode*> StarNodeArray;
 
 	//std::priority_queue<int
-	UPROPERTY()
-	class AAStarNode* nodeBoy;
+	// UPROPERTY()
+
+
+	class AAStarNode* startNodeBoy = nullptr;
+	class AAStarNode* endNodeBoy = nullptr;
+	
+	
+
+	
+	
 
 	// Used to call the blueprint class!
 	UPROPERTY(EditAnywhere, Category = "Spawning")
@@ -49,7 +58,7 @@ public:
 
 	int AmountOfNodesToCreate;
 
-	Sti vei;
+	// Sti vei;
 
 
 protected:
@@ -75,6 +84,9 @@ public:
 	float minDistance(float dist[], bool sptSet[]);
 
 	void DijkstraBoys(class AAStarNode* start, class AAStarNode* end);
+
+
+	void TestConnection(AAStarNode* start, AAStarNode* end);
 
 };
 

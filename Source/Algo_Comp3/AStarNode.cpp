@@ -36,6 +36,8 @@ void AAStarNode::BeginPlay()
 	Super::BeginPlay();
 
 	NodeLocation = GetActorLocation();
+
+
 	
 	
 	//FVector SpawnPoint = FVector(0.0f,0.0f,0.0f);

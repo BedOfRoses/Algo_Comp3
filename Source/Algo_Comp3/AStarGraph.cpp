@@ -6,6 +6,7 @@
 #include "Components/BoxComponent.h"
 #include "Engine/World.h"
 #include "Math/Vector.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 AAStarGraph::AAStarGraph()
@@ -33,6 +34,14 @@ void AAStarGraph::BeginPlay()
 	//BoxScan();
 
 	//NodesArray.Init(AStarNode, 8);
+	if(starnodeBP)
+	{
+		startNodeBoy = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(100.f,101.f,100.f), FRotator::ZeroRotator);
+
+		endNodeBoy = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(50.f,500.f,100.f), FRotator::ZeroRotator);
+		
+	}
+	
 	
 }
 
@@ -43,9 +52,26 @@ void AAStarGraph::Tick(float DeltaTime)
 
 	//BoxScan();
 
+	TestConnection(startNodeBoy, endNodeBoy);
+	
 }
 
 
+
+void AAStarGraph::TestConnection(class AAStarNode* start, class AAStarNode* end)
+{
+
+	start = startNodeBoy;
+	end = endNodeBoy;
+
+	DrawDebugLine(GetWorld(),start->NodeLocation, end->NodeLocation,FColor::Emerald,false,-1,0,5);
+	
+	/*
+	if(starnodeBP)
+		AAStarNode * newStar = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(10.f,10.f,100.f), FRotator::ZeroRotator);
+	*/
+	
+}
 
 
 
@@ -62,8 +88,8 @@ void AAStarGraph::SpawnStarNodes()
 		if (starnodeBP == nullptr)
 			return;
 
-		nodeBoy = GetWorld()->SpawnActor<
-
+		// nodeBoy = GetWorld()->SpawnActor<
+		//
 
 	}
 		
@@ -106,7 +132,11 @@ void AAStarGraph::Dijkstra(class AAStarGraph* graph, class AAStarNode* source)
 
 void AAStarGraph::DijkstraBoys(class AAStarNode* start, class AAStarNode* end)
 {
-	
+	// std::priority_queue<AAStarNode>	pq; // default: max-heap største på rot
+
+	// acsending priority
+
+	// std::priority_queue<>
 
 }
 
