@@ -47,6 +47,7 @@ void AAStarGraph::BeginPlay()
 	SpawnSetAmountOfNodes();
 	// SetUpEdges();
 
+	// SetNodeConnections();
 	
 }
 
@@ -85,7 +86,6 @@ void AAStarGraph::SpawnSetAmountOfNodes()
 		}
 
 
-
 		
 	}
 
@@ -98,18 +98,40 @@ void AAStarGraph::SpawnSetAmountOfNodes()
 }
 
 
+
+void AAStarGraph::SetNodeConnections()
+{
+/*	WORK IN PROGRESS!	*/
+	// for (int i = 0; i < StarNodeArray.Num()-5; i++)
+	// {
+	//
+	// 	for (int j = 0; j < 2; j++)
+	// 	{
+	// 		StarNodeArray[i]->connections[j] = StarNodeArray[j+1];
+	// 	}
+	// 	
+	// }
+
+
+	
+}
+
+
+
 void AAStarGraph::SetUpEdges()
 {
-
+	
 	for (int i = 0; i < StarNodeArray.Num()-1; i++)
 	{
 		DrawDebugLine(GetWorld(),StarNodeArray[i]->NodeLocation, StarNodeArray[i+1]->NodeLocation, FColor::Emerald, false, -1, 0, 5);
-
-		// DrawDebugLine(GetWorld(),start->NodeLocation, end->NodeLocation,FColor::Emerald,false,-1,0,5);
-	
 	}
 
-	
+		// for (int j = 0; j < StarNodeArray[i]->connections.Num();j++)
+		// {
+		// 	DrawDebugLine(GetWorld(),StarNodeArray[i]->NodeLocation, StarNodeArray[i]->connections[j]->NodeLocation, FColor::Emerald, false, -1, 0, 5);
+		// }
+		// DrawDebugLine(GetWorld(), StarNodeArray[i]->connections[i]->NodeLocation, StarNodeArray[i+1]->connections[i]->NodeLocation, FColor::Purple,false,-1,0,5);
+		// DrawDebugLine(GetWorld(),start->NodeLocation, end->NodeLocation,FColor::Emerald,false,-1,0,5);
 }
 
 

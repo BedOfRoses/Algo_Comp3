@@ -37,7 +37,8 @@ public:
 
 	/* Store which other nodes point to THIS node */
 	TArray<AAStarNode*> connections;
-
+	
+	
 	FVector NodeLocation;
 
 	float timeCheckToGoCrazy = 10.f; // checker if >

@@ -87,6 +87,8 @@ public:
 
 
 	void SpawnSetAmountOfNodes();
+
+	void SetNodeConnections();
 	
 
 	void TestConnection(AAStarNode* start, AAStarNode* end);
