@@ -91,6 +91,8 @@ public:
 
 	void TestConnection(AAStarNode* start, AAStarNode* end);
 
+	void SetUpEdges();
+
 };
 
 

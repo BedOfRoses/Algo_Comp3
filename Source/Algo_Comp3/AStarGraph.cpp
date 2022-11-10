@@ -45,6 +45,8 @@ void AAStarGraph::BeginPlay()
 	// }
 	//
 	SpawnSetAmountOfNodes();
+	// SetUpEdges();
+
 	
 }
 
@@ -54,6 +56,7 @@ void AAStarGraph::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	//BoxScan();
+	SetUpEdges();
 
 	// TestConnection(startNodeBoy, endNodeBoy);
 	
@@ -75,8 +78,9 @@ void AAStarGraph::SpawnSetAmountOfNodes()
 			xAxis +=1;
 			
 			
-			AAStarNode* newStar = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(xAxis * 1000.f,  yAxis * 1000.f, 10.f),FRotator::ZeroRotator);
+			AAStarNode* newStar = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(xAxis * 1000.f,  yAxis * 1000.f, 100.f),FRotator::ZeroRotator);
 			newStar->nodeID = i;
+			StarNodeArray.Add(newStar);
 			
 		}
 
@@ -93,6 +97,20 @@ void AAStarGraph::SpawnSetAmountOfNodes()
 	
 }
 
+
+void AAStarGraph::SetUpEdges()
+{
+
+	for (int i = 0; i < StarNodeArray.Num()-1; i++)
+	{
+		DrawDebugLine(GetWorld(),StarNodeArray[i]->NodeLocation, StarNodeArray[i+1]->NodeLocation, FColor::Emerald, false, -1, 0, 5);
+
+		// DrawDebugLine(GetWorld(),start->NodeLocation, end->NodeLocation,FColor::Emerald,false,-1,0,5);
+	
+	}
+
+	
+}
 
 
 void AAStarGraph::TestConnection(class AAStarNode* start, class AAStarNode* end)
