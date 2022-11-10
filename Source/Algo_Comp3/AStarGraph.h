@@ -86,6 +86,9 @@ public:
 	void DijkstraBoys(class AAStarNode* start, class AAStarNode* end);
 
 
+	void SpawnSetAmountOfNodes();
+	
+
 	void TestConnection(AAStarNode* start, AAStarNode* end);
 
 };

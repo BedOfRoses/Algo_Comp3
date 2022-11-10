@@ -63,7 +63,14 @@ void AAStarNode::Tick(float DeltaTime)
 
 	//GoCrazy();
 
+	timerToGoCrazy += DeltaTime;
+	
+
 	//LineTraceMyOwn();
+
+	
+	if(bTimeToGoCrazy && timerToGoCrazy > timeCheckToGoCrazy)
+		GoCrazy();
 
 }
 

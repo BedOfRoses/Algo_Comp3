@@ -34,14 +34,17 @@ void AAStarGraph::BeginPlay()
 	//BoxScan();
 
 	//NodesArray.Init(AStarNode, 8);
-	if(starnodeBP)
-	{
-		startNodeBoy = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(100.f,101.f,100.f), FRotator::ZeroRotator);
 
-		endNodeBoy = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(50.f,500.f,100.f), FRotator::ZeroRotator);
-		
-	}
-	
+	// Test spawning
+	// if(starnodeBP)
+	// {
+	// 	startNodeBoy = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(100.f,101.f,100.f), FRotator::ZeroRotator);
+	//
+	// 	endNodeBoy = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(50.f,500.f,100.f), FRotator::ZeroRotator);
+	// 	
+	// }
+	//
+	SpawnSetAmountOfNodes();
 	
 }
 
@@ -52,7 +55,41 @@ void AAStarGraph::Tick(float DeltaTime)
 
 	//BoxScan();
 
-	TestConnection(startNodeBoy, endNodeBoy);
+	// TestConnection(startNodeBoy, endNodeBoy);
+	
+}
+
+
+void AAStarGraph::SpawnSetAmountOfNodes()
+{
+	if(starnodeBP)
+	{
+		
+		int xAxis = 0;
+		int yAxis = 1;
+		for(int i = 0; i < 9; i++)
+		{
+			if(i % 3 == 0) { xAxis = 0;}
+			if(i % 3 == 0) { yAxis +=1;}
+
+			xAxis +=1;
+			
+			
+			AAStarNode* newStar = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(xAxis * 1000.f,  yAxis * 1000.f, 10.f),FRotator::ZeroRotator);
+			newStar->nodeID = i;
+			
+		}
+
+
+
+		
+	}
+
+
+
+	
+	
+	
 	
 }
 
@@ -237,3 +274,30 @@ void AAStarGraph::BoxScan()
 //
 //
 //	}
+
+
+
+// AAStarNode* newStar1 = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(1000.f,  1000.f, 10.f),FRotator::ZeroRotator);
+// AAStarNode* newStar2 = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(2000.f,  1000.f, 10.f),FRotator::ZeroRotator);
+// AAStarNode* newStar3 = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(3000.f,  1000.f, 10.f),FRotator::ZeroRotator);
+// AAStarNode* newStar4 = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(1000.f,  2000.f, 10.f),FRotator::ZeroRotator);
+// AAStarNode* newStar5 = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(2000.f,  2000.f, 10.f),FRotator::ZeroRotator);
+// AAStarNode* newStar6 = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(3000.f,  2000.f, 10.f),FRotator::ZeroRotator);
+// AAStarNode* newStar7 = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(1000.f,  3000.f, 10.f),FRotator::ZeroRotator);
+// AAStarNode* newStar8 = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(2000.f,  3000.f, 10.f),FRotator::ZeroRotator);
+// AAStarNode* newStar9 = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(3000.f,  3000.f, 10.f),FRotator::ZeroRotator);
+
+
+/*  // Trying to loop sheesh
+	int axis = 1;
+	int axis2 = 1;
+	// Spawning loop for new nodes.
+	for (int i = 0; i < 9; i++)
+		{
+			axis2 = i;
+			if(i % 3 == 0){ axis +=1; axis2 +=1;}
+			AAStarNode* newStar = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector((axis * 100.f), (axis2 * 100.f), 10.f),FRotator::ZeroRotator);
+			newStar->nodeID = i;
+			newStar->bTimeToGoCrazy = false;
+		}
+		*/

@@ -40,6 +40,10 @@ public:
 
 	FVector NodeLocation;
 
+	float timeCheckToGoCrazy = 10.f; // checker if >
+	float timerToGoCrazy; // increases
+	
+	bool bTimeToGoCrazy = false;
 	
 protected:
 	// Called when the game starts or when spawned
