@@ -6,8 +6,20 @@
 #include "AStarNode.generated.h"
 
 
+USTRUCT(BlueprintType)
+struct FVertexNodePackage {
 
+	GENERATED_BODY()
 
+	/*Vertex ID*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct Vertex")
+	int32 VertexID;
+
+	/*Vertex datapackage*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct Vertex")
+	int32 DataPackage;
+
+};
 
 UCLASS()
 class ALGO_COMP3_API AAStarNode : public AActor
