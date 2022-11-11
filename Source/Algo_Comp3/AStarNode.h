@@ -19,6 +19,10 @@ struct FVertexNodePackage {
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct Vertex")
 	int32 DataPackage;
 
+	/*bool to keep track of if have visited node*/
+	UPROPERTY(EditAnywhere)
+	bool b_HasVisitedNode = false;
+
 };
 
 UCLASS()
