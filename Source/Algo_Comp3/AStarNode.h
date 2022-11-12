@@ -1,6 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
+
+
+#include "StarNodeStruct.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "AStarNode.generated.h"
@@ -76,8 +79,9 @@ public:
 
 	/* S */
 	
-
-
+	void AssignIndividualVertexStructs();
+	//individual Structs initialised for each instance of it
+	FStarNodeStruct ForThisSphere; 
 };
 
 

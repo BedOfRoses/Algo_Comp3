@@ -2,7 +2,6 @@
 
 
 #include "AStarNode.h"
-#include "StarNodeStruct.h"
 #include "Components/SphereComponent.h"
 #include "DrawDebugHelpers.h" 
 
@@ -38,15 +37,6 @@ void AAStarNode::BeginPlay()
 
 	NodeLocation = GetActorLocation();
 
-	// SetActorLocation(FVector(0, 0, 0));
-	FStarNodeStruct ForThisSphere;
-
-	FString MessageToScreen = FString::SanitizeFloat(ForThisSphere.VertexID);
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, *MessageToScreen);
-	}
-	
 	//FVector SpawnPoint = FVector(0.0f,0.0f,0.0f);
 	//SetActorLocation(SpawnPoint);
 	//FMath::FRandRange(0.0f, 10.0f);
@@ -61,6 +51,8 @@ void AAStarNode::BeginPlay()
 
 
 	//DrawDebugPoint(GetWorld(), NodeSphere->GetComponentLocation(), 300, FColor(52, 220, 239), true);
+
+	AssignIndividualVertexStructs();
 }
 
 // Called every frame
@@ -153,6 +145,23 @@ void AAStarNode::LineTraceMyOwn()
 	//}
 
 
+}
+
+void AAStarNode::AssignIndividualVertexStructs()
+{
+	//just checking if struct can be reached
+	FString MessageToScreen = FString::SanitizeFloat(ForThisSphere.VertexID);
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, *MessageToScreen);
+	}
+
+	//can i add information to each individual struct?
+	FString ObjectName = this->GetName();
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, *ObjectName);
+	}
 }
 
 

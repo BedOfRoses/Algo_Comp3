@@ -86,11 +86,15 @@ public:
 	void DijkstraBoys(class AAStarNode* start, class AAStarNode* end);
 
 
-	void SpawnSetAmountOfNodes();
-	
+	void SpawnSetAmountOfNodes();	
 
 	void TestConnection(AAStarNode* start, AAStarNode* end);
 
+	/* the testing facility ~ <3 */
+	void SpawnerTestingFacility();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Vertex")
+	TSubclassOf<AActor> BP_VertexSpawn;
 };
 
 

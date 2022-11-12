@@ -45,6 +45,8 @@ void AAStarGraph::BeginPlay()
 	// }
 	//
 	SpawnSetAmountOfNodes();
+
+	SpawnerTestingFacility();
 	
 }
 
@@ -108,6 +110,25 @@ void AAStarGraph::TestConnection(class AAStarNode* start, class AAStarNode* end)
 		AAStarNode * newStar = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(10.f,10.f,100.f), FRotator::ZeroRotator);
 	*/
 	
+}
+
+void AAStarGraph::SpawnerTestingFacility()
+{
+	// should be user input, but for now hardcoded
+	int SpawnCounter = 10;
+		
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		FVector Location = FVector(0, 0, 0);
+		FRotator Rotation = FRotator(0, 0, 0);
+
+		for (int i = 0; i < SpawnCounter; i++)
+		{
+			GetWorld()->SpawnActor<AActor>(BP_VertexSpawn, Location, Rotation);
+			
+		}
+	}
 }
 
 
