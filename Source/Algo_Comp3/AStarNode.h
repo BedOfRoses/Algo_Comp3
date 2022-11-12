@@ -6,24 +6,24 @@
 #include "AStarNode.generated.h"
 
 
-USTRUCT(BlueprintType)
-struct FVertexNodePackage {
-
-	GENERATED_BODY()
-
-	/*Vertex ID*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct Vertex")
-	int32 VertexID;
-
-	/*Vertex datapackage*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct Vertex")
-	int32 DataPackage;
-
-	/*bool to keep track of if have visited node*/
-	UPROPERTY(EditAnywhere)
-	bool b_HasVisitedNode = false;
-
-};
+//USTRUCT(BlueprintType)
+//struct FVertexNodePackage {
+//
+//	GENERATED_BODY()
+//
+//	/*Vertex ID*/
+//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct Vertex")
+//	int32 VertexID;
+//
+//	/*Vertex datapackage*/
+//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct Vertex")
+//	int32 DataPackage;
+//
+//	/*bool to keep track of if have visited node*/
+//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct Vertex")
+//	bool b_HasVisitedNode = false;
+//
+//};
 
 UCLASS()
 class ALGO_COMP3_API AAStarNode : public AActor
@@ -48,7 +48,7 @@ public:
 
 	*/
 	
-	/* to indentify which node is which.*/
+	/* to identify which node is which. --> also have one in Struct*/
 	int32 nodeID; 
 
 	/* Store which other nodes point to THIS node */
@@ -69,12 +69,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-
+	/*functions*/
 	void GoCrazy();
 	void LineTraceTest();
-
 	void LineTraceMyOwn();
 
+	/* S */
 	
 
 
