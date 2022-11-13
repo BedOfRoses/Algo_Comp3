@@ -77,11 +77,12 @@ public:
 	void LineTraceTest();
 	void LineTraceMyOwn();
 
-	/* S */
+	/* Testing facility StarNodeVersion */
 	
 	void AssignIndividualVertexStructs();
 	//individual Structs initialised for each instance of it
 	FStarNodeStruct ForThisSphere; 
+	
 };
 
 

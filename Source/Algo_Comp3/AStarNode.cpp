@@ -147,7 +147,7 @@ void AAStarNode::LineTraceMyOwn()
 
 }
 
-void AAStarNode::AssignIndividualVertexStructs()
+void AAStarNode::AssignIndividualVertexStructs() // sara - testing various things directly on instance of StarNodes
 {
 	//just checking if struct can be reached
 	FString MessageToScreen = FString::SanitizeFloat(ForThisSphere.VertexID);
@@ -162,6 +162,9 @@ void AAStarNode::AssignIndividualVertexStructs()
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, *ObjectName);
 	}
+
+	// accessing struct here to test if i can reach from star graph
+	// ForThisSphere.ForeignVertexVector_one; 
 }
 
 

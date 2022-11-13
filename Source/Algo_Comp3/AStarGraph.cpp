@@ -3,6 +3,7 @@
 
 #include "AStarGraph.h"
 #include "AStarNode.h"
+#include "StarNodeStruct.h"
 #include "Components/BoxComponent.h"
 #include "Engine/World.h"
 #include "Math/Vector.h"
@@ -44,7 +45,8 @@ void AAStarGraph::BeginPlay()
 	// 	
 	// }
 	//
-	SpawnSetAmountOfNodes();
+
+	// SpawnSetAmountOfNodes(); --> Simon's it was active, but for testing purposes I've turned it off
 
 	SpawnerTestingFacility();
 	
@@ -95,8 +97,6 @@ void AAStarGraph::SpawnSetAmountOfNodes()
 	
 }
 
-
-
 void AAStarGraph::TestConnection(class AAStarNode* start, class AAStarNode* end)
 {
 
@@ -112,7 +112,7 @@ void AAStarGraph::TestConnection(class AAStarNode* start, class AAStarNode* end)
 	
 }
 
-void AAStarGraph::SpawnerTestingFacility() // sara spawner
+void AAStarGraph::SpawnerTestingFacility() // sara - spawner
 {
 	// should be user input, but for now hardcoded
 	int SpawnCounter = 10;
@@ -142,7 +142,7 @@ void AAStarGraph::SpawnerTestingFacility() // sara spawner
 	}
 }
 
-FVector AAStarGraph::GetRandomLocation() // sara get random location for spawn
+FVector AAStarGraph::GetRandomLocation() // sara - get random location for spawn
 {
 	double MaxRange = 1000.f;
 
@@ -151,6 +151,50 @@ FVector AAStarGraph::GetRandomLocation() // sara get random location for spawn
 	double RangeZ = FMath::RandRange(-MaxRange, MaxRange);
 		
 	return FVector(RangeX, RangeY, RangeZ);
+}
+
+void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starnodes according to their spawn location
+{
+	// how large is array?
+	int32 counter = BP_VertexSpawnArray.Num();
+	// pick one element from array at a time
+	for (int BP_element = 0; BP_element < counter; BP_element++) //here BP_element refer to the instances of initialised StarNodes in stored in the BP_VertecSpawnArray
+	{
+		// get elements 'realspace' location
+		VertexLocation = BP_VertexSpawnArray[BP_element]->GetActorLocation();
+		// get distance to all other elements in array
+		for (int OtherNode = 0; OtherNode < counter; OtherNode++) //here the OtherNode refer to the StarNodes that the element from the first for_loop will be pointing towards
+		{
+			// get actor FVector
+			FVector OtherVertecisLocation = BP_VertexSpawnArray[OtherNode]->GetActorLocation();
+			if (VertexLocation != OtherVertecisLocation) //if the node is itself, it will pass it. 
+			{
+				// find distances and put them in array
+				VertecisDistances.Emplace(FVector::Dist(VertexLocation, OtherVertecisLocation));
+			}
+		}
+		// sort array
+		// VertecisDistances.Sort(); ------------------------------------------> somehow after two and a half hours, this dosen't work any longer after having tested if it was better to hace the struct inside StarNode or not. WTF
+		// then pop them so only the four closest are left 
+		VertecisDistances.SetNum(4);		
+		// random element of 1-4 gets a pointer to them
+		int32 WhoGetsPaths = FMath::RandRange(0, 4); // this is currently a counter
+		for (int i = 0; i < WhoGetsPaths; i++) //here we will add pointers to the OtherNode's locations
+		{
+			// add pointer to these elements in struct
+			
+		}
+		
+	}
+	// send to draw debug line to draw these lines
+}
+
+void AAStarGraph::FacilitysDrawDebugLine()
+{
+	// how many elements in array?
+	// for every element
+	// draw line to what they are pointing at
+	// finished
 }
 
 

@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
 #include "StarNodeStruct.generated.h"
 
 /**
@@ -28,6 +27,23 @@ public:
 	/*bool to keep track of if have visited node*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct Vertex")
 	bool b_HasVisitedNode = false;
+
+	/* locations of nodes */
+	/* location of this node */
+	UPROPERTY(VisibleAnywhere, Category = "StarNode Vector")
+	FVector HomeVertexVector;
+	/* location of foreign node1 */
+	UPROPERTY(VisibleAnywhere, Category = "StarNode Vector")
+	FVector ForeignVertexVector_one;
+	/* location of foreign node2 */
+	UPROPERTY(VisibleAnywhere, Category = "StarNode Vector")
+	FVector ForeignVertexVector_two;
+	/* location of foreign node3 */
+	UPROPERTY(VisibleAnywhere, Category = "StarNode Vector")
+	FVector ForeignVertexVector_three;
+	/* location of foreign node4 */
+	UPROPERTY(VisibleAnywhere, Category = "StarNode Vector")
+	FVector ForeignVertexVector_four;
 
 public:
 	/*constructor/destructor*/

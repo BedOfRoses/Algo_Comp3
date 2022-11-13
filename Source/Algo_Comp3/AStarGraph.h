@@ -99,8 +99,19 @@ public:
 	TSubclassOf<AActor> BP_VertexSpawn;
 	//get random locations for spawn
 	FVector GetRandomLocation();
+	//the array the nodes are put in
 	UPROPERTY(VisibleAnywhere, Category = "Spawn Vertex | Vertex Array")
 	TArray<AActor*> BP_VertexSpawnArray;
+	//paths between nodes:
+	//who to draw btw? when chosen, use draw debug line code
+	void GiveVertecisPaths();
+	//draw debug line
+	void FacilitysDrawDebugLine();
+	// vertec locations
+	FVector VertexLocation;
+	//put distances in array 
+	TArray<FVector> VertecisDistances;
+	//is this enough to spawn the nodes with paths between them?
 };
 
 
