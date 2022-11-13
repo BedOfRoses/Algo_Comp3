@@ -112,23 +112,45 @@ void AAStarGraph::TestConnection(class AAStarNode* start, class AAStarNode* end)
 	
 }
 
-void AAStarGraph::SpawnerTestingFacility()
+void AAStarGraph::SpawnerTestingFacility() // sara spawner
 {
 	// should be user input, but for now hardcoded
 	int SpawnCounter = 10;
+	// expand array by ten spaces
 		
+	// the spawner
 	UWorld* World = GetWorld();
 	if (World)
 	{
-		FVector Location = FVector(0, 0, 0);
 		FRotator Rotation = FRotator(0, 0, 0);
-
 		for (int i = 0; i < SpawnCounter; i++)
 		{
-			GetWorld()->SpawnActor<AActor>(BP_VertexSpawn, Location, Rotation);
-			
+			// make a random location
+			FVector Location = GetRandomLocation();
+			// make object
+			AActor* VertexSpawned = GetWorld()->SpawnActor<AActor>(BP_VertexSpawn, Location, Rotation);
+			BP_VertexSpawnArray.Add(VertexSpawned);
 		}
 	}
+	
+	/* checking how many elements there are in the array */
+	int32 count = BP_VertexSpawnArray.Num();
+	FString MessageToScreen = FString::SanitizeFloat(count);
+	if (GEngine){
+
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, *MessageToScreen);
+	}
+}
+
+FVector AAStarGraph::GetRandomLocation() // sara get random location for spawn
+{
+	double MaxRange = 1000.f;
+
+	double RangeX = FMath::RandRange(-MaxRange, MaxRange);
+	double RangeY = FMath::RandRange(-MaxRange, MaxRange);
+	double RangeZ = FMath::RandRange(-MaxRange, MaxRange);
+		
+	return FVector(RangeX, RangeY, RangeZ);
 }
 
 

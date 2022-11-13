@@ -91,10 +91,16 @@ public:
 	void TestConnection(AAStarNode* start, AAStarNode* end);
 
 	/* the testing facility ~ <3 */
+	
+	//spawns StarNodes
 	void SpawnerTestingFacility();
-
+	//this is the bp used
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Vertex")
 	TSubclassOf<AActor> BP_VertexSpawn;
+	//get random locations for spawn
+	FVector GetRandomLocation();
+	UPROPERTY(VisibleAnywhere, Category = "Spawn Vertex | Vertex Array")
+	TArray<AActor*> BP_VertexSpawnArray;
 };
 
 
