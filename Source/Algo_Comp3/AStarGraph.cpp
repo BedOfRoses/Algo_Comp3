@@ -57,7 +57,7 @@ void AAStarGraph::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	//BoxScan();
-	SetUpEdges();
+	DrawEdges();
 
 	// TestConnection(startNodeBoy, endNodeBoy);
 	
@@ -82,16 +82,74 @@ void AAStarGraph::SpawnSetAmountOfNodes()
 			AAStarNode* newStar = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(xAxis * 1000.f,  yAxis * 1000.f, 100.f),FRotator::ZeroRotator);
 			newStar->nodeID = i;
 			StarNodeArray.Add(newStar);
-			
 		}
 
 
-		
 	}
 
 
+	// "Top left" 0
+	StarNodeArray[0]->connection1 = StarNodeArray[1];
+	StarNodeArray[0]->connection2 = StarNodeArray[3];
+	StarNodeArray[0]->connection3 = StarNodeArray[4];
 
+
+	// top middle 1
+	//StarNodeArray[1]->connection1 = StarNodeArray[0]; // connecting back
+	StarNodeArray[1]->connection1 = StarNodeArray[2];
+	StarNodeArray[1]->connection2 = StarNodeArray[2];
+	StarNodeArray[1]->connection3 = StarNodeArray[4];
+	StarNodeArray[1]->connection4 = StarNodeArray[5];
+
+	// "top right" 2
+	StarNodeArray[2]->connection1 = StarNodeArray[1]; // this one is already connected in "top middle" loop
+	StarNodeArray[2]->connection2 = StarNodeArray[4];
+	StarNodeArray[2]->connection3 = StarNodeArray[5];
 	
+	// "middle left" 3
+	StarNodeArray[3]->connection1 = StarNodeArray[0]; // this one is already connected in top left
+	StarNodeArray[3]->connection2 = StarNodeArray[1];
+	StarNodeArray[3]->connection3 = StarNodeArray[4];
+	StarNodeArray[3]->connection4 = StarNodeArray[6];
+	StarNodeArray[3]->connection5 = StarNodeArray[7];
+
+
+	// "middle middle" 4
+	StarNodeArray[4]->connection1 = StarNodeArray[0];
+	StarNodeArray[4]->connection2 = StarNodeArray[1];
+	StarNodeArray[4]->connection3 = StarNodeArray[2];
+	StarNodeArray[4]->connection4 = StarNodeArray[3];
+	StarNodeArray[4]->connection5 = StarNodeArray[5];
+	StarNodeArray[4]->connection6 = StarNodeArray[6];
+	StarNodeArray[4]->connection7 = StarNodeArray[7];
+	StarNodeArray[4]->connection8 = StarNodeArray[8];
+
+	// "middle right" 5
+	StarNodeArray[5]->connection1 = StarNodeArray[1];
+	StarNodeArray[5]->connection2 = StarNodeArray[2];
+	StarNodeArray[5]->connection3 = StarNodeArray[4];
+	StarNodeArray[5]->connection4 = StarNodeArray[7];
+	StarNodeArray[5]->connection5 = StarNodeArray[8];
+
+	// "bottom left" 6
+	StarNodeArray[6]->connection1 = StarNodeArray[3];
+	StarNodeArray[6]->connection2 = StarNodeArray[4];
+	StarNodeArray[6]->connection3 = StarNodeArray[7];
+	
+
+	// "bottom middle" 7
+	StarNodeArray[7]->connection1 = StarNodeArray[3];
+	StarNodeArray[7]->connection2 = StarNodeArray[4];
+	StarNodeArray[7]->connection3 = StarNodeArray[5];
+	StarNodeArray[7]->connection4 = StarNodeArray[6];
+	StarNodeArray[7]->connection5 = StarNodeArray[8];
+	
+	// "bottom right" 8
+	StarNodeArray[8]->connection1 = StarNodeArray[4];
+	StarNodeArray[8]->connection2 = StarNodeArray[5];
+	StarNodeArray[8]->connection2 = StarNodeArray[7];
+
+
 	
 	
 	
@@ -118,14 +176,63 @@ void AAStarGraph::SetNodeConnections()
 
 
 
-void AAStarGraph::SetUpEdges()
+void AAStarGraph::DrawEdges()
 {
 	
+	// for (int i = 0; i < StarNodeArray.Num()-1; i++)
+	// {
+	// 	DrawDebugLine(GetWorld(),StarNodeArray[i]->NodeLocation, StarNodeArray[i+1]->NodeLocation, FColor::Emerald, false, -1, 0, 5);
+	// }
+
+
 	for (int i = 0; i < StarNodeArray.Num()-1; i++)
 	{
-		DrawDebugLine(GetWorld(),StarNodeArray[i]->NodeLocation, StarNodeArray[i+1]->NodeLocation, FColor::Emerald, false, -1, 0, 5);
+		// if(StarNodeArray[i]->connection1 != nullptr &&
+		// 	StarNodeArray[i]->connection2 != nullptr &&
+		// 	StarNodeArray[i]->connection3 != nullptr &&
+		// 	StarNodeArray[i]->connection4 != nullptr &&
+		// 	StarNodeArray[i]->connection5 != nullptr &&
+		// 	StarNodeArray[i]->connection6 != nullptr &&
+		// 	StarNodeArray[i]->connection7 != nullptr &&
+		// 	StarNodeArray[i]->connection8 != nullptr )
+		// {
+		//
+		// 	DrawDebugLine(GetWorld(),StarNodeArray[i]->NodeLocation, StarNodeArray[i+1]->NodeLocation, FColor::Emerald, false, -1, 0, 5);
+		// 	
+		// }
+
+		
+
+		 if(StarNodeArray[i]->connection1 != nullptr)
+		 	DrawDebugLine(GetWorld(),StarNodeArray[i]->NodeLocation, StarNodeArray[i]->connection1->NodeLocation, FColor::Emerald, false, -1, 0, 5);
+		 	
+		 if(StarNodeArray[i]->connection2 != nullptr)
+		 	DrawDebugLine(GetWorld(),StarNodeArray[i]->NodeLocation, StarNodeArray[i]->connection2->NodeLocation, FColor::Red, false, -1, 0, 5);
+		 	
+		 if(StarNodeArray[i]->connection3 != nullptr)
+		 	DrawDebugLine(GetWorld(),StarNodeArray[i]->NodeLocation, StarNodeArray[i]->connection3->NodeLocation, FColor::Blue, false, -1, 0, 5);
+		 	
+		 if(StarNodeArray[i]->connection4 != nullptr)
+		 	DrawDebugLine(GetWorld(),StarNodeArray[i]->NodeLocation, StarNodeArray[i]->connection4->NodeLocation, FColor::Blue, false, -1, 0, 5);
+		 	
+		 if(StarNodeArray[i]->connection5 != nullptr)
+		 	DrawDebugLine(GetWorld(),StarNodeArray[i]->NodeLocation, StarNodeArray[i]->connection5->NodeLocation, FColor::Red, false, -1, 0, 5);
+		 	
+		 if(StarNodeArray[i]->connection6 != nullptr)
+		 	DrawDebugLine(GetWorld(),StarNodeArray[i]->NodeLocation, StarNodeArray[i]->connection6->NodeLocation, FColor::Red, false, -1, 0, 5);
+		 	
+		 if(StarNodeArray[i]->connection7 != nullptr)
+		 	DrawDebugLine(GetWorld(),StarNodeArray[i]->NodeLocation, StarNodeArray[i]->connection7->NodeLocation, FColor::Purple, false, -1, 0, 5);
+		 	
+		 if(StarNodeArray[i]->connection8 != nullptr)
+		 	DrawDebugLine(GetWorld(),StarNodeArray[i]->NodeLocation, StarNodeArray[i]->connection8->NodeLocation, FColor::Emerald, false, -1, 0, 5);
+
+		
+
 	}
 
+
+	
 		// for (int j = 0; j < StarNodeArray[i]->connections.Num();j++)
 		// {
 		// 	DrawDebugLine(GetWorld(),StarNodeArray[i]->NodeLocation, StarNodeArray[i]->connections[j]->NodeLocation, FColor::Emerald, false, -1, 0, 5);
@@ -252,6 +359,9 @@ void AAStarGraph::BoxScan()
 
 
 }
+
+
+
 
 
 //void AAStarGraph::OnOverlap(

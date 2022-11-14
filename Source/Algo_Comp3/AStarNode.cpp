@@ -175,7 +175,7 @@ void AAStarNode::LineTraceTest()
 					*OutHit.GetComponent()->GetName()));
 			}
 		}
-
+	
 }
 
 

@@ -37,6 +37,24 @@ public:
 
 	/* Store which other nodes point to THIS node */
 	TArray<AAStarNode*> NodeArray;
+
+	////////////////////////////////////////////////////////
+	// HARD CODE
+
+	AAStarNode* connection1 = nullptr;
+	AAStarNode* connection2 = nullptr;
+	AAStarNode* connection3 = nullptr;
+	AAStarNode* connection4 = nullptr;
+	AAStarNode* connection5 = nullptr;
+	AAStarNode* connection6 = nullptr;
+	AAStarNode* connection7 = nullptr;
+	AAStarNode* connection8 = nullptr;
+
+
+	//
+	////////////////////////////////////////////////////////
+
+
 	
 	
 	FVector NodeLocation;
