@@ -45,14 +45,16 @@ void AAStarNode::BeginPlay()
 	//for (int i = 0; i < 10; i++)
 	//{
 
-
 	//	//GetWorld()->SpawnActor(this);
 	//}
 
-
-
 	//DrawDebugPoint(GetWorld(), NodeSphere->GetComponentLocation(), 300, FColor(52, 220, 239), true);
-
+	// 
+	
+	// create node function
+		// pointer
+	
+		// data
 	AssignIndividualVertexStructs();
 }
 
@@ -148,7 +150,7 @@ void AAStarNode::LineTraceMyOwn()
 
 }
 
-void AAStarNode::AssignIndividualVertexStructs() // sara - testing various things directly on instance of StarNodes
+void AAStarNode::AssignIndividualVertexStructs() // sara - inserting information into struct or reading information from it
 {
 	//just checking if struct can be reached
 	//FString MessageToScreen = FString::SanitizeFloat(ForThisSphere.VertexID);
@@ -163,6 +165,8 @@ void AAStarNode::AssignIndividualVertexStructs() // sara - testing various thing
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, *ObjectName);
 	}
+
+
 
 	////here we should try to get the vector and insert into struct!
 	//// accessing struct here to test if i can reach from star graph

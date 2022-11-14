@@ -96,12 +96,12 @@ public:
 	void SpawnerTestingFacility();
 	//this is the bp used
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Vertex")
-	TSubclassOf<AActor> BP_VertexSpawn;
+	TSubclassOf<AAStarNode> BP_VertexSpawn;
 	//get random locations for spawn
 	FVector GetRandomLocation();
 	//the array the nodes are put in
 	UPROPERTY(VisibleAnywhere, Category = "Spawn Vertex | Vertex Array")
-	TArray<AActor*> BP_VertexSpawnArray;
+	TArray<AAStarNode*> BP_VertexSpawnArray;
 	//paths between nodes:
 	//who to draw btw? when chosen, use draw debug line code
 	void GiveVertecisPaths();
@@ -119,7 +119,8 @@ public:
 	// omg
 	AAStarNode* ForeignNode; // does it want this to be in .h? --> I need a different pointer now omg
 
-
+	// after suggestion from Sten ---- do i already have this in BP_VertexSpawnedArray???
+	TArray<AAStarNode*> NodePointerArray;
 
 
 	//is this enough to spawn the nodes with paths between them?

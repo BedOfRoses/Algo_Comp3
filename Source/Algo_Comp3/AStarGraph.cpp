@@ -128,8 +128,8 @@ void AAStarGraph::SpawnerTestingFacility() // sara - spawner
 			// make a random location
 			FVector Location = GetRandomLocation();
 			// make object
-			AActor* VertexSpawned = GetWorld()->SpawnActor<AActor>(BP_VertexSpawn, Location, Rotation);
-			BP_VertexSpawnArray.Add(VertexSpawned);
+			AAStarNode* VertexSpawned = GetWorld()->SpawnActor<AAStarNode>(BP_VertexSpawn, Location, Rotation);
+			BP_VertexSpawnArray.Add(VertexSpawned); 
 		}
 	}
 	
@@ -140,6 +140,8 @@ void AAStarGraph::SpawnerTestingFacility() // sara - spawner
 
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, *MessageToScreen);
 	}
+
+	GiveVertecisPaths(); // ------ this is problematic, somehow :(
 }
 
 FVector AAStarGraph::GetRandomLocation() // sara - get random location for spawn
@@ -172,14 +174,18 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 				// find distances and put them in array
 				VertecisDistances.Emplace(FVector::Dist(VertexLocation, OtherVertecisLocation));
 				// put foreign locations in an array
-				ForeignVertecisLocations[OtherNode] = OtherVertecisLocation;
+				ForeignVertecisLocations[OtherNode] = OtherVertecisLocation; // this is marked down as problematic
 			}
 		}
 		// sort array
 		// VertecisDistances.Sort(); ------------------------------------------> somehow after two and a half hours, this dosen't work any longer after having tested if it was better to hace the struct inside StarNode or not. WTF
 		// then pop them so only the four are left 
-		VertecisDistances.SetNum(4);
-		ForeignVertecisLocations.SetNum(4);
+		if (VertecisDistances.IsValidIndex(counter-1) && ForeignVertecisLocations.IsValidIndex(counter-1)) //checks if these are full or not
+		{
+			VertecisDistances.SetNum(4);
+			ForeignVertecisLocations.SetNum(4);
+		}
+		UE_LOG(LogTemp, Warning, TEXT("StarGraph, does log works? :("));
 		// let's hope nothing else breaks
 		// //here we should try to get the vector and insert into struct!
 	// accessing struct here to test if i can reach from star graph
@@ -188,20 +194,31 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 		for (int i = 0; i < WhoGetsPaths; i++) //here we will add pointers to the OtherNode's locations in home-node
 		{
 			//AAStarNode* ForeignNode; // does it want this to be in .h? --> I need a different pointer now omg
-			ForeignNode->ForThisSphere.ForeignVertecVectorArray[i] = ForeignVertecisLocations[i];
+			//ForeignNode->ForThisSphere.ForeignVertecVectorArray[i] = ForeignVertecisLocations[i];
+			if (ForeignVertecisLocations.IsValidIndex(0)) //checks if foreign vertecisLocation array is valid, that there are values there
+			{
+				UE_LOG(LogTemp, Warning, TEXT("StarGraph, if ForeignVertecisLocation.IsValidIndex is true or not"));
+
+				ForeignNode = BP_VertexSpawnArray[i];
+				ForeignNode->ForThisSphere.ForeignVertecVectorArray[i] = ForeignVertecisLocations[i];
+			}
 			// add pointer to these elements in struct
 			//InsertVectorLocationInHomeNode(VertecisDistances[i]);
 			//ForThisSphere.ForeignVertecVectorArray[i] = ForeignNode->ForeignVertecisLocations[i];
 		}
 		// can i read the information about foreign vertex locations now?
-		//FString ForeignVertecisLocationsDisplayMessage = FString::SanitizeFloat(ForeignNode->ForThisSphere.ForeignVertecVectorArray[0].X); //this makes it crash because it might not be an array yet???
-		//if (GEngine)
-		//{
-		//	GEngine->AddOnScreenDebugMessage(-1, 6.f, FColor::Purple, *ForeignVertecisLocationsDisplayMessage);
-		//}
+		if(ForeignVertecisLocations.IsValidIndex(0))
+		{
+			FString ForeignVertecisLocationsDisplayMessage = FString::SanitizeFloat(ForeignNode->ForThisSphere.ForeignVertecVectorArray[0].X); //this makes it crash because it might not be an array yet???
+			if (GEngine)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 6.f, FColor::Purple, *ForeignVertecisLocationsDisplayMessage);
+			}
+		}
 		//IT DIDNT CRASH UE! omg
 		
-
+		
+		
 		//should this be in starnode?? Attempts --- put it in StarNode.cpp
 		// random element of 1-4 gets a pointer to them
 		//int32 WhoGetsPaths = FMath::RandRange(0, 4); // this is currently a counter

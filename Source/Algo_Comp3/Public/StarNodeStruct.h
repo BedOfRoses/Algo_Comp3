@@ -27,6 +27,12 @@ public:
 	/*bool to keep track of if have visited node*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct Vertex")
 	bool b_HasVisitedNode = false;
+	/*bool to decide if node is source or not*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct Vertex")
+	bool b_IsThisNodeSource = false;
+	/*bool to decide if node is target or not*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct Vertex")
+	bool b_IsThisNodeTarget = false;
 
 	/* locations of nodes */
 	/* location of this node */
