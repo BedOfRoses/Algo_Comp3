@@ -66,6 +66,7 @@ void AAStarGraph::Tick(float DeltaTime)
 
 void AAStarGraph::SpawnSetAmountOfNodes()
 {
+	// spawn the blueprint versions of starnodes
 	if(starnodeBP)
 	{
 		
@@ -87,6 +88,38 @@ void AAStarGraph::SpawnSetAmountOfNodes()
 
 	}
 
+
+	// Material
+	for (int i = 0; i < StarNodeArray.Num(); i++)
+	{
+
+		int randomNum = FMath::RandRange(1,3);
+
+
+		switch (randomNum)
+		{
+		case 1:
+			StarNodeArray[i]->NodeMesh->SetMaterial(0, StarNodeArray[i]->NodeMaterialBlue);
+			break;
+
+		case 2:
+			StarNodeArray[i]->NodeMesh->SetMaterial(0, StarNodeArray[i]->NodeMaterialGreen);
+			break;
+			
+		case 3:
+			StarNodeArray[i]->NodeMesh->SetMaterial(0, StarNodeArray[i]->NodeMaterialOrange);
+			break;
+		}
+		
+		
+	}
+	
+
+
+
+	
+	
+	// Set up connections
 
 	// "Top left" 0
 	StarNodeArray[0]->connection1 = StarNodeArray[1];

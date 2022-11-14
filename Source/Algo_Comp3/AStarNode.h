@@ -21,6 +21,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NodeMesh")
 	class UStaticMeshComponent* NodeMesh;
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NodeMaterial")
+	class UMaterial* NodeMaterialGreen = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NodeMaterial")
+	class UMaterial* NodeMaterialBlue = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NodeMaterial")
+	class UMaterial* NodeMaterialOrange = nullptr;
+	
 	/*
 	We need 3 materials, one for start, one for end and one for the others :)
 		- Green = start

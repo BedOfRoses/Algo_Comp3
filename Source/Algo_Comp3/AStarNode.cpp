@@ -24,10 +24,16 @@ AAStarNode::AAStarNode()
 
 	NodeMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("NodeMesh"));
 	RootComponent = NodeMesh;
+
+	NodeMaterialBlue = CreateDefaultSubobject<UMaterial>(TEXT("NodeMaterialBlue"));
+	NodeMaterialGreen = CreateDefaultSubobject<UMaterial>(TEXT("NodeMaterialGreen"));
+	NodeMaterialOrange = CreateDefaultSubobject<UMaterial>(TEXT("NodeMaterialOrange"));
 	
 	/*NodeMesh->SetupAttachment(RootComponent);*/
 	//NodeMesh->SetHiddenInGame(false);
 
+	
+	
 }
 
 // Called when the game starts or when spawned
