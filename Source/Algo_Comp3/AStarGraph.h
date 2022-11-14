@@ -109,8 +109,19 @@ public:
 	void FacilitysDrawDebugLine();
 	// vertec locations
 	FVector VertexLocation;
-	//put distances in array 
+	//put distances in array, used to know how long a path is
 	TArray<FVector> VertecisDistances;
+	//put foreign nodes in an array, used to know locations of foreign nodes
+	TArray<FVector> ForeignVertecisLocations;
+	// use function to insert nodes in struct??
+	void InsertVectorLocationInHomeNode(FVector OtherNode);
+
+	// omg
+	AAStarNode* ForeignNode; // does it want this to be in .h? --> I need a different pointer now omg
+
+
+
+
 	//is this enough to spawn the nodes with paths between them?
 };
 

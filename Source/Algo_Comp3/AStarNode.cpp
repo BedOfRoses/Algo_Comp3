@@ -2,6 +2,7 @@
 
 
 #include "AStarNode.h"
+#include "AStarGraph.h" // second try. worked, by setting pointer in for-loop where it is used. might be a problem later on
 #include "Components/SphereComponent.h"
 #include "DrawDebugHelpers.h" 
 
@@ -150,11 +151,11 @@ void AAStarNode::LineTraceMyOwn()
 void AAStarNode::AssignIndividualVertexStructs() // sara - testing various things directly on instance of StarNodes
 {
 	//just checking if struct can be reached
-	FString MessageToScreen = FString::SanitizeFloat(ForThisSphere.VertexID);
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, *MessageToScreen);
-	}
+	//FString MessageToScreen = FString::SanitizeFloat(ForThisSphere.VertexID);
+	//if (GEngine)
+	//{
+	//	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, *MessageToScreen);
+	//}
 
 	//can i add information to each individual struct?
 	FString ObjectName = this->GetName();
@@ -163,8 +164,25 @@ void AAStarNode::AssignIndividualVertexStructs() // sara - testing various thing
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, *ObjectName);
 	}
 
-	// accessing struct here to test if i can reach from star graph
-	// ForThisSphere.ForeignVertexVector_one; 
+	////here we should try to get the vector and insert into struct!
+	//// accessing struct here to test if i can reach from star graph
+	//// ForThisSphere.ForeignVertexVector_one = ForeignNode->
+	//int32 WhoGetsPaths = FMath::RandRange(0, 4); // this is currently a counter ----------------- I think this needs to be in starGraph. Its the only way this pointer is going to work. omg
+	//for (int i = 0; i < WhoGetsPaths; i++) //here we will add pointers to the OtherNode's locations in home-node
+	//{
+	//	AAStarGraph* ForeignNode; // does it want this to be in .h?
+	//	ForeignNode->ForeignVertecisLocations;
+	//	// add pointer to these elements in struct
+	//	//InsertVectorLocationInHomeNode(VertecisDistances[i]);
+	//	ForThisSphere.ForeignVertecVectorArray[i] = ForeignNode->ForeignVertecisLocations[i];
+	//}
+
+	//// can i read the information about foreign vertex locations now?
+	//FString ForeignVertecisLocationsDisplayMessage = FString::SanitizeFloat(ForThisSphere.ForeignVertecVectorArray[0].X);
+	//if (GEngine)
+	//{
+	//	GEngine->AddOnScreenDebugMessage(-1, 6.f, FColor::Purple, *ForeignVertecisLocationsDisplayMessage);
+	//}
 }
 
 

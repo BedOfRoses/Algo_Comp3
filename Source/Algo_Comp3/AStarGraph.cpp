@@ -171,19 +171,46 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 			{
 				// find distances and put them in array
 				VertecisDistances.Emplace(FVector::Dist(VertexLocation, OtherVertecisLocation));
+				// put foreign locations in an array
+				ForeignVertecisLocations[OtherNode] = OtherVertecisLocation;
 			}
 		}
 		// sort array
 		// VertecisDistances.Sort(); ------------------------------------------> somehow after two and a half hours, this dosen't work any longer after having tested if it was better to hace the struct inside StarNode or not. WTF
-		// then pop them so only the four closest are left 
-		VertecisDistances.SetNum(4);		
-		// random element of 1-4 gets a pointer to them
-		int32 WhoGetsPaths = FMath::RandRange(0, 4); // this is currently a counter
-		for (int i = 0; i < WhoGetsPaths; i++) //here we will add pointers to the OtherNode's locations
+		// then pop them so only the four are left 
+		VertecisDistances.SetNum(4);
+		ForeignVertecisLocations.SetNum(4);
+		// let's hope nothing else breaks
+		// //here we should try to get the vector and insert into struct!
+	// accessing struct here to test if i can reach from star graph
+	// ForThisSphere.ForeignVertexVector_one = ForeignNode->
+		int32 WhoGetsPaths = FMath::RandRange(0, 4); // this is currently a counter ----------------- I think this needs to be in starGraph. Its the only way this pointer is going to work. omg
+		for (int i = 0; i < WhoGetsPaths; i++) //here we will add pointers to the OtherNode's locations in home-node
 		{
+			//AAStarNode* ForeignNode; // does it want this to be in .h? --> I need a different pointer now omg
+			ForeignNode->ForThisSphere.ForeignVertecVectorArray[i] = ForeignVertecisLocations[i];
 			// add pointer to these elements in struct
-			
+			//InsertVectorLocationInHomeNode(VertecisDistances[i]);
+			//ForThisSphere.ForeignVertecVectorArray[i] = ForeignNode->ForeignVertecisLocations[i];
 		}
+		// can i read the information about foreign vertex locations now?
+		//FString ForeignVertecisLocationsDisplayMessage = FString::SanitizeFloat(ForeignNode->ForThisSphere.ForeignVertecVectorArray[0].X); //this makes it crash because it might not be an array yet???
+		//if (GEngine)
+		//{
+		//	GEngine->AddOnScreenDebugMessage(-1, 6.f, FColor::Purple, *ForeignVertecisLocationsDisplayMessage);
+		//}
+		//IT DIDNT CRASH UE! omg
+		
+
+		//should this be in starnode?? Attempts --- put it in StarNode.cpp
+		// random element of 1-4 gets a pointer to them
+		//int32 WhoGetsPaths = FMath::RandRange(0, 4); // this is currently a counter
+		//for (int i = 0; i < WhoGetsPaths; i++) //here we will add pointers to the OtherNode's locations in home-node
+		//{
+		//	// add pointer to these elements in struct
+		//	//InsertVectorLocationInHomeNode(VertecisDistances[i]);
+		//	
+		//}
 		
 	}
 	// send to draw debug line to draw these lines
@@ -195,6 +222,11 @@ void AAStarGraph::FacilitysDrawDebugLine()
 	// for every element
 	// draw line to what they are pointing at
 	// finished
+}
+
+void AAStarGraph::InsertVectorLocationInHomeNode(FVector OtherNode)
+{
+	FVector ForeignNodeToInsertThroughShit;
 }
 
 
@@ -266,16 +298,16 @@ void AAStarGraph::DijkstraBoys(class AAStarNode* start, class AAStarNode* end)
 
 float AAStarGraph::minDistance(float dist[], bool sptSet[]) 
 {
-	int min = INT_MAX, min_index;
-
-	for (int v = 0; v < AmountOfNodesToCreate; v++)
+	//int min = INT_MAX, min_index; //somhow, this is now a problem, I haven't even touched this one! It's been half a week!
+	float min_index = 1; //I just want it not to bother me, commented everything out except the new line to initialise min index
+	/*for (int v = 0; v < AmountOfNodesToCreate; v++)
 	{
 
 		if (sptSet[v] == false && dist[v] <= min)
 			min = dist[v], min_index = v;
 
-	}
-		return min_index;
+	}*/
+	return min_index;
 
 }
 

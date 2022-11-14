@@ -32,18 +32,9 @@ public:
 	/* location of this node */
 	UPROPERTY(VisibleAnywhere, Category = "StarNode Vector")
 	FVector HomeVertexVector;
-	/* location of foreign node1 */
-	UPROPERTY(VisibleAnywhere, Category = "StarNode Vector")
-	FVector ForeignVertexVector_one;
-	/* location of foreign node2 */
-	UPROPERTY(VisibleAnywhere, Category = "StarNode Vector")
-	FVector ForeignVertexVector_two;
-	/* location of foreign node3 */
-	UPROPERTY(VisibleAnywhere, Category = "StarNode Vector")
-	FVector ForeignVertexVector_three;
-	/* location of foreign node4 */
-	UPROPERTY(VisibleAnywhere, Category = "StarNode Vector")
-	FVector ForeignVertexVector_four;
+	/* foreign node location array */
+	TArray<FVector> ForeignVertecVectorArray;
+
 
 public:
 	/*constructor/destructor*/

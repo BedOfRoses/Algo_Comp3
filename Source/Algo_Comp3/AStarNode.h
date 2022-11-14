@@ -4,6 +4,7 @@
 
 
 #include "StarNodeStruct.h"
+// #include "AStarGraph.h" //this might be a problem later on. I was right, circular dependencies bby!
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "AStarNode.generated.h"
@@ -82,6 +83,8 @@ public:
 	void AssignIndividualVertexStructs();
 	//individual Structs initialised for each instance of it
 	FStarNodeStruct ForThisSphere; 
+
+	
 	
 };
 
