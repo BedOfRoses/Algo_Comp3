@@ -46,7 +46,7 @@ public:
 	int32 nodeID; 
 
 	/* Store which other nodes point to THIS node */
-	TArray<AAStarNode*> NodeArray;
+	TArray<AAStarNode*> NodeArrayConnections;
 
 	////////////////////////////////////////////////////////
 	// HARD CODE
