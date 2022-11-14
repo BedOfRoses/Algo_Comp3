@@ -180,6 +180,14 @@ void AAStarNode::LineTraceTest()
 
 
 
+// void AAStarNode::SetConnection(AAStarNode* connect, AAStarNode[])
+// {
+//
+// 	
+// }
+
+
+
 //void AAStarNode::DrawDebugLine
 //(
 //	const UWorld* InWorld,

@@ -36,7 +36,7 @@ public:
 	int32 nodeID; 
 
 	/* Store which other nodes point to THIS node */
-	TArray<AAStarNode*> connections;
+	TArray<AAStarNode*> NodeArray;
 	
 	
 	FVector NodeLocation;
@@ -60,7 +60,7 @@ public:
 
 	void LineTraceMyOwn();
 
-	
+	// void SetConnection(class AAStarNode* connect, AAStarNode[]);
 
 
 };
