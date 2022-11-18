@@ -46,7 +46,7 @@ void AAStarGraph::BeginPlay()
 	//
 	SpawnSetAmountOfNodes();
 	// SetUpEdges();
-
+	CreateEdges();
 	// SetNodeConnections();
 	
 }
@@ -254,6 +254,28 @@ void AAStarGraph::SetNodeConnections()
 	
 }
 
+void AAStarGraph::CreateEdges()
+{
+	// std::priority_queue<FVector> nodedir;
+
+	// FVector Dir = StarNodeArray[i]->NodeArrayConnections[j]->Node
+	
+	for (int i = 0; i < StarNodeArray.Num()-1; i++)
+	{
+		for (int j = 0; j < StarNodeArray[i]->NodeArrayConnections.Num(); j++)
+		{
+			DirectionPerConnection.Add(StarNodeArray[i]->NodeArrayConnections[j]->NodeLocation - StarNodeArray[i]->NodeLocation);
+
+			UE_LOG(LogTemp,Warning,	TEXT("Dir %s"), *DirectionPerConnection[i].ToString());
+			
+
+		}
+	}
+
+	
+	
+
+}
 
 
 void AAStarGraph::DrawEdges()
@@ -327,9 +349,19 @@ void AAStarGraph::DrawEdges()
 void AAStarGraph::TestConnection(class AAStarNode* start, class AAStarNode* end)
 {
 
-	
+	//TODO CREATE EDGES -- or improve them~~~
+	start = StarNodeArray[0];
+	end = StarNodeArray[6];
 
-
+	// FVector dist = start->NodeLocation;
+	//
+	// std::priority_queue<FVector> priorityQ_Vertex;
+	//
+	// for (int i = 0; i < StarNodeArray.Num(); i++)
+	// {
+	// 	for (int j = 0; j < StarNodeArray[i]->NodeArrayConnections.Num())
+	// 		priorityQ_Vertex.emplace(StarNodeArray[i]->NodeArrayConnections[j]);
+	// }
 
 
 

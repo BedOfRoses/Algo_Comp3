@@ -47,9 +47,9 @@ public:
 	class AAStarNode* startNodeBoy = nullptr;
 	class AAStarNode* endNodeBoy = nullptr;
 	
-	
+	UPROPERTY(VisibleAnywhere, Category = "Directions Array")
+	TArray<FVector> DirectionPerConnection;
 
-	
 	
 
 	// Used to call the blueprint class!
@@ -95,6 +95,8 @@ public:
 
 	void DrawEdges();
 
+	void CreateEdges();
+	
 	
 	
 	
