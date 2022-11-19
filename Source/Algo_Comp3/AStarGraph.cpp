@@ -149,14 +149,6 @@ void AAStarGraph::SpawnerTestingFacility() // sara - spawner (DONE)
 		}
 	}
 	
-	/* checking how many elements there are in the array */
-	int32 count = BP_VertexSpawnArray.Num();
-	FString MessageToScreen = FString::SanitizeFloat(count);
-	if (GEngine){
-
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, *MessageToScreen);
-	}
-
 	//everything is spawned and ready to have paths applied to them
 	GiveVertecisPaths(); // ------ this is problematic, somehow :(, and now it isn't. wth
 }
@@ -180,7 +172,7 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 		// is current node Target
 		if (BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeTarget == true)
 		{
-			return;
+			// return;
 		}
 		else
 		{
@@ -207,12 +199,13 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 						// otherwise
 						else
 						{
-							for (int k = 0; k < arr_DistancesBetweenNodes.Num(); k++)
+							int32 counter = 4;
+							for (int k = 0; k < counter; k++)
 							{
 								if (Distance > arr_DistancesBetweenNodes[k])
 								{
 									// do nothing
-									return;
+									// return;
 								}
 								else if (Distance < arr_DistancesBetweenNodes[k])
 								{
@@ -227,6 +220,13 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 				}
 			}			
 		}
+	}
+
+	int32 count = 749;
+	FString MessageToScreen = FString::SanitizeFloat(count);
+	if (GEngine) {
+
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, *MessageToScreen);
 	}
 
 	FacilitysDrawDebugLine();
@@ -378,7 +378,7 @@ void AAStarGraph::FacilitysDrawDebugLine()
 				FVector StartNode = BP_VertexSpawnArray[i]->ForThisSphere.ThisNodeLocation;
 				// end node
 				FVector EndNode = BP_VertexSpawnArray[i]->arr_connections[u]->ForThisSphere.ThisNodeLocation;
-				DrawDebugLine(GetWorld(), StartNode, EndNode, FColor::Red, false, -1, 0, 10);
+				DrawDebugLine(GetWorld(), StartNode, EndNode, FColor::Red, true, -1.f, 0.f, 10.f);
 			}
 			// when all the nodes have had their paths drawn, the presentation is done and we are ready to navigate between nodes
 		}		

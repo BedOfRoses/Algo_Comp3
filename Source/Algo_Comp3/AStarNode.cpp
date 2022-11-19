@@ -165,11 +165,11 @@ void AAStarNode::AssignIndividualVertexStructs() // sara - inserting information
 	//}
 
 	//can i add information to each individual struct?
-	FString ObjectName = this->GetName();
+	/*FString ObjectName = this->GetName();
 	if (GEngine)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, *ObjectName);
-	}
+	}*/
 
 
 
