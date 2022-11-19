@@ -129,7 +129,20 @@ void AAStarGraph::SpawnerTestingFacility() // sara - spawner
 			FVector Location = GetRandomLocation();
 			// make object
 			AAStarNode* VertexSpawned = GetWorld()->SpawnActor<AAStarNode>(BP_VertexSpawn, Location, Rotation);
-			BP_VertexSpawnArray.Add(VertexSpawned); 
+			if (VertexSpawned)
+			{
+				BP_VertexSpawnArray.Add(VertexSpawned); 
+
+				if (i == 0 && !VertexSpawned->ForThisSphere.b_IsThisNodeSource)
+				{
+					VertexSpawned->ForThisSphere.b_IsThisNodeSource = true;
+				}
+				else if (i == SpawnCounter && !VertexSpawned->ForThisSphere.b_IsThisNodeTarget)
+				{
+					VertexSpawned->ForThisSphere.b_IsThisNodeTarget = true;
+				}
+			}
+			
 		}
 	}
 	
@@ -163,9 +176,9 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 	for (int BP_element = 0; BP_element < counter; BP_element++) //here BP_element refer to the instances of initialised StarNodes in stored in the BP_VertecSpawnArray
 	{
 		// get elements 'realspace' location
-		VertexLocation = BP_VertexSpawnArray[BP_element]->GetActorLocation();
+		VertexLocation = BP_VertexSpawnArray[BP_element]->GetActorLocation(); // and this is a problem, now 
 		// get distance to all other elements in array
-		for (int OtherNode = 0; OtherNode < counter; OtherNode++) //here the OtherNode refer to the StarNodes that the element from the first for_loop will be pointing towards
+		for (int OtherNode = 0; OtherNode < ForeignVertecisLocations.Num(); OtherNode++) //here the OtherNode refer to the StarNodes that the element from the first for_loop will be pointing towards
 		{
 			// get actor FVector
 			FVector OtherVertecisLocation = BP_VertexSpawnArray[OtherNode]->GetActorLocation();
@@ -174,7 +187,7 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 				// find distances and put them in array
 				VertecisDistances.Emplace(FVector::Dist(VertexLocation, OtherVertecisLocation));
 				// put foreign locations in an array
-				ForeignVertecisLocations[OtherNode] = OtherVertecisLocation; // this is marked down as problematic
+				ForeignVertecisLocations[OtherNode] = OtherVertecisLocation; // this is marked down as problematic | was because used counter instead of actual array size
 			}
 		}
 		// sort array
@@ -188,8 +201,8 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 		UE_LOG(LogTemp, Warning, TEXT("StarGraph, does log works? :("));
 		// let's hope nothing else breaks
 		// //here we should try to get the vector and insert into struct!
-	// accessing struct here to test if i can reach from star graph
-	// ForThisSphere.ForeignVertexVector_one = ForeignNode->
+		// accessing struct here to test if i can reach from star graph
+		// ForThisSphere.ForeignVertexVector_one = ForeignNode->
 		int32 WhoGetsPaths = FMath::RandRange(0, 4); // this is currently a counter ----------------- I think this needs to be in starGraph. Its the only way this pointer is going to work. omg
 		for (int i = 0; i < WhoGetsPaths; i++) //here we will add pointers to the OtherNode's locations in home-node
 		{
@@ -217,6 +230,7 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 		}
 		//IT DIDNT CRASH UE! omg
 		
+		GiveThemPointers(ForeignNode);
 		
 		
 		//should this be in starnode?? Attempts --- put it in StarNode.cpp
@@ -238,12 +252,40 @@ void AAStarGraph::FacilitysDrawDebugLine()
 	// how many elements in array?
 	// for every element
 	// draw line to what they are pointing at
+	// 	for (int i = 0; i < StarNodeArray.Num()-1; i++)
+
+	// yoinked from simon for easy reading
+	/*for (int j = 0; j < StarNodeArray[i]->NodeArrayConnections.Num(); j++)
+		DrawDebugLine(GetWorld(), StarNodeArray[i]->NodeLocation, StarNodeArray[i]->NodeArrayConnections[j]->NodeLocation, FColor::Emerald, false, -1, 0, 5);*/
+	
 	// finished
 }
 
 void AAStarGraph::InsertVectorLocationInHomeNode(FVector OtherNode)
 {
 	FVector ForeignNodeToInsertThroughShit;
+}
+
+void AAStarGraph::GiveThemPointers(AAStarNode* pointer)
+{
+	// basecase
+		// if target, return
+	if (pointer->ForThisSphere.b_IsThisNodeTarget)
+	{
+		return;
+	}
+		// else point
+	if (!pointer->ForThisSphere.b_IsThisNodeTarget)
+	{
+
+	}
+	// call
+		// move to next node in array
+	if (pointer)
+	{
+
+	}
+		//call on function(new current node)
 }
 
 

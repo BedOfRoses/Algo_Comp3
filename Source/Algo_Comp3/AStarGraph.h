@@ -122,7 +122,7 @@ public:
 	// after suggestion from Sten ---- do i already have this in BP_VertexSpawnedArray???
 	TArray<AAStarNode*> NodePointerArray;
 
-
+	void GiveThemPointers(AAStarNode* pointer);
 	//is this enough to spawn the nodes with paths between them?
 };
 
