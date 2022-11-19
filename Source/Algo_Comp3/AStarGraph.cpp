@@ -172,7 +172,7 @@ FVector AAStarGraph::GetRandomLocation() // sara - get random location for spawn
 	return FVector(RangeX, RangeY, RangeZ);
 }
 
-void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starnodes according to their spawn location (DONE?)
+void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starnodes according to their spawn location (DONE)
 {
 	// find distance between nodes and check if they should be connected
 	for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
@@ -381,7 +381,6 @@ void AAStarGraph::FacilitysDrawDebugLine()
 				DrawDebugLine(GetWorld(), StartNode, EndNode, FColor::Red, false, -1, 0, 10);
 			}
 			// when all the nodes have had their paths drawn, the presentation is done and we are ready to navigate between nodes
-
 		}		
 	}
 	
@@ -395,33 +394,6 @@ void AAStarGraph::FacilitysDrawDebugLine()
 		DrawDebugLine(GetWorld(), StarNodeArray[i]->NodeLocation, StarNodeArray[i]->NodeArrayConnections[j]->NodeLocation, FColor::Emerald, false, -1, 0, 5);*/
 	
 	// finished
-}
-
-void AAStarGraph::InsertVectorLocationInHomeNode(FVector OtherNode)
-{
-	FVector ForeignNodeToInsertThroughShit;
-}
-
-void AAStarGraph::GiveThemPointers(AAStarNode* pointer)
-{
-	// basecase
-		// if target, return
-	if (pointer->ForThisSphere.b_IsThisNodeTarget)
-	{
-		return;
-	}
-		// else point
-	if (!pointer->ForThisSphere.b_IsThisNodeTarget)
-	{
-
-	}
-	// call
-		// move to next node in array
-	if (pointer)
-	{
-
-	}
-		//call on function(new current node)
 }
 
 /* ------------------------------------------------------------------------------------------------------------------------- */

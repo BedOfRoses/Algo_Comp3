@@ -113,8 +113,6 @@ public:
 	TArray<FVector> VertecisDistances;
 	//put foreign nodes in an array, used to know locations of foreign nodes
 	TArray<FVector> ForeignVertecisLocations;
-	// use function to insert nodes in struct??
-	void InsertVectorLocationInHomeNode(FVector OtherNode);
 
 	/* distance between nodes and if they should be connected or not */
 	// void DistanceAndPathCheckBetweenNodes();
@@ -127,7 +125,6 @@ public:
 	// after suggestion from Sten ---- do i already have this in BP_VertexSpawnedArray???
 	TArray<AAStarNode*> NodePointerArray;
 
-	void GiveThemPointers(AAStarNode* pointer);
 	//is this enough to spawn the nodes with paths between them?
 };
 
