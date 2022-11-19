@@ -112,9 +112,11 @@ void AAStarGraph::TestConnection(class AAStarNode* start, class AAStarNode* end)
 	
 }
 
-void AAStarGraph::SpawnerTestingFacility() // sara - spawner
+/* ------------------------------------------------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+void AAStarGraph::SpawnerTestingFacility() // sara - spawner (DONE)
 {
-	// should be user input, but for now hardcoded
+	// should be user input, but for now hardcoded, this is the amount of spheres spawned
 	int SpawnCounter = 10;
 	// expand array by ten spaces
 		
@@ -129,6 +131,7 @@ void AAStarGraph::SpawnerTestingFacility() // sara - spawner
 			FVector Location = GetRandomLocation();
 			// make object
 			AAStarNode* VertexSpawned = GetWorld()->SpawnActor<AAStarNode>(BP_VertexSpawn, Location, Rotation);
+			// adds spawned instances to array, if they are the first, they are made source, and the last is made into the target -- ideally this should be by userinput as well (clicking on screen)
 			if (VertexSpawned)
 			{
 				BP_VertexSpawnArray.Add(VertexSpawned); 
@@ -154,10 +157,11 @@ void AAStarGraph::SpawnerTestingFacility() // sara - spawner
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, *MessageToScreen);
 	}
 
-	GiveVertecisPaths(); // ------ this is problematic, somehow :(
+	//everything is spawned and ready to have paths applied to them
+	GiveVertecisPaths(); // ------ this is problematic, somehow :(, and now it isn't. wth
 }
 
-FVector AAStarGraph::GetRandomLocation() // sara - get random location for spawn
+FVector AAStarGraph::GetRandomLocation() // sara - get random location for spawn (DONE)
 {
 	double MaxRange = 1000.f;
 
@@ -168,9 +172,116 @@ FVector AAStarGraph::GetRandomLocation() // sara - get random location for spawn
 	return FVector(RangeX, RangeY, RangeZ);
 }
 
-void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starnodes according to their spawn location
+void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starnodes according to their spawn location (DONE?)
 {
-	// how large is array?
+	// find distance between nodes and check if they should be connected
+	for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
+	{
+		// is current node Target
+		if (BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeTarget == true)
+		{
+			return;
+		}
+		else
+		{
+			// to compare distances between nodes
+			float Distance;
+			for (int u = 0; u < BP_VertexSpawnArray.Num(); u++)
+			{
+				// if the current node is not the same as the node we are currently looping through
+				if (BP_VertexSpawnArray[i] != BP_VertexSpawnArray[u])
+				{
+					if (BP_VertexSpawnArray[i]->arr_connections.Num() == 4)
+					{
+
+					}
+					else
+					{
+						Distance = FVector::Dist(BP_VertexSpawnArray[i]->ForThisSphere.ThisNodeLocation, BP_VertexSpawnArray[u]->ForThisSphere.ThisNodeLocation);
+						// if this is the first node calculated, insert anyway
+						if (BP_VertexSpawnArray[i]->arr_connections.Num()==0)
+						{
+							BP_VertexSpawnArray[i]->arr_connections.Add(BP_VertexSpawnArray[u]);
+							arr_DistancesBetweenNodes.Add(Distance);
+						}
+						// otherwise
+						else
+						{
+							for (int k = 0; k < arr_DistancesBetweenNodes.Num(); k++)
+							{
+								if (Distance > arr_DistancesBetweenNodes[k])
+								{
+									// do nothing
+									return;
+								}
+								else if (Distance < arr_DistancesBetweenNodes[k])
+								{
+									arr_DistancesBetweenNodes.Insert(Distance, k);
+									arr_DistancesBetweenNodes.SetNum(4);
+									BP_VertexSpawnArray[i]->arr_connections.Insert(BP_VertexSpawnArray[u], k);
+									BP_VertexSpawnArray[i]->arr_connections.SetNum(4);
+								}
+							}
+						}
+					}
+				}
+			}			
+		}
+	}
+
+	FacilitysDrawDebugLine();
+
+	/*for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
+	{
+		//basecase
+		if (BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeTarget == true)
+		{
+			return;
+		}
+		else
+		{
+			// try to insert element in arr_connections
+			// if arr[] is source?
+			if (BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeSource == true)
+			{
+				// yes  - insert
+				BP_VertexSpawnArray[i]->arr_connections[0] = BP_VertexSpawnArray[i];
+				// BP_VertexSpawnArray[i]->ForThisSphere.ForeignVertecVectorArray[0];
+			}
+			else
+			{
+				// no - is arr full? the array is full when it has four insertions
+				if (BP_VertexSpawnArray[i]->arr_connections.Num() == 4)
+				{
+					// yes - check through elements, smaller comes first, greater after - insert, if greater than last element, disregard
+					for (int u = 0; u < BP_VertexSpawnArray[i]->arr_connections.Num(); u++)
+					{
+						float DistanceBetweenNodes;
+						if (BP_VertexSpawnArray[i] != BP_VertexSpawnArray[u])
+						{							
+							DistanceBetweenNodes = FVector::Dist(BP_VertexSpawnArray[i]->ForThisSphere.ThisNodeLocation, BP_VertexSpawnArray[u]->ForThisSphere.ThisNodeLocation);
+						}
+						// check distance bewteen nodes
+						if (arr_DistancesBetweenNodes.Num() == 0)
+						{
+
+						}
+					}
+				}
+				else
+				{
+					// no  - check through elements, smaller comes first, greater after - insert
+				}										
+			}				
+		}
+	}
+	// node by node is checked in a recursive function, if they aren't the target, they should have a path to 1-4 of 
+	// the 4 closest nodes. the connections should be sent to the arr_connection array in each individual node. 
+	// after the node is checked, the next node is checked. 
+	// when all nodes have their connections, they can be sent to FacilitysDrawDebugLine
+	//
+
+	/// how large is array?
 	int32 counter = BP_VertexSpawnArray.Num();
 	// pick one element from array at a time
 	for (int BP_element = 0; BP_element < counter; BP_element++) //here BP_element refer to the instances of initialised StarNodes in stored in the BP_VertecSpawnArray
@@ -245,11 +356,36 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 		
 	}
 	// send to draw debug line to draw these lines
+	*/
 }
 
 void AAStarGraph::FacilitysDrawDebugLine()
 {
-	// how many elements in array?
+	// for-loop through entire arr_node in a recursive function. BaseCase is if node is target. 
+	for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
+	{
+		// if they aren't, another for-loop is started looping through the node's arr_connections
+		if (BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeTarget == true)
+		{
+			// return;
+		}
+		else
+		{
+			// for every node an instance of path is made and stored in an array in their struct.
+			for (int u = 0; u < BP_VertexSpawnArray[i]->arr_connections.Num(); u++)
+			{
+				// start node
+				FVector StartNode = BP_VertexSpawnArray[i]->ForThisSphere.ThisNodeLocation;
+				// end node
+				FVector EndNode = BP_VertexSpawnArray[i]->arr_connections[u]->ForThisSphere.ThisNodeLocation;
+				DrawDebugLine(GetWorld(), StartNode, EndNode, FColor::Red, false, -1, 0, 10);
+			}
+			// when all the nodes have had their paths drawn, the presentation is done and we are ready to navigate between nodes
+
+		}		
+	}
+	
+	/*// how many elements in array?
 	// for every element
 	// draw line to what they are pointing at
 	// 	for (int i = 0; i < StarNodeArray.Num()-1; i++)
@@ -288,7 +424,8 @@ void AAStarGraph::GiveThemPointers(AAStarNode* pointer)
 		//call on function(new current node)
 }
 
-
+/* ------------------------------------------------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------------------------------- */
 
 void AAStarGraph::SpawnStarNodes()
 {

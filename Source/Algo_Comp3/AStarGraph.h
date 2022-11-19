@@ -116,6 +116,11 @@ public:
 	// use function to insert nodes in struct??
 	void InsertVectorLocationInHomeNode(FVector OtherNode);
 
+	/* distance between nodes and if they should be connected or not */
+	// void DistanceAndPathCheckBetweenNodes();
+
+	/* array to keep distances between nodes for comparison purposes only */
+	TArray <float> arr_DistancesBetweenNodes;
 	// omg
 	AAStarNode* ForeignNode; // does it want this to be in .h? --> I need a different pointer now omg
 

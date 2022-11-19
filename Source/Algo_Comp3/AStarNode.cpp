@@ -76,7 +76,6 @@ void AAStarNode::Tick(float DeltaTime)
 
 }
 
-
 void AAStarNode::GoCrazy()
 {
 	for (int i = 0; i < 1000; i++)
@@ -114,8 +113,6 @@ void AAStarNode::GoCrazy()
 
 }
 
-
-
 void AAStarNode::LineTraceMyOwn()
 {
 
@@ -152,6 +149,14 @@ void AAStarNode::LineTraceMyOwn()
 
 void AAStarNode::AssignIndividualVertexStructs() // sara - inserting information into struct or reading information from it
 {
+	//putting node location into structs for use in AStarGraph functions (Astar algorithm, )
+	this->ForThisSphere.ThisNodeLocation = GetActorLocation();
+
+	/*
+	if an algorithm is active, then we should check if we need heuristic values, it should be added here?
+	*/
+	
+	
 	//just checking if struct can be reached
 	//FString MessageToScreen = FString::SanitizeFloat(ForThisSphere.VertexID);
 	//if (GEngine)

@@ -57,7 +57,7 @@ public:
 
 	/* Store which other nodes point to THIS node */
 	TArray<AAStarNode*> connections;
-
+	//location of this node
 	FVector NodeLocation;
 
 	float timeCheckToGoCrazy = 10.f; // checker if >
@@ -86,6 +86,12 @@ public:
 	void AssignIndividualVertexStructs();
 	//individual Structs initialised for each instance of it
 	FStarNodeStruct ForThisSphere; 
+	
+	/* foreign nodes that this node has paths to */
+	TArray<AAStarNode*>arr_connections;
+
+	/* paths to the nodes this node has connections to*/
+	//TArray<APaths*>arr_paths;
 
 	
 	
