@@ -90,6 +90,9 @@ public:
 	/* foreign nodes that this node has paths to */
 	TArray<AAStarNode*>arr_connections;
 
+	/* distances between the chosen nodes */
+	TArray<float>arr_distances;
+
 	/* paths to the nodes this node has connections to*/
 	//TArray<APaths*>arr_paths;
 

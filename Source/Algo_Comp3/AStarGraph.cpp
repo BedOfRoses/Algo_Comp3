@@ -194,7 +194,8 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 						if (BP_VertexSpawnArray[i]->arr_connections.Num()==0)
 						{
 							BP_VertexSpawnArray[i]->arr_connections.Add(BP_VertexSpawnArray[u]);
-							arr_DistancesBetweenNodes.Add(Distance);
+							BP_VertexSpawnArray[i]->arr_distances.Add(Distance);
+							//arr_DistancesBetweenNodes.Add(Distance);
 						}
 						// otherwise
 						else
@@ -202,17 +203,20 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 							int32 counter = 4;
 							for (int k = 0; k < counter; k++)
 							{
-								if (Distance > arr_DistancesBetweenNodes[k])
+								if (BP_VertexSpawnArray[i]->arr_distances.IsValidIndex(k))
 								{
-									// do nothing
-									// return;
-								}
-								else if (Distance < arr_DistancesBetweenNodes[k])
-								{
-									arr_DistancesBetweenNodes.Insert(Distance, k);
-									arr_DistancesBetweenNodes.SetNum(4);
-									BP_VertexSpawnArray[i]->arr_connections.Insert(BP_VertexSpawnArray[u], k);
-									BP_VertexSpawnArray[i]->arr_connections.SetNum(4);
+									if (BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeTarget)
+									{
+										// do nothing
+										// return;
+									}
+									else if (Distance < BP_VertexSpawnArray[i]->arr_distances[k])
+									{
+										BP_VertexSpawnArray[i]->arr_distances.Insert(Distance, k);
+										//arr_DistancesBetweenNodes.SetNum(4);
+										BP_VertexSpawnArray[i]->arr_connections.Insert(BP_VertexSpawnArray[u], k);
+										//BP_VertexSpawnArray[i]->arr_connections.SetNum(4);
+									}
 								}
 							}
 						}
@@ -221,7 +225,7 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 			}			
 		}
 	}
-
+	
 	int32 count = 749;
 	FString MessageToScreen = FString::SanitizeFloat(count);
 	if (GEngine) {
@@ -359,7 +363,7 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 	*/
 }
 
-void AAStarGraph::FacilitysDrawDebugLine()
+void AAStarGraph::FacilitysDrawDebugLine()	// sara - (DONE) no distances
 {
 	// for-loop through entire arr_node in a recursive function. BaseCase is if node is target. 
 	for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
@@ -396,6 +400,54 @@ void AAStarGraph::FacilitysDrawDebugLine()
 	// finished
 }
 
+/* ------------------------------------------------------------------------------------------------------------------------- */
+												     // Djikstra
+/* ------------------------------------------------------------------------------------------------------------------------- */
+void AAStarGraph::DjikstraAlgorithm()
+{
+	int pathCounter = 0;
+
+	for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
+	{
+		if (BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeSource)
+		{
+			DjikstraPath[pathCounter] = BP_VertexSpawnArray[i];
+			pathCounter++;
+		}
+		if (!BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeTarget)
+		{
+			for (int u = 0; u < BP_VertexSpawnArray[i]->arr_connections.Num(); u++)
+			{
+				if (BP_VertexSpawnArray[i]->arr_connections[u]->ForThisSphere.b_HasVisitedNode)
+				{
+					//pass
+				}
+				else if (!BP_VertexSpawnArray[i]->arr_connections[u]->ForThisSphere.b_HasVisitedNode)
+				{
+					DjikstraPath.Add(BP_VertexSpawnArray[i]->arr_connections[u]);
+					pathCounter++;
+					break;
+				}
+			}
+		}
+		else if (BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeTarget)
+		{
+			DjikstraPath[pathCounter] = BP_VertexSpawnArray[i];
+		}
+	}
+/*
+ function Djikstra
+	this node
+		who connected with
+		if not visited
+			compare distance
+			chose shortest
+			put distance in path arr
+			move to that node
+		if all nodes are visited
+			error
+*/
+}
 /* ------------------------------------------------------------------------------------------------------------------------- */
 /* ------------------------------------------------------------------------------------------------------------------------- */
 

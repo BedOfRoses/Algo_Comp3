@@ -94,38 +94,52 @@ public:
 	
 	//spawns StarNodes
 	void SpawnerTestingFacility();
+
 	//this is the bp used
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Vertex")
 	TSubclassOf<AAStarNode> BP_VertexSpawn;
+
 	//get random locations for spawn
 	FVector GetRandomLocation();
+
 	//the array the nodes are put in
 	UPROPERTY(VisibleAnywhere, Category = "Spawn Vertex | Vertex Array")
 	TArray<AAStarNode*> BP_VertexSpawnArray;
+
 	//paths between nodes:
 	//who to draw btw? when chosen, use draw debug line code
 	void GiveVertecisPaths();
+
 	//draw debug line
 	void FacilitysDrawDebugLine();
+
 	// vertec locations
 	FVector VertexLocation;
 	//put distances in array, used to know how long a path is
 	TArray<FVector> VertecisDistances;
+
 	//put foreign nodes in an array, used to know locations of foreign nodes
 	TArray<FVector> ForeignVertecisLocations;
 
 	/* distance between nodes and if they should be connected or not */
 	// void DistanceAndPathCheckBetweenNodes();
 
-	/* array to keep distances between nodes for comparison purposes only */
+	/* array to keep distances between nodes for comparison purposes only */ // this should maybe be in StarNode? it would be eaiser, i think
 	TArray <float> arr_DistancesBetweenNodes;
+
 	// omg
 	AAStarNode* ForeignNode; // does it want this to be in .h? --> I need a different pointer now omg
 
 	// after suggestion from Sten ---- do i already have this in BP_VertexSpawnedArray???
 	TArray<AAStarNode*> NodePointerArray;
 
-	//is this enough to spawn the nodes with paths between them?
+	/* path of the DjikstraAlgorithm */
+	TArray <AAStarNode*> DjikstraPath;
+
+	/* Djikstra algorithm (1) */
+
+	void DjikstraAlgorithm();
+
 };
 
 
