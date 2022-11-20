@@ -60,6 +60,12 @@ public:
 
 	// Sti vei;
 
+	UPROPERTY(EditAnywhere, Category = "StarNodeMap")
+	TMap<float, AAStarNode*> StarNodeMap; 
+
+	UPROPERTY()
+	AAStarNode* Cheapest = nullptr;
+	
 
 protected:
 	// Called when the game starts or when spawned
@@ -85,7 +91,7 @@ public:
 	int SetAmountOfNodesToCreate(int AON) { return AmountOfNodesToCreate = AON; }
 	float minDistance(float dist[], bool sptSet[]);
 
-	void DijkstraBoys(class AAStarNode* start, class AAStarNode* end);
+	void DijkstraBoys();
 
 
 	void SpawnSetAmountOfNodes();

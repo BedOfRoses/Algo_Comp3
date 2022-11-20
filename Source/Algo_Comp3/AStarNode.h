@@ -43,6 +43,13 @@ public:
 	float Cost = 0;
 
 	bool bVisited;
+
+	UPROPERTY(EditAnywhere, Category = "Prev Node")
+	AAStarNode* PrevStarNode = nullptr;
+
+	
+	UPROPERTY(EditAnywhere, Category = "Node Cost")
+	float DistFromStart = 0;
 	
 	FVector NodeLocation;
 
