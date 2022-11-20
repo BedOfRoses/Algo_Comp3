@@ -47,6 +47,9 @@ public:
 	/* foreign node location array */
 	TArray<FVector> ForeignVertecVectorArray;
 	
+	/* distance to source */
+	float DistanceToSource;
+
 	
 public:
 	/*constructor/destructor*/

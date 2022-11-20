@@ -134,11 +134,12 @@ public:
 	TArray<AAStarNode*> NodePointerArray;
 
 	/* path of the DjikstraAlgorithm */
-	TArray <AAStarNode*> DjikstraPath;
+	TMap <float, AAStarNode*> DjikstraPath;
 
 	/* Djikstra algorithm (1) */
-
 	void DjikstraAlgorithm();
+
+	float TotalSumOfPath; // this will be used for comparing path lengths
 
 };
 

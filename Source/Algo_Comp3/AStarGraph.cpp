@@ -63,7 +63,6 @@ void AAStarGraph::Tick(float DeltaTime)
 	
 }
 
-
 void AAStarGraph::SpawnSetAmountOfNodes()
 {
 	if(starnodeBP)
@@ -140,7 +139,7 @@ void AAStarGraph::SpawnerTestingFacility() // sara - spawner (DONE)
 				{
 					VertexSpawned->ForThisSphere.b_IsThisNodeSource = true;
 				}
-				else if (i == SpawnCounter && !VertexSpawned->ForThisSphere.b_IsThisNodeTarget)
+				else if (i == SpawnCounter - 1 && !VertexSpawned->ForThisSphere.b_IsThisNodeTarget)
 				{
 					VertexSpawned->ForThisSphere.b_IsThisNodeTarget = true;
 				}
@@ -398,6 +397,8 @@ void AAStarGraph::FacilitysDrawDebugLine()	// sara - (DONE) no distances
 		DrawDebugLine(GetWorld(), StarNodeArray[i]->NodeLocation, StarNodeArray[i]->NodeArrayConnections[j]->NodeLocation, FColor::Emerald, false, -1, 0, 5);*/
 	
 	// finished
+
+	DjikstraAlgorithm();
 }
 
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -405,50 +406,41 @@ void AAStarGraph::FacilitysDrawDebugLine()	// sara - (DONE) no distances
 /* ------------------------------------------------------------------------------------------------------------------------- */
 void AAStarGraph::DjikstraAlgorithm()
 {
-	int pathCounter = 0;
+	TotalSumOfPath = 0.0; //return to fix this when insert into TMap is on
 
+	// assign weight to paths
 	for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
 	{
-		if (BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeSource)
-		{
-			DjikstraPath[pathCounter] = BP_VertexSpawnArray[i];
-			pathCounter++;
-		}
-		if (!BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeTarget)
-		{
-			for (int u = 0; u < BP_VertexSpawnArray[i]->arr_connections.Num(); u++)
-			{
-				if (BP_VertexSpawnArray[i]->arr_connections[u]->ForThisSphere.b_HasVisitedNode)
-				{
-					//pass
-				}
-				else if (!BP_VertexSpawnArray[i]->arr_connections[u]->ForThisSphere.b_HasVisitedNode)
-				{
-					DjikstraPath.Add(BP_VertexSpawnArray[i]->arr_connections[u]);
-					pathCounter++;
-					break;
-				}
-			}
-		}
-		else if (BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeTarget)
-		{
-			DjikstraPath[pathCounter] = BP_VertexSpawnArray[i];
-		}
+		BP_VertexSpawnArray[i]->ForThisSphere.DistanceToSource = INT_MAX;
 	}
-/*
- function Djikstra
-	this node
-		who connected with
-		if not visited
-			compare distance
-			chose shortest
-			put distance in path arr
-			move to that node
-		if all nodes are visited
-			error
-*/
+	// if BP_Vertex-array exists, then go ahead
+	if (BP_VertexSpawnArray.IsValidIndex(0))
+	{
+		AAStarNode* CurrentNode = BP_VertexSpawnArray[0];
+		CurrentNode->ForThisSphere.b_HasVisitedNode = true;
+		
+		AAStarNode* ptr_temp_Vertex = NULL;
+		//while (!CurrentNode->ForThisSphere.b_IsThisNodeTarget)
+		//{
+			// give neighbours new values according to distance from current 
+			for (int k = 0; k < CurrentNode->arr_connections.Num(); k++)
+			{
+				CurrentNode->arr_connections[k]->ForThisSphere.DistanceToSource = FVector::Dist(CurrentNode->ForThisSphere.ThisNodeLocation, CurrentNode->arr_connections[k]->ForThisSphere.ThisNodeLocation) + TotalSumOfPath;
+			
+				DjikstraPath.Emplace(CurrentNode->arr_connections[k]->ForThisSphere.DistanceToSource, CurrentNode->arr_connections[k]);
+			}
+			// sorts internally
+			DjikstraPath.KeySort([](float A, float B) {return A < B; });
+			// make the top sorted element visited
+			DjikstraPath.begin().Value()->ForThisSphere.b_HasVisitedNode = true;
+			// next node!
+			CurrentNode = DjikstraPath.begin().Value();
+			DjikstraPath.Remove(DjikstraPath.begin().Key());
+		//}
+	}
 }
 /* ------------------------------------------------------------------------------------------------------------------------- */
+													 // A*
 /* ------------------------------------------------------------------------------------------------------------------------- */
 
 void AAStarGraph::SpawnStarNodes()
@@ -505,7 +497,6 @@ void AAStarGraph::Dijkstra(class AAStarGraph* graph, class AAStarNode* source)
 
 }
 
-
 void AAStarGraph::DijkstraBoys(class AAStarNode* start, class AAStarNode* end)
 {
 	// std::priority_queue<AAStarNode>	pq; // default: max-heap største på rot
@@ -552,7 +543,6 @@ void AAStarGraph::BoxScan()
 
 }
 
-
 //void AAStarGraph::OnOverlap(
 //	UPrimitiveComponent* OverlappedComponent,
 //	AActor* OtherActor, 
@@ -579,8 +569,6 @@ void AAStarGraph::BoxScan()
 //
 //}
 
-
-
 ////GetWorld()->SpawnActor(FVector(1.f,1.f,1.f),FRotator(1.f,1.f,1.f),FactoryTransactionAnnotation);
 //
 //		//GetWorld()->SpawnActor(AAStarNode* StarNode, FName::ToString("Starnode"), )
@@ -591,7 +579,7 @@ void AAStarGraph::BoxScan()
 //
 ////UWorld::SpawnActor(starnodeBP, FVector(i * 0.f, i * 0.f, i * 0.f), FRotator(0.f));
 //
-///*UWorld* world;
+//*UWorld* world;
 //if (world) {
 //
 //	FActorSpawnParameters spawnParams;
@@ -606,15 +594,13 @@ void AAStarGraph::BoxScan()
 //}*/
 //
 //
-///*AAStarNode* StarNode = GetWorld()->SpawnActor<AAStarNode>(AAStarNode::StaticClass(),
+//*AAStarNode* StarNode = GetWorld()->SpawnActor<AAStarNode>(AAStarNode::StaticClass(),
 //	FVector(i * 0.f, i * 0.f, i * 0.f),
 //	FRotator(0.f, 0.f, 0.f));*/
 //
 //
 //
 //	}
-
-
 
 // AAStarNode* newStar1 = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(1000.f,  1000.f, 10.f),FRotator::ZeroRotator);
 // AAStarNode* newStar2 = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(2000.f,  1000.f, 10.f),FRotator::ZeroRotator);
@@ -625,7 +611,6 @@ void AAStarGraph::BoxScan()
 // AAStarNode* newStar7 = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(1000.f,  3000.f, 10.f),FRotator::ZeroRotator);
 // AAStarNode* newStar8 = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(2000.f,  3000.f, 10.f),FRotator::ZeroRotator);
 // AAStarNode* newStar9 = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(3000.f,  3000.f, 10.f),FRotator::ZeroRotator);
-
 
 /*  // Trying to loop sheesh
 	int axis = 1;
