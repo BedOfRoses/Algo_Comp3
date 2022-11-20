@@ -426,8 +426,8 @@ void AAStarGraph::DjikstraAlgorithm()
 		CurrentNode->ForThisSphere.b_HasVisitedNode = true;
 		
 		AAStarNode* ptr_temp_Vertex = NULL;
-		while (CurrentNode->ForThisSphere.VertexID == 9)
-		{
+		// while (CurrentNode->ForThisSphere.VertexID != 9)
+		// {
 			// give neighbours new values according to distance from current 
 			for (int k = 0; k < CurrentNode->arr_connections.Num(); k++)
 			{
@@ -441,8 +441,9 @@ void AAStarGraph::DjikstraAlgorithm()
 			DjikstraPath.begin().Value()->ForThisSphere.b_HasVisitedNode = true;
 			// next node!
 			CurrentNode = DjikstraPath.begin().Value();
+			// pop top node in map
 			DjikstraPath.Remove(DjikstraPath.begin().Key());
-		}
+		// }
 	}
 
 	for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
