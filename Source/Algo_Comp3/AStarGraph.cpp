@@ -19,6 +19,10 @@ AAStarGraph::AAStarGraph()
 
 	RootComponent = BoxComponent;
 
+	/*NotVisitedMaterial = CreateDefaultSubobject<UMaterial>(TEXT("NotVisitedMaterial"));*/
+
+	VisitedMaterial = CreateDefaultSubobject<UMaterial>(TEXT("VisitedMaterial"));
+
 }
 
 // Called when the game starts or when spawned
@@ -144,6 +148,8 @@ void AAStarGraph::SpawnerTestingFacility() // sara - spawner (DONE)
 					VertexSpawned->ForThisSphere.b_IsThisNodeTarget = true;
 				}
 			}
+
+			// BP_VertexSpawnArray[i]->NodeMesh->SetMaterial(0, NotVisitedMaterial);
 			
 		}
 	}
@@ -420,8 +426,8 @@ void AAStarGraph::DjikstraAlgorithm()
 		CurrentNode->ForThisSphere.b_HasVisitedNode = true;
 		
 		AAStarNode* ptr_temp_Vertex = NULL;
-		//while (!CurrentNode->ForThisSphere.b_IsThisNodeTarget)
-		//{
+		while (CurrentNode->ForThisSphere.VertexID == 9)
+		{
 			// give neighbours new values according to distance from current 
 			for (int k = 0; k < CurrentNode->arr_connections.Num(); k++)
 			{
@@ -436,9 +442,19 @@ void AAStarGraph::DjikstraAlgorithm()
 			// next node!
 			CurrentNode = DjikstraPath.begin().Value();
 			DjikstraPath.Remove(DjikstraPath.begin().Key());
-		//}
+		}
+	}
+
+	for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
+	{
+		if (BP_VertexSpawnArray[i]->ForThisSphere.b_HasVisitedNode)
+		{
+			BP_VertexSpawnArray[i]->NodeMesh->SetMaterial(0, VisitedMaterial);
+		}
+		
 	}
 }
+
 /* ------------------------------------------------------------------------------------------------------------------------- */
 													 // A*
 /* ------------------------------------------------------------------------------------------------------------------------- */

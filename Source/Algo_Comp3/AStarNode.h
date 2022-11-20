@@ -96,8 +96,18 @@ public:
 	/* paths to the nodes this node has connections to*/
 	//TArray<APaths*>arr_paths;
 
-	
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Vertex | Material")
+	UMaterial* Material;
+
+	void SetMat();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Vertex | Material")
+		UMaterial* VisitedMaterial;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Vertex | Material")
+		UMaterial* NotVisitedMaterial;
 };
 
 

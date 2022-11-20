@@ -26,6 +26,12 @@ AAStarNode::AAStarNode()
 	NodeMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("NodeMesh"));
 	RootComponent = NodeMesh;
 	
+	/*NotVisitedMaterial = CreateDefaultSubobject<UMaterial>(TEXT("NotVisitedMaterial"));
+
+	VisitedMaterial = CreateDefaultSubobject<UMaterial>(TEXT("VisitedMaterial"));*/
+
+	Material = CreateDefaultSubobject<UMaterial>(TEXT("Material"));
+
 	/*NodeMesh->SetupAttachment(RootComponent);*/
 	//NodeMesh->SetHiddenInGame(false);
 
@@ -194,7 +200,10 @@ void AAStarNode::AssignIndividualVertexStructs() // sara - inserting information
 	//}
 }
 
-
+void AAStarNode::SetMat()
+{
+	// NodeMesh.set
+}
 
 
 void AAStarNode::LineTraceTest()

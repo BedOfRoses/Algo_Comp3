@@ -141,6 +141,13 @@ public:
 
 	float TotalSumOfPath; // this will be used for comparing path lengths
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Vertex | Material")
+		UMaterial* VisitedMaterial;
+
+
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Vertex | Material")
+		UMaterial* NotVisitedMaterial;*/
 };
 
 
