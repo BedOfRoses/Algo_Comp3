@@ -26,25 +26,7 @@ void AAStarGraph::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//SpawnStarNodes();
-
-	//BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AAStarGraph::OnOverlap);
-
-	//BoxComponent->OnComponentBeginOverlap.__Internal_AddDynamic(this, &AAStarGraph::OnOverlap);
-
-	//BoxScan();
-
-	//NodesArray.Init(AStarNode, 8);
-
-	// Test spawning
-	// if(starnodeBP)
-	// {
-	// 	startNodeBoy = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(100.f,101.f,100.f), FRotator::ZeroRotator);
-	//
-	// 	endNodeBoy = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(50.f,500.f,100.f), FRotator::ZeroRotator);
-	// 	
-	// }
-	//
+	
 	SpawnSetAmountOfNodes();
 	// SetUpEdges();
 	CreateEdges();
