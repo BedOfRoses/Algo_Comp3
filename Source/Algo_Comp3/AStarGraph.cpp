@@ -186,22 +186,9 @@ void AAStarGraph::CreateEdges()
 	// 	}
 	// }
 
-	for (int i = 0; i < StarNodeArray.Num(); i++)
+	for (int i = 1; i < StarNodeArray.Num(); i++)
 	{
-		for (int j = 0; j < StarNodeArray[i]->NodeArrayConnections.Num(); j++)
-		{
-
-			/* Setting the cost for the nodes	*/
-			StarNodeArray[i]->NodeArrayConnections[j]->Cost = StarNodeArray[i]->GetDistanceTo(StarNodeArray[i]->NodeArrayConnections[j]);
-
-
-			
-			// DirectionPerConnection.Add(StarNodeArray[i]->NodeArrayConnections[j]->NodeLocation - StarNodeArray[i]->NodeLocation);
-			// StarNodeArray[i]->NodeArrayConnections[j]->Cost = UKismetMathLibrary::Distance2D(StarNodeArray[i]->NodeArrayConnections[j]->NodeLocation - StarNodeArray[i]->NodeLocation);
-			// UE_LOG(LogTemp,Warning,	TEXT("Dir %s"), *DirectionPerConnection[i].ToString());
-			
-	
-		}
+		StarNodeArray[i]->Cost = StarNodeArray[i]->GetDistanceTo(StarNodeArray[0]);
 	}
 	
 	
