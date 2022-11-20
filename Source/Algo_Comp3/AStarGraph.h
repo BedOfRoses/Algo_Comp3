@@ -77,6 +77,8 @@ public:
 	/* Algorithms */
 public:
 
+	void TravelingSalesmanAlgorithm();
+	
 	void AStarSearch();
 	void Dijkstra(class AAStarGraph* graph, class AAStarNode* source);
 
@@ -95,6 +97,8 @@ public:
 
 	void DrawEdges();
 
+
+	
 	void CreateEdges();
 	
 	

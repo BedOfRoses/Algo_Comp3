@@ -7,6 +7,7 @@
 #include "Engine/World.h"
 #include "Math/Vector.h"
 #include "DrawDebugHelpers.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 AAStarGraph::AAStarGraph()
@@ -259,19 +260,40 @@ void AAStarGraph::CreateEdges()
 	// std::priority_queue<FVector> nodedir;
 
 	// FVector Dir = StarNodeArray[i]->NodeArrayConnections[j]->Node
-	
-	for (int i = 0; i < StarNodeArray.Num()-1; i++)
+
+
+	//TODO Enten reformatere kode eller fjerne
+	// for (int i = 0; i < StarNodeArray.Num()-1; i++)
+	// {
+	// 	for (int j = 0; j < StarNodeArray[i]->NodeArrayConnections.Num(); j++)
+	// 	{
+	// 		DirectionPerConnection.Add(StarNodeArray[i]->NodeArrayConnections[j]->NodeLocation - StarNodeArray[i]->NodeLocation);
+	//
+	// 		UE_LOG(LogTemp,Warning,	TEXT("Dir %s"), *DirectionPerConnection[i].ToString());
+	// 		
+	//
+	// 	}
+	// }
+
+	for (int i = 0; i < StarNodeArray.Num(); i++)
 	{
 		for (int j = 0; j < StarNodeArray[i]->NodeArrayConnections.Num(); j++)
 		{
-			DirectionPerConnection.Add(StarNodeArray[i]->NodeArrayConnections[j]->NodeLocation - StarNodeArray[i]->NodeLocation);
 
-			UE_LOG(LogTemp,Warning,	TEXT("Dir %s"), *DirectionPerConnection[i].ToString());
+			/* Setting the cost for the nodes	*/
+			StarNodeArray[i]->NodeArrayConnections[j]->Cost = StarNodeArray[i]->GetDistanceTo(StarNodeArray[i]->NodeArrayConnections[j]);
+
+
 			
-
+			// DirectionPerConnection.Add(StarNodeArray[i]->NodeArrayConnections[j]->NodeLocation - StarNodeArray[i]->NodeLocation);
+			// StarNodeArray[i]->NodeArrayConnections[j]->Cost = UKismetMathLibrary::Distance2D(StarNodeArray[i]->NodeArrayConnections[j]->NodeLocation - StarNodeArray[i]->NodeLocation);
+			// UE_LOG(LogTemp,Warning,	TEXT("Dir %s"), *DirectionPerConnection[i].ToString());
+			
+	
 		}
 	}
-
+	
+	
 	
 	
 
@@ -353,6 +375,8 @@ void AAStarGraph::TestConnection(class AAStarNode* start, class AAStarNode* end)
 	start = StarNodeArray[0];
 	end = StarNodeArray[6];
 
+	
+	
 	// FVector dist = start->NodeLocation;
 	//
 	// std::priority_queue<FVector> priorityQ_Vertex;
@@ -435,6 +459,35 @@ void AAStarGraph::Dijkstra(class AAStarGraph* graph, class AAStarNode* source)
 
 
 }
+
+
+void AAStarGraph::TravelingSalesmanAlgorithm()
+{
+
+	std::vector<AAStarNode*> vertex;
+	for (int i=1; i < StarNodeArray.Num(); i++)
+	{
+		vertex.push_back(StarNodeArray[i]);
+	}
+
+	int min_path = INT_MAX;
+
+	do
+	{
+		// store current Path weight (cost)
+		int current_pathweight = 0;
+
+		// Compute current path weight
+		int k = 0;
+		
+	}
+	while (true);
+
+	
+	
+	
+}
+
 
 
 void AAStarGraph::DijkstraBoys(class AAStarNode* start, class AAStarNode* end)

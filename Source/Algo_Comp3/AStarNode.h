@@ -31,48 +31,23 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NodeMaterial")
 	class UMaterial* NodeMaterialOrange = nullptr;
 	
-	/*
-	We need 3 materials, one for start, one for end and one for the others :)
-		- Green = start
-		- red = end
-		- white = lmao
 
-
-	Position (x,y,z) for this specific node.
-
-	*/
-	
 	/* to indentify which node is which.*/
 	int32 nodeID; 
 
 	/* Store which other nodes point to THIS node */
+	UPROPERTY(EditAnywhere, Category = "NodeArrayConnectios")
 	TArray<AAStarNode*> NodeArrayConnections;
-
-	////////////////////////////////////////////////////////
-	// HARD CODE
-
-	AAStarNode* connection1 = nullptr;
-	AAStarNode* connection2 = nullptr;
-	AAStarNode* connection3 = nullptr;
-	AAStarNode* connection4 = nullptr;
-	AAStarNode* connection5 = nullptr;
-	AAStarNode* connection6 = nullptr;
-	AAStarNode* connection7 = nullptr;
-	AAStarNode* connection8 = nullptr;
-
-
-	//
-	////////////////////////////////////////////////////////
-
-
 	
+	UPROPERTY(EditAnywhere, Category = "Node Cost")
+	float Cost = 0;
+
+	bool bVisited;
 	
 	FVector NodeLocation;
 
-	float timeCheckToGoCrazy = 10.f; // checker if >
-	float timerToGoCrazy; // increases
 	
-	bool bTimeToGoCrazy = false;
+	
 	
 protected:
 	// Called when the game starts or when spawned
@@ -81,41 +56,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-
-	void GoCrazy();
-	void LineTraceTest();
-
-	void LineTraceMyOwn();
-
-	// void SetConnection(class AAStarNode* connect, AAStarNode[]);
-
-
+	
 };
 
 
-
-
-////// garbage
-
-/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
-	class UStaticMeshComponent* NodeTwoMesh;*/
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NodeSphere")
-	//class USphereComponent* NodeSphere;
-
-
-//virtual void DrawDebugLine
-	//(
-	//	const UWorld* InWorld,
-	//	FVector const& LineStart,
-	//	FVector const& LineEnd,
-	//	FColor const& Color,
-	//	bool bPersistentLines,
-	//	float LifeTime,
-	//	uint8 DepthPriority,
-	//	float Thickness
-	//);
-
-
-	//AAStarNode* connections[];
