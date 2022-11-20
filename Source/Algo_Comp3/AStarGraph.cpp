@@ -143,7 +143,7 @@ void AAStarGraph::SpawnerTestingFacility() // sara - spawner (DONE)
 				{
 					VertexSpawned->ForThisSphere.b_IsThisNodeSource = true;
 				}
-				else if (i == SpawnCounter - 1 && !VertexSpawned->ForThisSphere.b_IsThisNodeTarget)
+				else if (i == SpawnCounter -1 && !VertexSpawned->ForThisSphere.b_IsThisNodeTarget)
 				{
 					VertexSpawned->ForThisSphere.b_IsThisNodeTarget = true;
 				}
@@ -425,9 +425,11 @@ void AAStarGraph::DjikstraAlgorithm()
 		AAStarNode* CurrentNode = BP_VertexSpawnArray[0];
 		CurrentNode->ForThisSphere.b_HasVisitedNode = true;
 		
-		AAStarNode* ptr_temp_Vertex = NULL;
-		// while (CurrentNode->ForThisSphere.VertexID != 9)
-		// {
+		AAStarNode* EndNode = BP_VertexSpawnArray[9];
+		EndNode->ForThisSphere.b_IsThisNodeTarget = true;
+
+		while (EndNode->ForThisSphere.b_HasVisitedNode)
+		{
 			// give neighbours new values according to distance from current 
 			for (int k = 0; k < CurrentNode->arr_connections.Num(); k++)
 			{
@@ -443,7 +445,7 @@ void AAStarGraph::DjikstraAlgorithm()
 			CurrentNode = DjikstraPath.begin().Value();
 			// pop top node in map
 			DjikstraPath.Remove(DjikstraPath.begin().Key());
-		// }
+		}
 	}
 
 	for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
