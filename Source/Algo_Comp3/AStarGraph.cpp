@@ -25,7 +25,6 @@ AAStarGraph::AAStarGraph()
 void AAStarGraph::BeginPlay()
 {
 	Super::BeginPlay();
-
 	
 	SpawnSetAmountOfNodes();
 	// SetUpEdges();
@@ -150,8 +149,6 @@ void AAStarGraph::SpawnSetAmountOfNodes()
 	
 }
 
-
-
 void AAStarGraph::SetNodeConnections()
 {
 /*	WORK IN PROGRESS!	*/
@@ -213,7 +210,6 @@ void AAStarGraph::CreateEdges()
 
 }
 
-
 void AAStarGraph::DrawEdges()
 {
 	
@@ -231,7 +227,6 @@ void AAStarGraph::DrawEdges()
 	}
 	
 }
-
 
 void AAStarGraph::TestConnection(class AAStarNode* start, class AAStarNode* end)
 {
@@ -268,8 +263,6 @@ void AAStarGraph::TestConnection(class AAStarNode* start, class AAStarNode* end)
 	*/
 	
 }
-
-
 
 void AAStarGraph::SpawnStarNodes()
 {
@@ -325,7 +318,6 @@ void AAStarGraph::Dijkstra(class AAStarGraph* graph, class AAStarNode* source)
 
 }
 
-
 void AAStarGraph::TravelingSalesmanAlgorithm()
 {
 
@@ -353,8 +345,6 @@ void AAStarGraph::TravelingSalesmanAlgorithm()
 	
 }
 
-
-
 void AAStarGraph::DijkstraBoys(class AAStarNode* start, class AAStarNode* end)
 {
 	// std::priority_queue<AAStarNode>	pq; // default: max-heap største på rot
@@ -380,24 +370,4 @@ float AAStarGraph::minDistance(float dist[], bool sptSet[])
 
 }
 
-void AAStarGraph::BoxScan()
-{
-	
-	//FVector BoxSize = GetActorBounds();
-	FVector ActorScale = GetActorScale();
-
-	bool isBoxBigEnough = false;
-
-	if (isBoxBigEnough == false) 
-	{
-		for (float i = 0.f; i < 10.f; i++)
-		{
-			SetActorScale3D(FVector(i, i, i));
-		}
-		isBoxBigEnough = true;
-	}
-	
-
-
-}
 

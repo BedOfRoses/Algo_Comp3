@@ -70,7 +70,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Was supposed to scale up and overlap with the other starnodes. However, not in use for the moment!
-	void BoxScan();
+	
 	void SpawnStarNodes();
 
 
