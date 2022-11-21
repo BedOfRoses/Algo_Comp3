@@ -54,7 +54,8 @@ public:
 	
 	UPROPERTY()
 	AAStarNode* Cheapest = nullptr;
-	
+
+
 
 protected:
 	// Called when the game starts or when spawned
