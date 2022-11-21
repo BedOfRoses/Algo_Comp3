@@ -42,7 +42,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Node Cost")
 	float Cost = 0;
 
-	bool bVisited;
+	bool bVisited = false;
 
 	UPROPERTY(EditAnywhere, Category = "Prev Node")
 	AAStarNode* PrevStarNode = nullptr;
@@ -53,9 +53,6 @@ public:
 	
 	FVector NodeLocation;
 
-	
-	
-	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

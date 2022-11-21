@@ -14,11 +14,8 @@ AAStarGraph::AAStarGraph()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
-
 	RootComponent = BoxComponent;
-
 }
 
 // Called when the game starts or when spawned
@@ -30,11 +27,7 @@ void AAStarGraph::BeginPlay()
 	// SetUpEdges();
 	CreateEdges();
 	// SetNodeConnections();
-
-
 	// DijkstraBoys();
-	
-	
 }
 
 // Called every frame
@@ -154,6 +147,7 @@ void AAStarGraph::SpawnSetAmountOfNodes()
 	
 }
 
+/* WIP, FOR DYNAMIC SIZE OF NODES*/
 void AAStarGraph::SetNodeConnections()
 {
 /*	WORK IN PROGRESS!	*/
@@ -170,6 +164,7 @@ void AAStarGraph::SetNodeConnections()
 
 	
 }
+
 
 void AAStarGraph::CreateEdges()
 {
@@ -213,7 +208,6 @@ void AAStarGraph::DrawEdges()
 	//for (int i = 0; i < StarNodeArray.Num()-1; i++)
 	for (int i = 0; i < StarNodeArray.Num(); i++)
 	{
-
 		for (int j = 0; j < StarNodeArray[i]->NodeArrayConnections.Num(); j++)
 			DrawDebugLine(GetWorld(), StarNodeArray[i]->NodeLocation, StarNodeArray[i]->NodeArrayConnections[j]->NodeLocation, FColor::Emerald, false, -1, 0, 5);
 	}
@@ -254,28 +248,6 @@ void AAStarGraph::TestConnection(class AAStarNode* start, class AAStarNode* end)
 		AAStarNode * newStar = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(10.f,10.f,100.f), FRotator::ZeroRotator);
 	*/
 	
-}
-
-void AAStarGraph::SpawnStarNodes()
-{
-	for (int i = 0; i < 10; i++)
-	{
-
-		float newX = FMath::RandRange(0.f, 100.f);
-		float newY = FMath::RandRange(0.f, 100.f);
-
-		FVector nodeLocation = FVector(newX, newY, 1.f);
-			
-		if (starnodeBP == nullptr)
-			return;
-
-		// nodeBoy = GetWorld()->SpawnActor<
-		//
-
-	}
-		
-
-
 }
 
 void AAStarGraph::Dijkstra(class AAStarGraph* graph, class AAStarNode* source)
@@ -356,19 +328,43 @@ void AAStarGraph::DijkstraBoys() // class AAStarNode* start, class AAStarNode* e
 	if(End == nullptr)
 		return;
 
+	for	(int a = 0; a < StarNodeArray.Num(); a++)
+	{
+		StarNodeArray[a]->bVisited = false;
+		StarNodeArray[a]->DistFromStart = INT_MAX;
+	}
+
 	Start->bVisited = true;
 	End->bVisited = false;
 	
 	AAStarNode* current = Start;
 
 	current->PrevStarNode = nullptr;
-	current->bVisited = false;
+	current->bVisited = true;
+	TArray<AAStarNode*> pathArray;
+
+	
+	// add start paths to path array
+	// set nodes to visited
+
+	// while !array.empty()
+	// sort paths array on cost of path
+	// get shortest path
+	// pop shortest path from array
+
+	// for nodes in path.endnode.edges
+	// add new paths from shortest paths end node and set those nodes to visited (old + new path cost)
+	// if node on path end is end node: break
+	// loop again
 	
 	for (int i = 0; i < StarNodeArray.Num(); i++)
 		for (int j = 0; j < StarNodeArray[i]->NodeArrayConnections.Num(); j++)
 		{
 
-			StarNodeMap.Emplace(StarNodeArray[i]->NodeArrayConnections[j]->DistFromStart, StarNodeArray[i]->NodeArrayConnections[j]);
+			// edges.Add(StarNodeArray[i]->NodeArrayConnections[j]);
+
+			
+			// StarNodeMap.Emplace(StarNodeArray[i]->NodeArrayConnections[j]->DistFromStart, StarNodeArray[i]->NodeArrayConnections[j]);
 			
 			/*
 			if(current->NodeArrayConnections[j] && current->NodeArrayConnections[j]->bVisited != true)
@@ -394,6 +390,7 @@ void AAStarGraph::DijkstraBoys() // class AAStarNode* start, class AAStarNode* e
 
 			
 		}
+	
 		
 		
 
@@ -413,6 +410,10 @@ float AAStarGraph::minDistance(float dist[], bool sptSet[])
 		return min_index;
 
 }
+
+
+
+
 
 
 

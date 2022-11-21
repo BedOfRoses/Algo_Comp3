@@ -11,19 +11,6 @@
 #include "AStarGraph.generated.h"
 
 
-// USTRUCT()
-// struct Sti
-// {
-// 	GENERATED_BODY()
-// 		
-// 	std::vector<AAStarNode> kanter;
-// 	double totalkostnad;
-//
-// };
-
-
-
-
 UCLASS()
 class ALGO_COMP3_API AAStarGraph : public AActor
 {
@@ -43,10 +30,10 @@ public:
 	//std::priority_queue<int
 	// UPROPERTY()
 
-
-	class AAStarNode* startNodeBoy = nullptr;
-	class AAStarNode* endNodeBoy = nullptr;
-	
+	//
+	// class AAStarNode* startNodeBoy = nullptr;
+	// class AAStarNode* endNodeBoy = nullptr;
+	//
 	UPROPERTY(VisibleAnywhere, Category = "Directions Array")
 	TArray<FVector> DirectionPerConnection;
 
@@ -63,6 +50,8 @@ public:
 	UPROPERTY(EditAnywhere, Category = "StarNodeMap")
 	TMap<float, AAStarNode*> StarNodeMap; 
 
+	// TMap<AAStarNode*>
+	
 	UPROPERTY()
 	AAStarNode* Cheapest = nullptr;
 	
@@ -76,8 +65,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Was supposed to scale up and overlap with the other starnodes. However, not in use for the moment!
-	
-	void SpawnStarNodes();
+
 
 
 	/* Algorithms */
