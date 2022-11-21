@@ -226,135 +226,8 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 	}
 	
 	DjikstraAlgorithm();
-
+	// we are keeping this
 	// FacilitysDrawDebugLine();
-
-	/*for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
-	{
-		//basecase
-		if (BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeTarget == true)
-		{
-			return;
-		}
-		else
-		{
-			// try to insert element in arr_connections
-			// if arr[] is source?
-			if (BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeSource == true)
-			{
-				// yes  - insert
-				BP_VertexSpawnArray[i]->arr_connections[0] = BP_VertexSpawnArray[i];
-				// BP_VertexSpawnArray[i]->ForThisSphere.ForeignVertecVectorArray[0];
-			}
-			else
-			{
-				// no - is arr full? the array is full when it has four insertions
-				if (BP_VertexSpawnArray[i]->arr_connections.Num() == 4)
-				{
-					// yes - check through elements, smaller comes first, greater after - insert, if greater than last element, disregard
-					for (int u = 0; u < BP_VertexSpawnArray[i]->arr_connections.Num(); u++)
-					{
-						float DistanceBetweenNodes;
-						if (BP_VertexSpawnArray[i] != BP_VertexSpawnArray[u])
-						{							
-							DistanceBetweenNodes = FVector::Dist(BP_VertexSpawnArray[i]->ForThisSphere.ThisNodeLocation, BP_VertexSpawnArray[u]->ForThisSphere.ThisNodeLocation);
-						}
-						// check distance bewteen nodes
-						if (arr_DistancesBetweenNodes.Num() == 0)
-						{
-
-						}
-					}
-				}
-				else
-				{
-					// no  - check through elements, smaller comes first, greater after - insert
-				}										
-			}				
-		}
-	}
-	// node by node is checked in a recursive function, if they aren't the target, they should have a path to 1-4 of 
-	// the 4 closest nodes. the connections should be sent to the arr_connection array in each individual node. 
-	// after the node is checked, the next node is checked. 
-	// when all nodes have their connections, they can be sent to FacilitysDrawDebugLine
-	//
-
-	/// how large is array?
-	int32 counter = BP_VertexSpawnArray.Num();
-	// pick one element from array at a time
-	for (int BP_element = 0; BP_element < counter; BP_element++) //here BP_element refer to the instances of initialised StarNodes in stored in the BP_VertecSpawnArray
-	{
-		// get elements 'realspace' location
-		VertexLocation = BP_VertexSpawnArray[BP_element]->GetActorLocation(); // and this is a problem, now 
-		// get distance to all other elements in array
-		for (int OtherNode = 0; OtherNode < ForeignVertecisLocations.Num(); OtherNode++) //here the OtherNode refer to the StarNodes that the element from the first for_loop will be pointing towards
-		{
-			// get actor FVector
-			FVector OtherVertecisLocation = BP_VertexSpawnArray[OtherNode]->GetActorLocation();
-			if (VertexLocation != OtherVertecisLocation) //if the node is itself, it will pass it. 
-			{
-				// find distances and put them in array
-				VertecisDistances.Emplace(FVector::Dist(VertexLocation, OtherVertecisLocation));
-				// put foreign locations in an array
-				ForeignVertecisLocations[OtherNode] = OtherVertecisLocation; // this is marked down as problematic | was because used counter instead of actual array size
-			}
-		}
-		// sort array
-		// VertecisDistances.Sort(); ------------------------------------------> somehow after two and a half hours, this dosen't work any longer after having tested if it was better to hace the struct inside StarNode or not. WTF
-		// then pop them so only the four are left 
-		if (VertecisDistances.IsValidIndex(counter-1) && ForeignVertecisLocations.IsValidIndex(counter-1)) //checks if these are full or not
-		{
-			VertecisDistances.SetNum(4);
-			ForeignVertecisLocations.SetNum(4);
-		}
-		UE_LOG(LogTemp, Warning, TEXT("StarGraph, does log works? :("));
-		// let's hope nothing else breaks
-		// //here we should try to get the vector and insert into struct!
-		// accessing struct here to test if i can reach from star graph
-		// ForThisSphere.ForeignVertexVector_one = ForeignNode->
-		int32 WhoGetsPaths = FMath::RandRange(0, 4); // this is currently a counter ----------------- I think this needs to be in starGraph. Its the only way this pointer is going to work. omg
-		for (int i = 0; i < WhoGetsPaths; i++) //here we will add pointers to the OtherNode's locations in home-node
-		{
-			//AAStarNode* ForeignNode; // does it want this to be in .h? --> I need a different pointer now omg
-			//ForeignNode->ForThisSphere.ForeignVertecVectorArray[i] = ForeignVertecisLocations[i];
-			if (ForeignVertecisLocations.IsValidIndex(0)) //checks if foreign vertecisLocation array is valid, that there are values there
-			{
-				UE_LOG(LogTemp, Warning, TEXT("StarGraph, if ForeignVertecisLocation.IsValidIndex is true or not"));
-
-				ForeignNode = BP_VertexSpawnArray[i];
-				ForeignNode->ForThisSphere.ForeignVertecVectorArray[i] = ForeignVertecisLocations[i];
-			}
-			// add pointer to these elements in struct
-			//InsertVectorLocationInHomeNode(VertecisDistances[i]);
-			//ForThisSphere.ForeignVertecVectorArray[i] = ForeignNode->ForeignVertecisLocations[i];
-		}
-		// can i read the information about foreign vertex locations now?
-		if(ForeignVertecisLocations.IsValidIndex(0))
-		{
-			FString ForeignVertecisLocationsDisplayMessage = FString::SanitizeFloat(ForeignNode->ForThisSphere.ForeignVertecVectorArray[0].X); //this makes it crash because it might not be an array yet???
-			if (GEngine)
-			{
-				GEngine->AddOnScreenDebugMessage(-1, 6.f, FColor::Purple, *ForeignVertecisLocationsDisplayMessage);
-			}
-		}
-		//IT DIDNT CRASH UE! omg
-		
-		GiveThemPointers(ForeignNode);
-		
-		
-		//should this be in starnode?? Attempts --- put it in StarNode.cpp
-		// random element of 1-4 gets a pointer to them
-		//int32 WhoGetsPaths = FMath::RandRange(0, 4); // this is currently a counter
-		//for (int i = 0; i < WhoGetsPaths; i++) //here we will add pointers to the OtherNode's locations in home-node
-		//{
-		//	// add pointer to these elements in struct
-		//	//InsertVectorLocationInHomeNode(VertecisDistances[i]);
-		//	
-		//}
-		
-	}
-	// send to draw debug line to draw these lines
-	*/
 }
 
 void AAStarGraph::FacilitysDrawDebugLine()	// sara - (DONE) no distances
@@ -381,13 +254,6 @@ void AAStarGraph::FacilitysDrawDebugLine()	// sara - (DONE) no distances
 			// when all the nodes have had their paths drawn, the presentation is done and we are ready to navigate between nodes
 		}		
 	}	
-	/*// how many elements in array?
-	// for every element
-	// draw line to what they are pointing at
-	// 	for (int i = 0; i < StarNodeArray.Num()-1; i++)
-	// finished
-
-	// DjikstraAlgorithm();*/
 }
 
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -404,6 +270,7 @@ void AAStarGraph::DjikstraAlgorithm()
 	// if BP_Vertex-array exists, then go ahead
 	if (BP_VertexSpawnArray.IsValidIndex(0))
 	{
+		// we will be using Curren node as pointer 
 		AAStarNode* CurrentNode = BP_VertexSpawnArray[0];
 		CurrentNode->ForThisSphere.b_HasVisitedNode = true;
 		
@@ -413,40 +280,17 @@ void AAStarGraph::DjikstraAlgorithm()
 
 		while (!EndNode->ForThisSphere.b_HasVisitedNode)
 		{
+			//to force unreal to not freeze or crash because of while loop
 			exitCounter++;
 			UE_LOG(LogTemp, Warning, TEXT("The integer value is: %d"), exitCounter);
-			if (exitCounter == 20) {
+			if (exitCounter == 100) {
 				break;
 			}
-
-			/*// give neighbours new values according to distance from current
-			for (int k = 0; k < CurrentNode->arr_connections.Num(); k++)
-			{
-				TotalSumOfPath = 0.0; //return to fix this when insert into TMap is on
-
-				CurrentNode->arr_connections[k]->ForThisSphere.DistanceToSource = FVector::Dist(CurrentNode->ForThisSphere.ThisNodeLocation, CurrentNode->arr_connections[k]->ForThisSphere.ThisNodeLocation);
-
-				TotalSumOfPath = CurrentNode->arr_connections[k]->ForThisSphere.DistanceToSource + TotalSumOfPath;
-			
-				DjikstraPath.Emplace(CurrentNode->arr_connections[k]->ForThisSphere.DistanceToSource, CurrentNode->arr_connections[k]);
-			}
-			// sorts internally
-			DjikstraPath.KeySort([](float A, float B) {return A < B; });
-			// make the top sorted element visited
-			DjikstraPath.begin().Value()->ForThisSphere.b_HasVisitedNode = true;
-			// next node!
-			if (CurrentNode != EndNode)
-			{
-				CurrentNode = DjikstraPath.begin().Value();
-			}			
-			// pop top node in map
-			DjikstraPath.Remove(DjikstraPath.begin().Key());*/
-		
+			// goes through neighbours of current node
 			for (int i = 0; i < CurrentNode->arr_connections.Num(); i++)
 			{
 				if (!CurrentNode->arr_connections[i]->ForThisSphere.b_HasVisitedNode)
 				{
-					//TotalSumOfPath = FVector::Dist(CurrentNode->ForThisSphere.ThisNodeLocation, CurrentNode->arr_connections[i]->ForThisSphere.ThisNodeLocation);
 					float distance = FVector::Dist(CurrentNode->ForThisSphere.ThisNodeLocation, CurrentNode->arr_connections[i]->ForThisSphere.ThisNodeLocation);
 					
 					TotalSumOfPath = distance + CurrentNode->DistanceFromStart;
@@ -454,8 +298,6 @@ void AAStarGraph::DjikstraAlgorithm()
 					if (TotalSumOfPath < CurrentNode->DistanceFromStart)
 					{
 						CurrentNode->arr_connections[i]->DistanceFromStart = TotalSumOfPath;
-						
-						
 					}
 					DjikstraPath.Emplace(CurrentNode->arr_connections[i]->DistanceFromStart, CurrentNode->arr_connections[i]);
 				}
@@ -464,30 +306,30 @@ void AAStarGraph::DjikstraAlgorithm()
 			{
 				DjikstraPath.KeySort([](float A, float B) {return A < B; });
 				
-				//if (CurrentNode != EndNode) //
-				//{
-					CurrentNode = DjikstraPath.begin().Value();
-				//}
-
+				CurrentNode = DjikstraPath.begin().Value();
+			
 				DjikstraPath.Remove(DjikstraPath.begin().Key());
 
 				CurrentNode->ForThisSphere.b_HasVisitedNode = true;
-			}
-			/*
-				while (End is not visited)
-					if you havent visited neighbour
-					Totalsum = give value of neighbours, based on distance from current to neighbours
-					if TotalSum is less than Distance from Start to the neighbour
-						add TotalSum to distance from start
-						move current to neighbour node
-			*/		
 
+				if (CurrentNode == EndNode)
+				{
+					EndNode->ForThisSphere.b_HasVisitedNode = true;
+				}
+			}
 			FacilitysDrawDebugLine();
 		}
+		// we are keeping this
+		/*for (auto It = DjikstraPath.begin(); It != DjikstraPath.end(); It)
+		{
+			FPlatformMisc::LocalPrint(*FString::Printf(TEXT("(d%, \"%s\")\n"), It.Key(), It.Value()->ForThisSphere.VertexID));
+			
+		}*/
 	}
 
+	// we are keeping this
 	// FacilitysDrawDebugLine();
-
+	// we are keeping this
 	/*for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
 	{
 		if (BP_VertexSpawnArray[i]->ForThisSphere.b_HasVisitedNode)

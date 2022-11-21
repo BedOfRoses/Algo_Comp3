@@ -145,6 +145,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Vertex | Material")
 		UMaterial* VisitedMaterial;
 
+	
+
 
 	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Vertex | Material")
 		UMaterial* NotVisitedMaterial;*/
