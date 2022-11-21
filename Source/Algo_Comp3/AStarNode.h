@@ -78,7 +78,8 @@ public:
 	void LineTraceTest();
 	void LineTraceMyOwn();
 
-
+	/* for dji*/
+	float DistanceFromStart = 0;
 
 	/* Testing facility StarNodeVersion */
 	// pointers ~ <3 

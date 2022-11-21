@@ -16,10 +16,7 @@ AAStarGraph::AAStarGraph()
 	PrimaryActorTick.bCanEverTick = true;
 
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
-
 	RootComponent = BoxComponent;
-
-	/*NotVisitedMaterial = CreateDefaultSubobject<UMaterial>(TEXT("NotVisitedMaterial"));*/
 
 	VisitedMaterial = CreateDefaultSubobject<UMaterial>(TEXT("VisitedMaterial"));
 
@@ -117,6 +114,7 @@ void AAStarGraph::TestConnection(class AAStarNode* start, class AAStarNode* end)
 
 /* ------------------------------------------------------------------------------------------------------------------------- */
 /* ------------------------------------------------------------------------------------------------------------------------- */
+
 void AAStarGraph::SpawnerTestingFacility() // sara - spawner (DONE)
 {
 	// should be user input, but for now hardcoded, this is the amount of spheres spawned
@@ -147,15 +145,11 @@ void AAStarGraph::SpawnerTestingFacility() // sara - spawner (DONE)
 				{
 					VertexSpawned->ForThisSphere.b_IsThisNodeTarget = true;
 				}
-			}
-
-			// BP_VertexSpawnArray[i]->NodeMesh->SetMaterial(0, NotVisitedMaterial);
-			
+			}		
 		}
-	}
-	
+	}	
 	//everything is spawned and ready to have paths applied to them
-	GiveVertecisPaths(); // ------ this is problematic, somehow :(, and now it isn't. wth
+	 GiveVertecisPaths(); // ------ this is problematic, somehow :(, and now it isn't. wth
 }
 
 FVector AAStarGraph::GetRandomLocation() // sara - get random location for spawn (DONE)
@@ -175,11 +169,7 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 	for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
 	{
 		// is current node Target
-		if (BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeTarget == true)
-		{
-			// return;
-		}
-		else
+		if (BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeTarget == false)
 		{
 			// to compare distances between nodes
 			float Distance;
@@ -188,11 +178,7 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 				// if the current node is not the same as the node we are currently looping through
 				if (BP_VertexSpawnArray[i] != BP_VertexSpawnArray[u])
 				{
-					if (BP_VertexSpawnArray[i]->arr_connections.Num() == 4)
-					{
-
-					}
-					else
+					if (BP_VertexSpawnArray[i]->arr_connections.Num() < 5)
 					{
 						Distance = FVector::Dist(BP_VertexSpawnArray[i]->ForThisSphere.ThisNodeLocation, BP_VertexSpawnArray[u]->ForThisSphere.ThisNodeLocation);
 						// if this is the first node calculated, insert anyway
@@ -210,12 +196,12 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 							{
 								if (BP_VertexSpawnArray[i]->arr_distances.IsValidIndex(k))
 								{
-									if (BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeTarget)
+									/*if (BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeTarget)
 									{
 										// do nothing
 										// return;
 									}
-									else if (Distance < BP_VertexSpawnArray[i]->arr_distances[k])
+									else*/ if (Distance < BP_VertexSpawnArray[i]->arr_distances[k])
 									{
 										BP_VertexSpawnArray[i]->arr_distances.Insert(Distance, k);
 										//arr_DistancesBetweenNodes.SetNum(4);
@@ -227,18 +213,21 @@ void AAStarGraph::GiveVertecisPaths() // sara - makes connections between starno
 						}
 					}
 				}
-			}			
+			}
 		}
 	}
 	
+	// message to check, is displayed on screen
 	int32 count = 749;
 	FString MessageToScreen = FString::SanitizeFloat(count);
 	if (GEngine) {
 
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, *MessageToScreen);
 	}
+	
+	DjikstraAlgorithm();
 
-	FacilitysDrawDebugLine();
+	// FacilitysDrawDebugLine();
 
 	/*for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
 	{
@@ -374,50 +363,43 @@ void AAStarGraph::FacilitysDrawDebugLine()	// sara - (DONE) no distances
 	for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
 	{
 		// if they aren't, another for-loop is started looping through the node's arr_connections
-		if (BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeTarget == true)
-		{
-			// return;
-		}
-		else
+		if (BP_VertexSpawnArray[i]->ForThisSphere.b_IsThisNodeTarget == false)
 		{
 			// for every node an instance of path is made and stored in an array in their struct.
 			for (int u = 0; u < BP_VertexSpawnArray[i]->arr_connections.Num(); u++)
 			{
-				// start node
-				FVector StartNode = BP_VertexSpawnArray[i]->ForThisSphere.ThisNodeLocation;
-				// end node
-				FVector EndNode = BP_VertexSpawnArray[i]->arr_connections[u]->ForThisSphere.ThisNodeLocation;
-				DrawDebugLine(GetWorld(), StartNode, EndNode, FColor::Red, true, -1.f, 0.f, 10.f);
+				if (BP_VertexSpawnArray[i]->arr_connections[u]->ForThisSphere.b_HasVisitedNode)
+				{
+					// start node
+					FVector StartNode = BP_VertexSpawnArray[i]->ForThisSphere.ThisNodeLocation;
+					// end node
+					FVector EndNode = BP_VertexSpawnArray[i]->arr_connections[u]->ForThisSphere.ThisNodeLocation;
+					DrawDebugLine(GetWorld(), StartNode, EndNode, FColor::Red, true, -1.f, 0.f, 10.f);
+				}
+				
 			}
 			// when all the nodes have had their paths drawn, the presentation is done and we are ready to navigate between nodes
 		}		
-	}
-	
+	}	
 	/*// how many elements in array?
 	// for every element
 	// draw line to what they are pointing at
 	// 	for (int i = 0; i < StarNodeArray.Num()-1; i++)
-
-	// yoinked from simon for easy reading
-	/*for (int j = 0; j < StarNodeArray[i]->NodeArrayConnections.Num(); j++)
-		DrawDebugLine(GetWorld(), StarNodeArray[i]->NodeLocation, StarNodeArray[i]->NodeArrayConnections[j]->NodeLocation, FColor::Emerald, false, -1, 0, 5);*/
-	
 	// finished
 
-	DjikstraAlgorithm();
+	// DjikstraAlgorithm();*/
 }
 
 /* ------------------------------------------------------------------------------------------------------------------------- */
 												     // Djikstra
 /* ------------------------------------------------------------------------------------------------------------------------- */
+
 void AAStarGraph::DjikstraAlgorithm()
 {
-	TotalSumOfPath = 0.0; //return to fix this when insert into TMap is on
-
 	// assign weight to paths
 	for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
 	{
-		BP_VertexSpawnArray[i]->ForThisSphere.DistanceToSource = INT_MAX;
+		BP_VertexSpawnArray[i]->DistanceFromStart = INT_MAX;
 	}
 	// if BP_Vertex-array exists, then go ahead
 	if (BP_VertexSpawnArray.IsValidIndex(0))
@@ -427,13 +409,24 @@ void AAStarGraph::DjikstraAlgorithm()
 		
 		AAStarNode* EndNode = BP_VertexSpawnArray[9];
 		EndNode->ForThisSphere.b_IsThisNodeTarget = true;
+		int exitCounter =0;
 
-		while (EndNode->ForThisSphere.b_HasVisitedNode)
+		while (!EndNode->ForThisSphere.b_HasVisitedNode)
 		{
-			// give neighbours new values according to distance from current 
+			exitCounter++;
+			UE_LOG(LogTemp, Warning, TEXT("The integer value is: %d"), exitCounter);
+			if (exitCounter == 20) {
+				break;
+			}
+
+			/*// give neighbours new values according to distance from current
 			for (int k = 0; k < CurrentNode->arr_connections.Num(); k++)
 			{
-				CurrentNode->arr_connections[k]->ForThisSphere.DistanceToSource = FVector::Dist(CurrentNode->ForThisSphere.ThisNodeLocation, CurrentNode->arr_connections[k]->ForThisSphere.ThisNodeLocation) + TotalSumOfPath;
+				TotalSumOfPath = 0.0; //return to fix this when insert into TMap is on
+
+				CurrentNode->arr_connections[k]->ForThisSphere.DistanceToSource = FVector::Dist(CurrentNode->ForThisSphere.ThisNodeLocation, CurrentNode->arr_connections[k]->ForThisSphere.ThisNodeLocation);
+
+				TotalSumOfPath = CurrentNode->arr_connections[k]->ForThisSphere.DistanceToSource + TotalSumOfPath;
 			
 				DjikstraPath.Emplace(CurrentNode->arr_connections[k]->ForThisSphere.DistanceToSource, CurrentNode->arr_connections[k]);
 			}
@@ -442,20 +435,67 @@ void AAStarGraph::DjikstraAlgorithm()
 			// make the top sorted element visited
 			DjikstraPath.begin().Value()->ForThisSphere.b_HasVisitedNode = true;
 			// next node!
-			CurrentNode = DjikstraPath.begin().Value();
+			if (CurrentNode != EndNode)
+			{
+				CurrentNode = DjikstraPath.begin().Value();
+			}			
 			// pop top node in map
-			DjikstraPath.Remove(DjikstraPath.begin().Key());
+			DjikstraPath.Remove(DjikstraPath.begin().Key());*/
+		
+			for (int i = 0; i < CurrentNode->arr_connections.Num(); i++)
+			{
+				if (!CurrentNode->arr_connections[i]->ForThisSphere.b_HasVisitedNode)
+				{
+					//TotalSumOfPath = FVector::Dist(CurrentNode->ForThisSphere.ThisNodeLocation, CurrentNode->arr_connections[i]->ForThisSphere.ThisNodeLocation);
+					float distance = FVector::Dist(CurrentNode->ForThisSphere.ThisNodeLocation, CurrentNode->arr_connections[i]->ForThisSphere.ThisNodeLocation);
+					
+					TotalSumOfPath = distance + CurrentNode->DistanceFromStart;
+
+					if (TotalSumOfPath < CurrentNode->DistanceFromStart)
+					{
+						CurrentNode->arr_connections[i]->DistanceFromStart = TotalSumOfPath;
+						
+						
+					}
+					DjikstraPath.Emplace(CurrentNode->arr_connections[i]->DistanceFromStart, CurrentNode->arr_connections[i]);
+				}
+			}
+			if (DjikstraPath.begin()) // if map exists
+			{
+				DjikstraPath.KeySort([](float A, float B) {return A < B; });
+				
+				//if (CurrentNode != EndNode) //
+				//{
+					CurrentNode = DjikstraPath.begin().Value();
+				//}
+
+				DjikstraPath.Remove(DjikstraPath.begin().Key());
+
+				CurrentNode->ForThisSphere.b_HasVisitedNode = true;
+			}
+			/*
+				while (End is not visited)
+					if you havent visited neighbour
+					Totalsum = give value of neighbours, based on distance from current to neighbours
+					if TotalSum is less than Distance from Start to the neighbour
+						add TotalSum to distance from start
+						move current to neighbour node
+			*/		
+
+			FacilitysDrawDebugLine();
 		}
 	}
 
-	for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
+	// FacilitysDrawDebugLine();
+
+	/*for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
 	{
 		if (BP_VertexSpawnArray[i]->ForThisSphere.b_HasVisitedNode)
 		{
 			BP_VertexSpawnArray[i]->NodeMesh->SetMaterial(0, VisitedMaterial);
 		}
 		
-	}
+	}*/
 }
 
 /* ------------------------------------------------------------------------------------------------------------------------- */
