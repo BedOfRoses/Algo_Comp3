@@ -253,7 +253,8 @@ void AAStarGraph::FacilitysDrawDebugLine()	// sara - (DONE) no distances
 			}
 			// when all the nodes have had their paths drawn, the presentation is done and we are ready to navigate between nodes
 		}		
-	}	
+	}
+	DrawDebugLine(GetWorld(), BP_VertexSpawnArray[0]->ForThisSphere.ThisNodeLocation, BP_VertexSpawnArray[9]->ForThisSphere.ThisNodeLocation, FColor::Blue, true, -1.f, 0.f, 10.f);
 }
 
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -262,10 +263,11 @@ void AAStarGraph::FacilitysDrawDebugLine()	// sara - (DONE) no distances
 
 void AAStarGraph::DjikstraAlgorithm()
 {
-	// assign weight to paths
+	/*// assign weight to paths
 	for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
 	{
 		BP_VertexSpawnArray[i]->DistanceFromStart = INT_MAX;
+		// add about bools set to false? I've already done this
 	}
 	// if BP_Vertex-array exists, then go ahead
 	if (BP_VertexSpawnArray.IsValidIndex(0))
@@ -273,11 +275,13 @@ void AAStarGraph::DjikstraAlgorithm()
 		// we will be using Curren node as pointer 
 		AAStarNode* CurrentNode = BP_VertexSpawnArray[0];
 		CurrentNode->ForThisSphere.b_HasVisitedNode = true;
+		CurrentNode->DistanceFromStart = 0.f;
 		
 		AAStarNode* EndNode = BP_VertexSpawnArray[9];
 		EndNode->ForThisSphere.b_IsThisNodeTarget = true;
 		int exitCounter =0;
 
+		// in example they used for loop instead of while loop, for the length of array loop through, it should be possible to move pointer by adding ++
 		while (!EndNode->ForThisSphere.b_HasVisitedNode)
 		{
 			//to force unreal to not freeze or crash because of while loop
@@ -286,16 +290,17 @@ void AAStarGraph::DjikstraAlgorithm()
 			if (exitCounter == 100) {
 				break;
 			}
+			// here the example made the current node true as a first action before looking at the adjacent nodes
 			// goes through neighbours of current node
 			for (int i = 0; i < CurrentNode->arr_connections.Num(); i++)
 			{
 				if (!CurrentNode->arr_connections[i]->ForThisSphere.b_HasVisitedNode)
 				{
-					float distance = FVector::Dist(CurrentNode->ForThisSphere.ThisNodeLocation, CurrentNode->arr_connections[i]->ForThisSphere.ThisNodeLocation);
+					float distanceBetweenCurrentAndAdjcent = FVector::Dist(CurrentNode->ForThisSphere.ThisNodeLocation, CurrentNode->arr_connections[i]->ForThisSphere.ThisNodeLocation);
 					
-					TotalSumOfPath = distance + CurrentNode->DistanceFromStart;
+					TotalSumOfPath = distanceBetweenCurrentAndAdjcent + CurrentNode->DistanceFromStart;
 
-					if (TotalSumOfPath < CurrentNode->DistanceFromStart)
+					if (TotalSumOfPath < CurrentNode->arr_connections[i]->DistanceFromStart)
 					{
 						CurrentNode->arr_connections[i]->DistanceFromStart = TotalSumOfPath;
 					}
@@ -325,8 +330,7 @@ void AAStarGraph::DjikstraAlgorithm()
 			FPlatformMisc::LocalPrint(*FString::Printf(TEXT("(d%, \"%s\")\n"), It.Key(), It.Value()->ForThisSphere.VertexID));
 			
 		}*/
-	}
-
+	/* }*/
 	// we are keeping this
 	// FacilitysDrawDebugLine();
 	// we are keeping this
@@ -338,6 +342,42 @@ void AAStarGraph::DjikstraAlgorithm()
 		}
 		
 	}*/
+
+	for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
+	{
+		BP_VertexSpawnArray[i]->DistanceFromStart = INT_MAX;
+		BP_VertexSpawnArray[i]->ForThisSphere.b_HasVisitedNode = false;
+	}
+	//define source
+	BP_VertexSpawnArray[0]->DistanceFromStart = 0.f;
+
+	for (int i = 0; i < BP_VertexSpawnArray.Num(); i++) //loop through all vertecis
+	{
+		BP_VertexSpawnArray[i]->ForThisSphere.b_HasVisitedNode = true;
+		for (int k = 0; k < BP_VertexSpawnArray[i]->arr_connections.Num(); k++) //loop through neighbours
+		{
+			if (!BP_VertexSpawnArray[i]->arr_connections[k]->ForThisSphere.b_HasVisitedNode)
+			{
+				// distance from current node to neighbour
+				float DistanceFromCurrentToNeighbour = FVector::Dist(BP_VertexSpawnArray[i]->ForThisSphere.ThisNodeLocation, BP_VertexSpawnArray[i]->arr_connections[k]->ForThisSphere.ThisNodeLocation);
+				// compare distance from current node to source + distance to neighbour with current distance to path
+				if (DistanceFromCurrentToNeighbour + BP_VertexSpawnArray[i]->DistanceFromStart < BP_VertexSpawnArray[i]->arr_connections[k]->DistanceFromStart)
+				{
+					BP_VertexSpawnArray[i]->arr_connections[k]->DistanceFromStart = BP_VertexSpawnArray[i]->DistanceFromStart + DistanceFromCurrentToNeighbour;
+				}
+				DjikstraPath.Emplace(BP_VertexSpawnArray[i]->arr_connections[k]->DistanceFromStart, BP_VertexSpawnArray[i]->arr_connections[k]);
+			}
+		}
+		// when all neighbours are added, sort through TMap and 
+		DjikstraPath.KeySort([](float A, float B) {return A < B; });
+
+		// CurrentNode = DjikstraPath.begin().Value();
+
+		DjikstraPath.Remove(DjikstraPath.begin().Key());
+
+		// CurrentNode->ForThisSphere.b_HasVisitedNode = true;
+		FacilitysDrawDebugLine();
+	}
 }
 
 /* ------------------------------------------------------------------------------------------------------------------------- */
