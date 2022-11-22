@@ -398,7 +398,8 @@ void AAStarGraph::DijkstraBoys() // class AAStarNode* start, class AAStarNode* e
 			temp = temp->PrevStarNode;
 		}
 		
-
+		UE_LOG(LogTemp, Warning, TEXT("The ctrEX value is: %d"), ctrEX);
+		UE_LOG(LogTemp, Warning, TEXT("The EndNode->bVisited value is %s"), ( EndNode->bVisited ? TEXT("true") : TEXT("false") ));
 
 		ctrEX++;
 	}
