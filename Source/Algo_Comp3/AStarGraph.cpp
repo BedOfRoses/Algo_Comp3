@@ -330,11 +330,11 @@ void AAStarGraph::DjikstraAlgorithm()
 			FPlatformMisc::LocalPrint(*FString::Printf(TEXT("(d%, \"%s\")\n"), It.Key(), It.Value()->ForThisSphere.VertexID));
 			
 		}*/
-	/* }*/
-	// we are keeping this
-	// FacilitysDrawDebugLine();
-	// we are keeping this
-	/*for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
+	/* }
+	 we are keeping this
+	 FacilitysDrawDebugLine();
+	 we are keeping this
+	for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
 	{
 		if (BP_VertexSpawnArray[i]->ForThisSphere.b_HasVisitedNode)
 		{
@@ -343,6 +343,8 @@ void AAStarGraph::DjikstraAlgorithm()
 		
 	}*/
 
+
+	//DIJKSTRA WITHOUT WHILE LOOP!!
 	for (int i = 0; i < BP_VertexSpawnArray.Num(); i++)
 	{
 		BP_VertexSpawnArray[i]->DistanceFromStart = INT_MAX;
@@ -377,6 +379,8 @@ void AAStarGraph::DjikstraAlgorithm()
 
 		// CurrentNode->ForThisSphere.b_HasVisitedNode = true;
 		FacilitysDrawDebugLine();
+
+		UE_LOG(LogTemp, Warning, TEXT("we finished with a set of adjacent nodes"));
 	}
 }
 
