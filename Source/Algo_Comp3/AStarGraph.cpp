@@ -348,7 +348,7 @@ void AAStarGraph::DijkstraBoys() // class AAStarNode* start, class AAStarNode* e
 
 
 	
-	while (EndNode->bVisited == false || ctrEX > 2)
+	while (EndNode->bVisited == false || ctrEX <= 2)
 	{
 		
 
@@ -367,7 +367,12 @@ void AAStarGraph::DijkstraBoys() // class AAStarNode* start, class AAStarNode* e
 					current->NodeArrayConnections[i]->PrevStarNode = current;	
 				}
 
-				StarNodeMap.Emplace(current->NodeArrayConnections[i]->DistFromStart, current->NodeArrayConnections[i]);	
+				StarNodeMap.Emplace(current->NodeArrayConnections[i]->DistFromStart, current->NodeArrayConnections[i]);
+
+				DrawDebugLine(GetWorld(), current->NodeLocation,
+				current->NodeArrayConnections[i]->NodeLocation, FColor::Green,
+				false, 0.5, 0, 10);
+			
 			}
 		}
 
@@ -383,7 +388,15 @@ void AAStarGraph::DijkstraBoys() // class AAStarNode* start, class AAStarNode* e
 		
 		current->bVisited = true;
 	
-	
+
+		AAStarNode* temp = EndNode;
+		while (temp->PrevStarNode != nullptr)
+		{
+			DrawDebugLine(GetWorld(), temp->NodeLocation,
+				temp->PrevStarNode->NodeLocation, FColor::Green, true, -1, 0, 10);
+			
+			temp = temp->PrevStarNode;
+		}
 		
 
 
