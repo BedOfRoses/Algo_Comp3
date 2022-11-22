@@ -30,7 +30,7 @@ void AAStarGraph::BeginPlay()
 	
 	CreateEdges();
 	// DrawEdges();
-
+	
 	
 	 DijkstraBoys();
 }
@@ -322,129 +322,74 @@ void AAStarGraph::TravelingSalesmanAlgorithm()
 void AAStarGraph::DijkstraBoys() // class AAStarNode* start, class AAStarNode* end
 {
 
-	// init
-
-	
-	AAStarNode* StartN = StarNodeArray[0];
-	AAStarNode* EndN = StarNodeArray[8];
-
-	if(StartN==nullptr)	{return;}
-
-	
-	if(EndN==nullptr)	{return;}
-
+	//init
 
 	for (int i = 0; i < StarNodeArray.Num(); i++)
 	{
 		StarNodeArray[i]->DistFromStart = INT_MAX;
-		StarNodeArray[i]->PrevStarNode = nullptr;
+		StarNodeArray[i]->bVisited = false;
 	}
-		
-	StarNodeArray[0]->DistFromStart = 0.f;
 
-	// add start paths to path array
-	// set nodes to visited
-	
-	// while !array.empty()
-	// sort paths array on cost of path
-	// get shortest path
-	// pop shortest path from array
-	
-	// for nodes in path.endnode.edges
-	// add new paths from shortest paths end node and set those nodes to visited (old + new path cost)
-	// if node on path end is end node: break
-	// loop again
+	AAStarNode* StartNode = StarNodeArray[0];
+	AAStarNode* EndNode = StarNodeArray[8];
 
-	AAStarNode* current = StartN;
-	if(current == nullptr)
+	if(!StartNode)
 		return;
-	
-	StarNodeMap.Emplace(StartN->DistFromStart, StartN);
+	if(!EndNode)
+		return;
+
+	StartNode->DistFromStart = 0.f;
+
+	int ctrEX = 0;
+
+	AAStarNode* current = StartNode;
+	if(!current)
+		return;
 
 
 	
-	int counterToEXit={0}; // just to jump out of loop after "failed" attempts / faulty check.
-	
-	while (
-		(StarNodeMap.IsEmpty() && EndN->bVisited == false) ||
-		(counterToEXit <= 2)							  
-		 )
+	while (EndNode->bVisited == false || ctrEX > 2)
 	{
-		// // Sort the shortest path to top
-		// StarNodeMap.KeySort([](float A, float B){return A<B;});
-		//
-		// // set top as visited
-		// StarNodeMap.begin().Value()->bVisited = true;
-		//
-		// // remove top
-		// StarNodeMap.Remove(StarNodeMap.begin().Key());
-
-
-
 		
-		// THE NODES
-		for (int i = 0; i < StarNodeArray.Num(); i++)
+
+		// checking all nodes from current's neighbours
+		for (int i = 0; i < current->NodeArrayConnections.Num(); i++)
 		{
-
-			// Sort the shortest path to top
-			StarNodeMap.KeySort([](float A, float B){return A<B;});
-
-			// set top as visited
-			StarNodeMap.begin().Value()->bVisited = true;
-
-			// remove top
-			StarNodeMap.Remove(StarNodeMap.begin().Key());
-
-
-
-			
-			current = StarNodeArray[i];
-			// THE CONNECTIONS BETWEEN THE NODES
-			for (int j = 0; j < StarNodeArray[i]->NodeArrayConnections.Num(); j++)
+			if(current->NodeArrayConnections[i]->bVisited == false)
 			{
-				
-				if(StarNodeArray[i]->NodeArrayConnections[j]->bVisited == false)
-				{
-					float distanceToNeighbour = StarNodeArray[i]->GetDistanceTo(StarNodeArray[i]->NodeArrayConnections[j]);
-					// float TotalDistance = distance + current->DistFromStart;
-					float distanceToStart = StartN->GetDistanceTo(StarNodeArray[i]->NodeArrayConnections[j]);
-					float TotalDistance = distanceToNeighbour + distanceToStart;
+				float distance = current->NodeArrayConnections[i]->GetDistanceTo(current);
 
-					UE_LOG(LogTemp, Warning, TEXT("i: %d"), i);
-					UE_LOG(LogTemp, Warning, TEXT("j: %d"), j);
-					UE_LOG(LogTemp, Warning, TEXT("distanceToNeighbour: %f"), distanceToNeighbour);
-					UE_LOG(LogTemp, Warning, TEXT("distanceToStart: %f"), distanceToStart);
-					UE_LOG(LogTemp, Warning, TEXT("TotalDistance: %f"), TotalDistance);
+				float totalcost = distance + current->DistFromStart;
 
-					// selecting / finding cheapest
-					if(TotalDistance < current->DistFromStart)
-					{
-						StarNodeArray[i]->NodeArrayConnections[j]->DistFromStart = TotalDistance;
-						// current->DistFromStart = TotaltCost;
-						StarNodeArray[i]->NodeArrayConnections[j]->PrevStarNode  = current->PrevStarNode; //TODO RECHECK THIS LINE!
-					}
-					//		adding!!			--the neighbours distance/floatval						// pointer to the neighbour / node
-					StarNodeMap.Emplace(StarNodeArray[i]->NodeArrayConnections[j]->DistFromStart, StarNodeArray[i]->NodeArrayConnections[j]);
-					DrawDebugLine(GetWorld(),current->NodeLocation,StarNodeArray[i]->NodeArrayConnections[j]->NodeLocation,
-						FColor::Red,true,-1,0,15);
-				}
-				else
+				if(totalcost < current->NodeArrayConnections[i]->DistFromStart)
 				{
-					UE_LOG(LogTemp, Warning, TEXT("Im a bitch"));
+					current->NodeArrayConnections[i]->DistFromStart = totalcost;
+					current->NodeArrayConnections[i]->PrevStarNode = current;	
 				}
-				
-				
+
+				StarNodeMap.Emplace(current->NodeArrayConnections[i]->DistFromStart, current->NodeArrayConnections[i]);	
 			}
-			
-				//DrawDebugLine(GetWorld(), StarNodeArray[i]->NodeLocation, StarNodeArray[i]->NodeArrayConnections[j]->NodeLocation, FColor::Emerald, false, -1, 0, 5);
 		}
 
+		//sort the TMap
+
+		if(StarNodeMap.begin())
+		{
+			StarNodeMap.KeySort([](float A, float B){return A <B;});
+			Cheapest = StarNodeMap.begin().Value();
+			current = Cheapest;
+			StarNodeMap.Remove(StarNodeMap.begin().Key());
+		}
 		
-		counterToEXit++;
-		// UE_LOG(LogTemp, Warning, TEXT("The float value is: %d"), counterToEXit);
-	}
+		current->bVisited = true;
+	
 	
 		
+
+
+		ctrEX++;
+	}
+	
 
 }
 
