@@ -72,7 +72,8 @@ public:
 	/* Algorithms */
 public:
 
-	void TravelingSalesmanAlgorithm();
+	/*Paperboys*/
+	void LonesomeTraveler();
 	
 	void AStarSearch();
 	void Dijkstra(class AAStarGraph* graph, class AAStarNode* source);

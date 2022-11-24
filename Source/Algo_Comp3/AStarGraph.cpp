@@ -32,8 +32,10 @@ void AAStarGraph::BeginPlay()
 	// DrawEdges();
 	
 	
-	 DijkstraBoys();
+	 // DijkstraBoys();
+	// LonesomeTraveler();
 }
+
 
 // Called every frame
 void AAStarGraph::Tick(float DeltaTime)
@@ -289,31 +291,83 @@ void AAStarGraph::Dijkstra(class AAStarGraph* graph, class AAStarNode* source)
 
 }
 
-void AAStarGraph::TravelingSalesmanAlgorithm()
+void AAStarGraph::LonesomeTraveler()
 {
 
-	std::vector<AAStarNode*> vertex;
-	for (int i=1; i < StarNodeArray.Num(); i++)
+	
+	// initialization part
+	for (int i = 0; i < StarNodeArray.Num();i++)
 	{
-		vertex.push_back(StarNodeArray[i]);
+		StarNodeArray[i]->DistFromStart = INT_MAX;
+		StarNodeArray[i]->bVisited = false;
 	}
-
-	int min_path = INT_MAX;
-
-	do
+	
+	// number that later can be adjusted
+	int sourceNum = 0;
+	
+	// Source-node
+	AAStarNode* SourceNode = StarNodeArray[sourceNum];
+	
+	//check
+	if(SourceNode == nullptr)
+		return;
+	
+	// current node
+	AAStarNode* CurrentNode = SourceNode;
+	
+	// check
+	if(CurrentNode == nullptr)
+		return;
+	
+	// yhes
+	CurrentNode->DistFromStart = 0.f;
+	
+	// vector to store all nodes that is not source.
+	TArray<AAStarNode*> StarNodeVector;
+	
+	// iterate the nodearray and move them into a vector
+	// and set them to not visited.
+	for (int i = 0; i < StarNodeArray.Num(); i++)
 	{
-		// store current Path weight (cost)
-		int current_pathweight = 0;
-
-		// Compute current path weight
-		int k = 0;
+		if(i != sourceNum)
+		{
+			StarNodeArray[i]->bVisited = false;
+			StarNodeVector.Push(StarNodeArray[i]);
+		}
 		
+		UE_LOG(LogTemp, Warning, TEXT("StarNodeVector.push_back: %d"), i);
 	}
-	while (true);
+	
+	
+	
+	bool visitedAllNodes = false;
+	
+	int exitCounter = 0;
+	int visitCounter = 0;
+	
+	while (visitedAllNodes == false || exitCounter <= 10)
+	{
+	
+		// CurrentNode->bVisited = true;
+		//
+		// visitCounter = 0;
+	
 
+
+		
+		UE_LOG(LogTemp, Warning, TEXT("exitCounter: %d"), exitCounter);
+
+		if(exitCounter == 2)
+			visitedAllNodes = true;
 	
 	
+		
 	
+		exitCounter++;		
+	}
+	
+
+
 }
 
 
@@ -371,7 +425,7 @@ void AAStarGraph::DijkstraBoys() // class AAStarNode* start, class AAStarNode* e
 
 				DrawDebugLine(GetWorld(), current->NodeLocation,
 				current->NodeArrayConnections[i]->NodeLocation, FColor::Green,
-				false, 0.5, 0, 10);
+				false, (0.5* i+1), 0, 10);
 			
 			}
 		}
@@ -421,6 +475,44 @@ float AAStarGraph::minDistance(float dist[], bool sptSet[])
 		return min_index;
 
 }
+
+
+
+
+
+// traveling boy
+// std::vector<AAStarNode*> vertex;
+//
+// int source = 5;
+//
+// for (int i=0; i < StarNodeArray.Num(); i++)
+// {
+// 	if(i != source)
+// 		vertex.push_back(StarNodeArray[i]);
+// }
+//
+//
+// int min_path = INT_MAX;
+//
+// do
+// {
+// 	// store current Path weight (cost)
+// 	int current_pathweight = 0;
+//
+// 	// Compute current path weight
+// 	int k = source;
+// 	// for (int i = 0; i < vertex.size(); i++)
+// 	// {
+// 	// 	if(i <= StarNodeArray[source]->NodeArrayConnections.Num())
+// 	// 		return;
+// 	// 	current_pathweight += StarNodeArray[source]->NodeArrayConnections[i];
+// 	// 	k = vertex[i];
+// 	// 	std::min(a)
+// 	// }
+// 	
+// }
+// while (true);
+
 
 
 
