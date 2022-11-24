@@ -14,6 +14,11 @@ UAlgoWidget::UAlgoWidget(const FObjectInitializer& ObjectInitializer) : Super(Ob
 
 void UAlgoWidget::NativeConstruct()
 {
+
+
+	//TODO CHECK OUT HOW TO CAST FOR REAL :)
+	
+	
 	graph = Cast<AAStarGraph>(graph);
 	if(graph == nullptr)
 		return;
@@ -32,6 +37,11 @@ void UAlgoWidget::NativeConstruct()
 	
 	
 }
+
+
+
+
+
 
 
 void UAlgoWidget::OnClickButtonDijkstra()
