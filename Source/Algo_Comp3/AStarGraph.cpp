@@ -29,11 +29,11 @@ void AAStarGraph::BeginPlay()
 
 	
 	CreateEdges();
+	
 	// DrawEdges();
-	
-	
 	 // DijkstraBoys();
-	// LonesomeTraveler();
+	LonesomeTraveler();
+	
 }
 
 
@@ -41,15 +41,6 @@ void AAStarGraph::BeginPlay()
 void AAStarGraph::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	
-	
-	//BoxScan();
-	// DrawEdges();
-
-	//DijkstraBoys();
-	// TestConnection(startNodeBoy, endNodeBoy);
-	
 }
 
 
@@ -156,25 +147,7 @@ void AAStarGraph::SpawnSetAmountOfNodes()
 	
 }
 
-/* WIP, FOR DYNAMIC SIZE OF NODES*/
-void AAStarGraph::SetNodeConnections()
-{
-/*	WORK IN PROGRESS!	*/
-	// for (int i = 0; i < StarNodeArray.Num()-5; i++)
-	// {
-	//
-	// 	for (int j = 0; j < 2; j++)
-	// 	{
-	// 		StarNodeArray[i]->connections[j] = StarNodeArray[j+1];
-	// 	}
-	// 	
-	// }
-
-
-	
-}
-
-
+/*not in use*/
 void AAStarGraph::CreateEdges()
 {
 	// std::priority_queue<FVector> nodedir;
@@ -223,151 +196,116 @@ void AAStarGraph::DrawEdges()
 	
 }
 
-void AAStarGraph::TestConnection(class AAStarNode* start, class AAStarNode* end)
-{
-
-	//TODO CREATE EDGES -- or improve them~~~
-	start = StarNodeArray[0];
-	end = StarNodeArray[6];
-
-	
-	
-	// FVector dist = start->NodeLocation;
-	//
-	// std::priority_queue<FVector> priorityQ_Vertex;
-	//
-	// for (int i = 0; i < StarNodeArray.Num(); i++)
-	// {
-	// 	for (int j = 0; j < StarNodeArray[i]->NodeArrayConnections.Num())
-	// 		priorityQ_Vertex.emplace(StarNodeArray[i]->NodeArrayConnections[j]);
-	// }
-
-
-
-
-	
-
-	// start = startNodeBoy;
-	// end = endNodeBoy;
-
-	// DrawDebugLine(GetWorld(),start->NodeLocation, end->NodeLocation,FColor::Emerald,false,-1,0,5);
-	
-	/*
-	if(starnodeBP)
-		AAStarNode * newStar = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, FVector(10.f,10.f,100.f), FRotator::ZeroRotator);
-	*/
-	
-}
-
-void AAStarGraph::Dijkstra(class AAStarGraph* graph, class AAStarNode* source)
-{
-	/*PSEUDO CODE FROM WIKI : // https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm 
-	
-			function Dijkstra(Graph, source):
-			dist[source] ← 0                           // Initialization
-
-			create vertex priority queue Q
-
-			for each vertex v in Graph.Vertices:
-				if v ≠ source
-					dist[v] ← INFINITY                 // Unknown distance from source to v
-					prev[v] ← UNDEFINED                // Predecessor of v
-
-				Q.add_with_priority(v, dist[v])
-
-
-			while Q is not empty:                      // The main loop
-				u ← Q.extract_min()                    // Remove and return best vertex
-				for each neighbor v of u:              // Go through all v neighbors of u
-					alt ← dist[u] + Graph.Edges(u, v)
-					if alt < dist[v]:
-						dist[v] ← alt
-						prev[v] ← u
-						Q.decrease_priority(v, alt)
-
-			return dist, prev
-	*/
-
-
-}
 
 void AAStarGraph::LonesomeTraveler()
 {
 
-	
-	// initialization part
-	for (int i = 0; i < StarNodeArray.Num();i++)
-	{
-		StarNodeArray[i]->DistFromStart = INT_MAX;
-		StarNodeArray[i]->bVisited = false;
-	}
-	
-	// number that later can be adjusted
-	int sourceNum = 0;
-	
-	// Source-node
-	AAStarNode* SourceNode = StarNodeArray[sourceNum];
-	
-	//check
-	if(SourceNode == nullptr)
+	/*
+	 * Klargjøre et array av alle noder bortsett fra kildenode ( den som sist besøkes igjen)
+	 *
+	 * ting som skal passes på: billigst rute, ikke gå en vei vi har gått før.
+	 */
+/*//init
+	int sourceNumber = 0;
+	AAStarNode* SourceNode = StarNodeArray[sourceNumber];
+	if (SourceNode == nullptr)
 		return;
-	
-	// current node
-	AAStarNode* CurrentNode = SourceNode;
-	
-	// check
-	if(CurrentNode == nullptr)
-		return;
-	
-	// yhes
-	CurrentNode->DistFromStart = 0.f;
-	
-	// vector to store all nodes that is not source.
-	TArray<AAStarNode*> StarNodeVector;
-	
-	// iterate the nodearray and move them into a vector
-	// and set them to not visited.
+
+	TArray<AAStarNode*> TravelManArray;
+
 	for (int i = 0; i < StarNodeArray.Num(); i++)
 	{
-		if(i != sourceNum)
+		if(i != sourceNumber)
 		{
+			StarNodeArray[i]->DistFromStart = INT_MAX;
 			StarNodeArray[i]->bVisited = false;
-			StarNodeVector.Push(StarNodeArray[i]);
+			TravelManArray.Add(StarNodeArray[i]);
 		}
-		
-		UE_LOG(LogTemp, Warning, TEXT("StarNodeVector.push_back: %d"), i);
 	}
 	
-	
-	
-	bool visitedAllNodes = false;
-	
-	int exitCounter = 0;
-	int visitCounter = 0;
-	
-	while (visitedAllNodes == false || exitCounter <= 10)
+	AAStarNode* CurrentNode = SourceNode;
+	if (CurrentNode == nullptr)
+		return;*/
+
+
+
+	for (int i = 0; i < StarNodeArray.Num(); i++)
 	{
-	
-		// CurrentNode->bVisited = true;
-		//
-		// visitCounter = 0;
-	
-
-
-		
-		UE_LOG(LogTemp, Warning, TEXT("exitCounter: %d"), exitCounter);
-
-		if(exitCounter == 2)
-			visitedAllNodes = true;
-	
-	
-		
-	
-		exitCounter++;		
+		StarNodeArray[i]->bVisited = false;
 	}
+
+	int rng = FMath::RandRange(0,8);
+
+	AAStarNode* Source = StarNodeArray[rng];
+
+	AAStarNode* current = Source;
 	
+	bool ikkjeBesokt = false;
+	int getUsOut = 0;
+	while (ikkjeBesokt == false || getUsOut <= 10)
+	{
+		current->bVisited = true;
+		UE_LOG(LogTemp, Warning, TEXT("start"));
+
+		for (int i = 0; i < current->NodeArrayConnections.Num(); i++)
+		{
+			if(current->NodeArrayConnections[i]->bVisited == false)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("manyloop"));
+
+				float shortestEdge = current->GetDistanceTo(StarNodeArray[i]);
+
+				StarNodeMap.Emplace(shortestEdge, current->NodeArrayConnections[i]);
+			}
+		}
+		StarNodeMap.KeySort([](float A, float B){return A<B;});
+		Cheapest = StarNodeMap.begin().Value();
+		current->PrevStarNode = current;
+		current = Cheapest;
+		UE_LOG(LogTemp, Warning, TEXT("sortkey"));
+
+		StarNodeMap.Remove(StarNodeMap.begin().Key());
+		
+		int ctr = 0;
+		for (int i = 0; i < StarNodeArray.Num(); i++)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("check if all visited"));
+
+			if(StarNodeArray[i]->bVisited ==true)
+			{
+				ctr++;
+			}
+			if(ctr == StarNodeMap.Num())
+			{
+				ikkjeBesokt = true;
+			}
+		}
+
+		
+		getUsOut++;
+	}
+
+	int exitCTR = 0;
+	current = Source->PrevStarNode;
+	while (current->PrevStarNode !=nullptr || exitCTR <= 10)
+	{
+		DrawDebugLine(GetWorld(), current->NodeLocation,
+				current->PrevStarNode->NodeLocation, FColor::Green, true, -1, 0, 10);
+			
+		current = current->PrevStarNode;
+
+		exitCTR++;
+	}
 
 
+	
+    // 1 Initialize all vertices as unvisited.
+    // 2 Select an arbitrary vertex, set it as the current vertex u. Mark u as visited.
+    // 3 Find out the shortest edge connecting the current vertex u and an unvisited vertex v.
+    // 4 Set v as the current vertex u. Mark v as visited.
+    // 5 If all the vertices in the domain are visited, then terminate. Else, go to step 3.
+
+	
 }
 
 
@@ -375,9 +313,6 @@ void AAStarGraph::AStarSearch()
 {
 	
 }
-
-
-
 
 
 void AAStarGraph::DijkstraBoys() // class AAStarNode* start, class AAStarNode* end
@@ -468,20 +403,85 @@ void AAStarGraph::DijkstraBoys() // class AAStarNode* start, class AAStarNode* e
 
 }
 
-float AAStarGraph::minDistance(float dist[], bool sptSet[]) 
-{
-	int min = INT_MAX, min_index{};
 
-	for (int v = 0; v < AmountOfNodesToCreate; v++)
-	{
 
-		if (sptSet[v] == false && dist[v] <= min)
-			min = dist[v], min_index = v;
+//
+//
+// 	
+// // initialization part
+// for (int i = 0; i < StarNodeArray.Num();i++)
+// {
+// 	StarNodeArray[i]->DistFromStart = INT_MAX;
+// 	StarNodeArray[i]->bVisited = false;
+// }
+// 	
+// // number that later can be adjusted
+// int sourceNum = 0;
+// 	
+// // Source-node
+// AAStarNode* SourceNode = StarNodeArray[sourceNum];
+// 	
+// //check
+// if(SourceNode == nullptr)
+// 	return;
+// 	
+// // current node
+// AAStarNode* CurrentNode = SourceNode;
+// 	
+// // check
+// if(CurrentNode == nullptr)
+// 	return;
+// 	
+// // yhes
+// CurrentNode->DistFromStart = 0.f;
+// 	
+// // vector to store all nodes that is not source.
+// TArray<AAStarNode*> StarNodeVector;
+// 	
+// // iterate the nodearray and move them into a vector
+// // and set them to not visited.
+// for (int i = 0; i < StarNodeArray.Num(); i++)
+// {
+// 	if(i != sourceNum)
+// 	{
+// 		StarNodeArray[i]->bVisited = false;
+// 		StarNodeVector.Push(StarNodeArray[i]);
+// 	}
+// 		
+// 	UE_LOG(LogTemp, Warning, TEXT("StarNodeVector.push: %d"), i);
+// }
+// 	
+// 	
+// 	
+// bool visitedAllNodes = false;
+// 	
+// int exitCounter = 0;
+// int visitCounter = 0;
+// 	
+// while (visitedAllNodes == false || exitCounter <= 10)
+// {
+// 	
+// 	// CurrentNode->bVisited = true;
+// 	//
+// 	// visitCounter = 0;
+// 	
+//
+//
+// 		
+// 	UE_LOG(LogTemp, Warning, TEXT("exitCounter: %d"), exitCounter);
+//
+// 	if(exitCounter == 2)
+// 		visitedAllNodes = true;
+// 	
+// 	
+// 		
+// 	
+// 	exitCounter++;		
+// }
+// 	
+//
 
-	}
-		return min_index;
 
-}
 
 
 
@@ -524,202 +524,4 @@ float AAStarGraph::minDistance(float dist[], bool sptSet[])
 
 
 
-
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-// 	// initialize start and end
-//
-// 	 AAStarNode* Start = nullptr;
-// 	 AAStarNode * End = nullptr;;
-//
-// 	Start = StarNodeArray[0];
-// 	End = StarNodeArray[8];
-//
-// 	if(Start==nullptr)
-// 		return;
-//
-// 	if(End == nullptr)
-// 		return;
-//
-// 	for	(int a = 0; a < StarNodeArray.Num(); a++)
-// 	{
-// 		StarNodeArray[a]->bVisited = false;
-// 		StarNodeArray[a]->DistFromStart = INT_MAX;
-// 	}
-//
-// 	Start->bVisited = true;
-// 	End->bVisited = false;
-// 	
-// 	AAStarNode* current = Start;
-//
-// 	current->PrevStarNode = nullptr;
-// 	current->bVisited = true;
-// 	TArray<AAStarNode*> pathArray;
-//
-// 	
-// 	// add start paths to path array
-// 	// set nodes to visited
-//
-// 	// while !array.empty()
-// 	// sort paths array on cost of path
-// 	// get shortest path
-// 	// pop shortest path from array
-//
-// 	// for nodes in path.endnode.edges
-// 	// add new paths from shortest paths end node and set those nodes to visited (old + new path cost)
-// 	// if node on path end is end node: break
-// 	// loop again
-// 	
-// 	for (int i = 0; i < StarNodeArray.Num(); i++)
-// 		for (int j = 0; j < StarNodeArray[i]->NodeArrayConnections.Num(); j++)
-// 		{
-//
-// 			// edges.Add(StarNodeArray[i]->NodeArrayConnections[j]);
-//
-// 			
-// 			// StarNodeMap.Emplace(StarNodeArray[i]->NodeArrayConnections[j]->DistFromStart, StarNodeArray[i]->NodeArrayConnections[j]);
-// 			
-// 			/*
-// 			if(current->NodeArrayConnections[j] && current->NodeArrayConnections[j]->bVisited != true)
-// 			{
-// 				float cost = current->Cost;
-// 				float dist = current->GetDistanceTo(current->NodeArrayConnections[j]);
-//
-// 				float totcost = cost + dist + current->DistFromStart;
-//
-// 				if(totcost < current->DistFromStart)
-// 				{
-// 					current->NodeArrayConnections[j]->DistFromStart = totcost;
-// 					current->NodeArrayConnections[j]->PrevStarNode = current;
-// 				}
-// 				StarNodeMap.Emplace(current->NodeArrayConnections[j]->DistFromStart, current->NodeArrayConnections[j]);
-// 				DrawDebugLine(GetWorld(), current->NodeLocation, current->NodeArrayConnections[j]->NodeLocation,
-// 					FColor::Red, true, -1, 0, 5);
-// 				
-// 			}
-// 			*/
-// 			
-//
-//
-// 			
-// 		}
-// 	
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-// HALDOR VERSION
-// OUR STARTING AND ENDING POINTERS
-	// AAStarNode* start = StarNodeArray[0];
-	// AAStarNode* end = StarNodeArray[8];
-	//
-	// UE_LOG(LogTemp, Warning, TEXT("AAStarNode* start = StarNodeArray[0]"));
-	// UE_LOG(LogTemp, Warning, TEXT("AAStarNode* end = StarNodeArray[8];"));
-	//
-	// /*	END IF THERE IS NOTHING	*/
-	// if (start == nullptr)
-	// 	return;
-	// if(end == nullptr)
-	// 	return;
-	//
-	// /* Iterate through the array and set the distance from start to max	*/
-	// for (int i = 0; i < StarNodeArray.Num(); i++)
-	// {
-	// 	StarNodeArray[i]->DistFromStart = INT_MAX;
-	// 	StarNodeArray[i]->bVisited = false;
-	// 	UE_LOG(LogTemp, Warning, TEXT("StarNodeArray[i]->DistFromStart"));
-	// 	UE_LOG(LogTemp, Warning, TEXT("StarNodeArray[i]->bVisited = false;"));
-	// }
-	//
-	// // OUR STARTING NODE IS THE ONE THAT WE START VISITING
-	// // ALSO ITS DISTANCE FROM ITSELF IS 0
-	// start->DistFromStart = 0.f;
-	// start->bVisited = true;
-	// end->bVisited = false;
-	//
-	// // CREATE A POINTER THAT WILL BE OUR CURRENT-NODE-POINTER
-	// class AAStarNode* curr = start;
-	//
-	// // NO PREVIOUS ON STARTING NODE
-	// if(curr == start)
-	// {
-	// 	curr->PrevStarNode = nullptr;
-	// 	UE_LOG(LogTemp, Warning, TEXT("curr->PrevStarNode = nullptr;"));
-	// }
-
-
-	
-
-
-
-/*
-	while (end->bVisited == false)
-	{
-
-		//check all close nodes for their COST and DISTANCE
-		for (int i = 0; i < StarNodeArray.Num(); i++)
-		{
-
-			for (int j = 0; j < StarNodeArray[i]->NodeArrayConnections.Num(); j++)
-			{
-				// DrawDebugLine(GetWorld(), StarNodeArray[i]->NodeLocation, StarNodeArray[i]->NodeArrayConnections[j]->NodeLocation, FColor::Emerald, false, -1, 0, 5);
-
-				if (StarNodeArray[i]->NodeArrayConnections[j]->bVisited != true)
-				{
-					float cost = curr->Cost;
-					float dist = curr->GetDistanceTo(StarNodeArray[i]->NodeArrayConnections[j]);
-
-					float TotCost = cost + dist + curr->DistFromStart;
-
-					if(TotCost < curr->DistFromStart)
-					{
-						curr->DistFromStart = TotCost;
-						curr->PrevStarNode = curr;
-						
-					}
-					StarNodeMap.Emplace(curr->DistFromStart, curr);
-					DrawDebugLine(GetWorld(), curr->NodeLocation,
-						StarNodeArray[i]->NodeArrayConnections[j]->NodeLocation,
-						FColor::Red, true, -1, 0, 4);
-
-					
-				}
-				
-
-			}
-			
-			// if(StarNodeMap.begin())
-   //          		{
-   //          			StarNodeMap.KeySort([](float A, float B){return A < B;});
-   //          			Cheapest = StarNodeMap.begin().Value();
-   //          			curr = Cheapest;
-   //          			StarNodeMap.Remove(StarNodeMap.begin().Key());
-   //          		}
-   //          		curr->bVisited = true;
-		}
-
-		// AAStarNode* temp = end;
-		//
-		// while (end->PrevStarNode !=nullptr)
-		// {
-		// 		DrawDebugLine(GetWorld(), temp->NodeLocation, temp->PrevStarNode->NodeLocation, FColor::Red, true, -1, 0 ,10);
-		// 		temp = temp->PrevStarNode;
-		// 	
-		// }
-
-		
-
-		
-		
-	}
-*/	
 

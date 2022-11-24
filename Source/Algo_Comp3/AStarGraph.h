@@ -2,9 +2,6 @@
 
 #pragma once
 
-#include <vector>
-#include <queue>
-
 #include "CoreMinimal.h"
 #include "AStarNode.h"
 #include "GameFramework/Actor.h"
@@ -24,37 +21,28 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BoxComp")
 	class UBoxComponent* BoxComponent;
 
+	/* Array of all nodes in scene*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Nodes")
 	TArray<class AAStarNode*> StarNodeArray;
-
-	//std::priority_queue<int
-	// UPROPERTY()
-
-	//
-	// class AAStarNode* startNodeBoy = nullptr;
-	// class AAStarNode* endNodeBoy = nullptr;
-	//
-	UPROPERTY(VisibleAnywhere, Category = "Directions Array")
-	TArray<FVector> DirectionPerConnection;
-
 	
 
 	// Used to call the blueprint class!
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 	TSubclassOf<AAStarNode> starnodeBP;
 
-	int AmountOfNodesToCreate;
+	// If the user wants to add a certain amount of nodes to scene. (WIP**)
+	int AmountOfNodesToCreate{};
 
-	// Sti vei;
-
-	UPROPERTY(EditAnywhere, Category = "StarNodeMap")
-	TMap<float, AAStarNode*> StarNodeMap; 
-
-	// TMap<AAStarNode*>
-	
+	/* Used to get the cheapest path during the TMap popping/clearing */
 	UPROPERTY()
 	AAStarNode* Cheapest = nullptr;
 
+	UPROPERTY()
+	AAStarNode* Next = nullptr;
+
+	/* Used to sort and select path*/
+	UPROPERTY(EditAnywhere, Category = "StarNodeMap")
+	TMap<float, AAStarNode*> StarNodeMap; 
 
 
 protected:
@@ -64,39 +52,23 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
 
-	// Was supposed to scale up and overlap with the other starnodes. However, not in use for the moment!
-
-
-
-	/* Algorithms */
-public:
 
 	/*Paperboys*/
 	void LonesomeTraveler();
-	
 	void AStarSearch();
-	void Dijkstra(class AAStarGraph* graph, class AAStarNode* source);
-
-	int SetAmountOfNodesToCreate(int AON) { return AmountOfNodesToCreate = AON; }
-	float minDistance(float dist[], bool sptSet[]);
-
 	void DijkstraBoys();
+	
 
-
+	// for nodes functions
+	
 	void SpawnSetAmountOfNodes();
-
-	void SetNodeConnections();
-	
-
-	void TestConnection(AAStarNode* start, AAStarNode* end);
-
 	void DrawEdges();
-
-
-	
 	void CreateEdges();
-	
+
+	int SetAmountOfNodesToCreate(int AON) { return AmountOfNodesToCreate = AON; } // not used yet.
+
 	
 	
 	
