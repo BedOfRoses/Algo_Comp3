@@ -33,6 +33,9 @@ public:
 	UFUNCTION()
 	void OnClickButtonAStar();
 
+	UFUNCTION()
+	void OnClickButtonReset();
+
 	UPROPERTY(meta=(BindWidget))
 	UButton* DijkstraButton;
 	
@@ -42,12 +45,15 @@ public:
 	UPROPERTY(meta=(BindWidget))
 	UButton* AStarButton;
 
+	UPROPERTY(meta=(BindWidget))
+	UButton* ResetButton;
 
 	
 
+	UPROPERTY(EditAnywhere, Category = "Star graph")
+	TSubclassOf<AActor> StarGraphActorClass;
 	
-
-	AAStarGraph* graph = nullptr;
 	
+	AAStarGraph* AStarGraph = nullptr;
 	
 };

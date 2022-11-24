@@ -5,11 +5,22 @@
 #include "GraphAStar.h"
 #include "Algo_Comp3/AStarGraph.h"
 #include "Algo_Comp3/AStarNode.h"
+#include "Kismet/GameplayStatics.h"
 
 AAlgoHUD::AAlgoHUD()
 {
 	
 }
+
+void AAlgoHUD::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+
+	// AAStarGraph* graph = Cast<AAStarGraph>(AActor::GetOwner());
+	
+}
+
 
 void AAlgoHUD::DrawHUD()
 {
@@ -19,8 +30,16 @@ void AAlgoHUD::DrawHUD()
 
 void AAlgoHUD::BeginPlay()
 {
+	Super::BeginPlay();
 
 
+	FInputModeGameAndUI UI_Input;
+
+	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+
+	UI_Input.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+	PlayerController->bShowMouseCursor = true;
+	PlayerController->SetInputMode(UI_Input);
 
 
 	
@@ -32,20 +51,4 @@ void AAlgoHUD::BeginPlay()
 
 
 	
-	Super::BeginPlay();
 }
-
-
-
-void AAlgoHUD::ExecuteDijsktra()
-{
-	// AAStarGraph* graph = Cast<AAStarGraph>(AHUD, GetWorld()->GetFirstPlayerController()->GetHUD());
-	// AAStarGraph* StarGraph = Cast<AAStarGraph>(GetWorld()->GetFirstPlayerController()->getpl);
-	
-}
-
-void AAlgoHUD::ExecuteTravelMan()
-{
-	
-}
-

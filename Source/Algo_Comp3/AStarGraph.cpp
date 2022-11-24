@@ -8,6 +8,7 @@
 #include "Math/Vector.h"
 #include "DrawDebugHelpers.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "MathUtil.h"
 
 // Sets default values
 AAStarGraph::AAStarGraph()
@@ -23,18 +24,19 @@ void AAStarGraph::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	SpawnSetAmountOfNodes();
-
-
-
-	
-	CreateEdges();
-	
+	// // SpawnSetAmountOfNodes();
+	//
+	// randomSpawner();
+	//
+	// setDynamicEdges();
+	//
+	// // CreateEdges();
+	//
 	// DrawEdges();
-	 // DijkstraBoys();
-	// LonesomeTraveler();
-
-	AStarSearch();
+	//  // DijkstraBoys();
+	// // LonesomeTraveler();
+	//
+	// // AStarSearch();
 	
 }
 
@@ -193,7 +195,9 @@ void AAStarGraph::DrawEdges()
 	for (int i = 0; i < StarNodeArray.Num(); i++)
 	{
 		for (int j = 0; j < StarNodeArray[i]->NodeArrayConnections.Num(); j++)
-			DrawDebugLine(GetWorld(), StarNodeArray[i]->NodeLocation, StarNodeArray[i]->NodeArrayConnections[j]->NodeLocation, FColor::Emerald, false, -1, 0, 5);
+			DrawDebugLine(GetWorld(), StarNodeArray[i]->NodeLocation,
+				StarNodeArray[i]->NodeArrayConnections[j]->NodeLocation,
+				FColor::Silver, true, -1, 0, 5);
 	}
 	
 }
@@ -236,7 +240,8 @@ void AAStarGraph::LonesomeTraveler()
 		StarNodeArray[i]->bVisited = false;
 	}
 
-	int rng = FMath::RandRange(0,8);
+	int endnum = StarNodeArray.Num();
+	int rng = FMath::RandRange(0,endnum);
 
 	AAStarNode* Source = StarNodeArray[rng];
 
@@ -247,7 +252,7 @@ void AAStarGraph::LonesomeTraveler()
 	
 	bool ikkjeBesokt = false;
 	int getUsOut = 0;
-	while (ikkjeBesokt == false || getUsOut <= 10)
+	while (ikkjeBesokt == false || getUsOut <= 10000)
 	{
 	
 		UE_LOG(LogTemp, Warning, TEXT("start"));
@@ -341,8 +346,8 @@ void AAStarGraph::AStarSearch()
 	}
 
 
-	int rngStart = FMath::RandRange(0,2);
-	int rngEnd = FMath::RandRange(6,8);
+	int rngStart = FMath::RandRange(0,4);
+	int rngEnd = FMath::RandRange(17,20);
 	
 	AAStarNode* StartNode = StarNodeArray[rngStart];
 	AAStarNode* EndNode = StarNodeArray[rngEnd];
@@ -436,8 +441,31 @@ void AAStarGraph::DijkstraBoys() // class AAStarNode* start, class AAStarNode* e
 		StarNodeArray[i]->bVisited = false;
 	}
 
-	AAStarNode* StartNode = StarNodeArray[0];
-	AAStarNode* EndNode = StarNodeArray[8];
+	int rngStart = FMath::RandRange(0,4);
+	int rngEnd = FMath::RandRange(17,20);
+	
+	
+	AAStarNode* StartNode = StarNodeArray[rngStart];
+	AAStarNode* EndNode = StarNodeArray[rngEnd];
+
+	
+	while (StartNode->NodeArrayConnections.IsEmpty())
+	{
+		rngStart = FMath::RandRange(0,4);
+		StartNode = StarNodeArray[rngStart];
+	
+	}
+	while (StartNode->NodeArrayConnections.IsEmpty())
+	{
+		rngEnd = FMath::RandRange(17,20);
+		EndNode = StarNodeArray[rngEnd];
+		
+	}
+	
+	
+
+	// AAStarNode* StartNode = StarNodeArray[0];
+	// AAStarNode* EndNode = StarNodeArray[28];
 
 	if(!StartNode)
 		return;
@@ -452,7 +480,13 @@ void AAStarGraph::DijkstraBoys() // class AAStarNode* start, class AAStarNode* e
 	if(!current)
 		return;
 
+	//faulty check if its no road from beginning
 
+	if(current->NodeArrayConnections.IsEmpty())
+	{
+		UE_LOG(LogTemp,Warning, TEXT("current has no connections, try again!"));
+		return;
+	}
 	
 	while (EndNode->bVisited == false || ctrEX <= 2)
 	{
@@ -514,124 +548,106 @@ void AAStarGraph::DijkstraBoys() // class AAStarNode* start, class AAStarNode* e
 }
 
 
+void AAStarGraph::randomSpawner()
+{
 
-//
-//
-// 	
-// // initialization part
-// for (int i = 0; i < StarNodeArray.Num();i++)
-// {
-// 	StarNodeArray[i]->DistFromStart = INT_MAX;
-// 	StarNodeArray[i]->bVisited = false;
-// }
-// 	
-// // number that later can be adjusted
-// int sourceNum = 0;
-// 	
-// // Source-node
-// AAStarNode* SourceNode = StarNodeArray[sourceNum];
-// 	
-// //check
-// if(SourceNode == nullptr)
-// 	return;
-// 	
-// // current node
-// AAStarNode* CurrentNode = SourceNode;
-// 	
-// // check
-// if(CurrentNode == nullptr)
-// 	return;
-// 	
-// // yhes
-// CurrentNode->DistFromStart = 0.f;
-// 	
-// // vector to store all nodes that is not source.
-// TArray<AAStarNode*> StarNodeVector;
-// 	
-// // iterate the nodearray and move them into a vector
-// // and set them to not visited.
-// for (int i = 0; i < StarNodeArray.Num(); i++)
-// {
-// 	if(i != sourceNum)
-// 	{
-// 		StarNodeArray[i]->bVisited = false;
-// 		StarNodeVector.Push(StarNodeArray[i]);
-// 	}
-// 		
-// 	UE_LOG(LogTemp, Warning, TEXT("StarNodeVector.push: %d"), i);
-// }
-// 	
-// 	
-// 	
-// bool visitedAllNodes = false;
-// 	
-// int exitCounter = 0;
-// int visitCounter = 0;
-// 	
-// while (visitedAllNodes == false || exitCounter <= 10)
-// {
-// 	
-// 	// CurrentNode->bVisited = true;
-// 	//
-// 	// visitCounter = 0;
-// 	
-//
-//
-// 		
-// 	UE_LOG(LogTemp, Warning, TEXT("exitCounter: %d"), exitCounter);
-//
-// 	if(exitCounter == 2)
-// 		visitedAllNodes = true;
-// 	
-// 	
-// 		
-// 	
-// 	exitCounter++;		
-// }
-// 	
-//
+	// should be user input, but for now hardcoded, this is the amount of spheres spawned
+	int SpawnCounter = 30;
+	// expand array by ten spaces
+		
+	// the spawner
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		for (int i = 0; i < SpawnCounter; i++)
+		{
+
+			double MaxRange = 1500.f;
+			double RangeX = FMath::RandRange(-MaxRange, MaxRange);
+			double RangeY = FMath::RandRange(-MaxRange, MaxRange);
+			double RangeZ = FMath::RandRange(-MaxRange, MaxRange);
+			FVector Location =  FVector(RangeX, RangeY, RangeZ);
+			
+			AAStarNode* StarNode = GetWorld()->SpawnActor<AAStarNode>(starnodeBP, Location, FRotator::ZeroRotator);
+			// adds spawned instances to array, if they are the first, they are made source, and the last is made into the target -- ideally this should be by userinput as well (clicking on screen)
+			if (StarNode)
+			{
+				StarNodeArray.Add(StarNode);
+			}		
+		}
+	}	
+	
 
 
 
+	
+}
+
+void AAStarGraph::setDynamicEdges()
+{
+
+	float pi = PI;
+	
+
+	for (int i = 0; i < StarNodeArray.Num(); i++)
+	{
+
+		float random = FMath::RandRange(800.f, 1300.f);
+
+		
+		for (int j = 0; j < StarNodeArray.Num()-1; j++)
+		{
+			if(i==j){continue;}
+			if(StarNodeArray[i]->GetDistanceTo(StarNodeArray[j]) <= random)
+			{
+				StarNodeArray[i]->NodeArrayConnections.Add(StarNodeArray[j]);
+			}
+		}
+		
+	}
+
+	
+
+	for (int i = 0; i < StarNodeArray.Num(); i++)
+	{
+		while (StarNodeArray[i]->NodeArrayConnections.IsEmpty())
+		{
+
+			for (int j = 0; j < StarNodeArray.Num()-1; j++)
+			{
+				if(i==j){continue;}
+				float random = FMath::RandRange(1000.f, 2500.f);
+				StarNodeArray[i]->NodeArrayConnections.Add(StarNodeArray[j]);
+			}
+			
+					UE_LOG(LogTemp, Warning, TEXT("One mofo is empty"));
+
+		}
+	}
+
+
+}
 
 
 
-
-// traveling boy
-// std::vector<AAStarNode*> vertex;
-//
-// int source = 5;
-//
-// for (int i=0; i < StarNodeArray.Num(); i++)
-// {
-// 	if(i != source)
-// 		vertex.push_back(StarNodeArray[i]);
-// }
-//
-//
-// int min_path = INT_MAX;
-//
-// do
-// {
-// 	// store current Path weight (cost)
-// 	int current_pathweight = 0;
-//
-// 	// Compute current path weight
-// 	int k = source;
-// 	// for (int i = 0; i < vertex.size(); i++)
-// 	// {
-// 	// 	if(i <= StarNodeArray[source]->NodeArrayConnections.Num())
-// 	// 		return;
-// 	// 	current_pathweight += StarNodeArray[source]->NodeArrayConnections[i];
-// 	// 	k = vertex[i];
-// 	// 	std::min(a)
-// 	// }
-// 	
-// }
-// while (true);
-
-
-
-
-
-
+void AAStarGraph::Run_AStar()
+{
+	UE_LOG(LogTemp, Warning, TEXT("void AAStarGraph::Run_AStar()"));
+	randomSpawner();
+	setDynamicEdges();
+	AStarSearch();
+}
+void AAStarGraph::Run_TSP()
+{
+	UE_LOG(LogTemp, Warning, TEXT("void AAStarGraph::Run_TSP()"));
+	randomSpawner();
+	setDynamicEdges();
+	LonesomeTraveler();
+}
+void AAStarGraph::Run_Dijkstra()
+{
+	UE_LOG(LogTemp, Warning, TEXT("void AAStarGraph::Run_Dijkstra()"));
+	randomSpawner();
+	setDynamicEdges();
+	DijkstraBoys();
+}

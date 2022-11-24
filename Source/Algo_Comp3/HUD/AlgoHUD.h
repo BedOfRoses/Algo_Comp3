@@ -26,11 +26,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Algorithms")
 	TSubclassOf<class UUserWidget> HUDWidgetClass;
 
-	UAlgoWidget* AlgoWidget;
+	UAlgoWidget* AlgoWidget = nullptr;
 
 
-	void ExecuteDijsktra();
-	void ExecuteTravelMan();
+	virtual void Tick(float DeltaSeconds) override;
 
 
 	

@@ -17,6 +17,9 @@ class ALGO_COMP3_API AAlgo_Comp3GameModeBase : public AGameModeBase
 public:
 
 	AAlgo_Comp3GameModeBase();
+
+
+	virtual void Tick(float DeltaSeconds) override;
 	
 	
 };

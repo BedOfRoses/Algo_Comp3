@@ -62,6 +62,8 @@ public:
 	
 
 	// for nodes functions
+	void randomSpawner(); // dynamic
+	void setDynamicEdges();
 	
 	void SpawnSetAmountOfNodes();
 	void DrawEdges();
@@ -69,28 +71,13 @@ public:
 
 	int SetAmountOfNodesToCreate(int AON) { return AmountOfNodesToCreate = AON; } // not used yet.
 
-	
-	
+
+
+	void Run_AStar();
+	void Run_TSP();
+	void Run_Dijkstra();
+
 	
 };
 
 
-
-
-
-////////////////////////////////// Garbage
-
-
-// Used to find the other nodes when scanning
-	/*UFUNCTION()
-	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent,
-			int32 OtherbodyIndex, bool bFromSweep, const FHitResult& SweepResult);*/
-
-			//TArray<class AStarNode> NodesArray;
-
-				//TSubclassOf<AActor> starnodeClass;
-
-				//class AAStarNode* AStarNode;
-
-
-				//std::list<AAStarNode*> starnodes;
