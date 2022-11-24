@@ -7,6 +7,7 @@
 #include "Components/Button.h"
 #include "AlgoWidget.generated.h"
 
+class AAStarGraph;
 /**
  * 
  */
@@ -17,8 +18,20 @@ class ALGO_COMP3_API UAlgoWidget : public UUserWidget
 
 public:
 
-	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+	//virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
+	UAlgoWidget(const FObjectInitializer& ObjectInitializer);
+
+	virtual void NativeConstruct() override;
+
+	UFUNCTION()
+	void OnClickButtonDijkstra();
+
+	UFUNCTION()
+	void OnClickButtonTravelMan();
+
+	UFUNCTION()
+	void OnClickButtonAStar();
 
 	UPROPERTY(meta=(BindWidget))
 	UButton* DijkstraButton;
@@ -28,6 +41,13 @@ public:
 
 	UPROPERTY(meta=(BindWidget))
 	UButton* AStarButton;
+
+
+	
+
+	
+
+	AAStarGraph* graph = nullptr;
 	
 	
 };

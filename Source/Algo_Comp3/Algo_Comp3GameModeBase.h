@@ -13,5 +13,10 @@ UCLASS()
 class ALGO_COMP3_API AAlgo_Comp3GameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+
+public:
+
+	AAlgo_Comp3GameModeBase();
+	
 	
 };

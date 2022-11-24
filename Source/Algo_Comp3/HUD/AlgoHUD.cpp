@@ -20,6 +20,10 @@ void AAlgoHUD::DrawHUD()
 void AAlgoHUD::BeginPlay()
 {
 
+
+
+
+	
 	if(HUDWidgetClass)
 	{
 		AlgoWidget = CreateWidget<UAlgoWidget>(GetWorld(), HUDWidgetClass);

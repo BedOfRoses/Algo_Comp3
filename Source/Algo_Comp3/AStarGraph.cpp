@@ -371,6 +371,13 @@ void AAStarGraph::LonesomeTraveler()
 }
 
 
+void AAStarGraph::AStarSearch()
+{
+	
+}
+
+
+
 
 
 void AAStarGraph::DijkstraBoys() // class AAStarNode* start, class AAStarNode* end
