@@ -41,14 +41,12 @@ void UAlgoWidget::NativeConstruct()
 	{
 		AStarButton->OnClicked.AddDynamic(this, &UAlgoWidget::OnClickButtonAStar);
 		UE_LOG(LogTemp, Warning, TEXT("AStarButton"));
-		
 	}
 
 	if(ResetButton)
 	{
 		ResetButton->OnClicked.AddDynamic(this, &UAlgoWidget::OnClickButtonReset);
 		UE_LOG(LogTemp, Warning, TEXT("AStarButton"));
-		
 	}
 
 
