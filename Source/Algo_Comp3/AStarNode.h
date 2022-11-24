@@ -42,6 +42,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Node Cost")
 	float Cost = 0;
 
+	UPROPERTY(EditAnywhere, Category = "Node Visited")
 	bool bVisited = false;
 
 	UPROPERTY(EditAnywhere, Category = "Prev Node")
